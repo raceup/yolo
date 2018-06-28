@@ -5,7 +5,7 @@ import it.raceup.yolo.models.data.Type;
 
 public class Car {
     public static String[] motorTags = new String[]{
-            "FL", "FR", "RL", "RR"
+            "Front Left", "Front Right", "Rear Left", "Rear Right"
     };  // 4 motors in car
     public Motor[] motors = new Motor[motorTags.length];
 

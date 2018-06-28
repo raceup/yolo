@@ -3,7 +3,6 @@ package it.raceup.yolo.models.data;
 import java.util.Arrays;
 
 public class Raw {
-    public static double EPSILON = 1e-8;
     public static Type[] TEMPERATURES = new Type[]{
             Type.TEMPERATURE_MOTOR,
             Type.TEMPERATURE_INVERTER,

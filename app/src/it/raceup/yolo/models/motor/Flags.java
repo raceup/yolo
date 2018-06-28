@@ -3,7 +3,7 @@ package it.raceup.yolo.models.motor;
 import it.raceup.yolo.models.data.Raw;
 import it.raceup.yolo.models.data.Type;
 
-import static it.raceup.yolo.models.data.Raw.EPSILON;
+import static it.raceup.yolo.models.data.Base.EPSILON;
 
 public class Flags {
     private boolean systemReady, error, warning, quitDcOn, dcOn, quitInverterOn,
