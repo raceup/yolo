@@ -11,7 +11,7 @@ You need a KVASER and its drivers.
 
 ## Usage
 ```shell
-$ java -jar app.jar
+$ java -jar yolo.jar
 ```
 *See the [documentation](/docs) for more information*
 
