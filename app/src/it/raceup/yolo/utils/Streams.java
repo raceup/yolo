@@ -17,9 +17,7 @@
 package it.raceup.yolo.utils;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * Utils method on in/out streams
@@ -49,20 +47,5 @@ public class Streams {
         }
 
         return content;
-    }
-
-    /**
-     * Removes all content in file
-     *
-     * @param file file to be emptied
-     */
-    public static void emptyFileOrFail(File file) {
-        try {
-            PrintWriter writer = new PrintWriter(file);
-            writer.print("");
-            writer.close();
-        } catch (Exception e) {
-            System.err.println(e.toString());
-        }
     }
 }
