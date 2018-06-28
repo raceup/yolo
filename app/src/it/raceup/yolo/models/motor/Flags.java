@@ -1,8 +1,13 @@
 package it.raceup.yolo.models.motor;
 
+import it.raceup.yolo.models.data.Raw;
+import it.raceup.yolo.models.data.Type;
+
+import static it.raceup.yolo.models.data.Raw.EPSILON;
+
 public class Flags {
-    private boolean systemReady, error, warning, quitDcOn, dcOn, quitInvOn,
-            invOn, derating;
+    private boolean systemReady, error, warning, quitDcOn, dcOn, quitInverterOn,
+            inverterOn, derating;
     private double actualVelocity;
     private double torqueCurrent;
     private double magnetizingCurrent;
@@ -47,20 +52,20 @@ public class Flags {
         this.dcOn = dcOn;
     }
 
-    public boolean isQuitInvOn() {
-        return quitInvOn;
+    public boolean isQuitInverterOn() {
+        return quitInverterOn;
     }
 
-    public void setQuitInvOn(boolean quitInvOn) {
-        this.quitInvOn = quitInvOn;
+    public void setQuitInverterOn(boolean quitInvOn) {
+        this.quitInverterOn = quitInvOn;
     }
 
-    public boolean isInvOn() {
-        return invOn;
+    public boolean isInverterOn() {
+        return inverterOn;
     }
 
-    public void setInvOn(boolean invOn) {
-        this.invOn = invOn;
+    public void setInverterOn(boolean inverterOn) {
+        this.inverterOn = inverterOn;
     }
 
     public boolean isDerating() {
@@ -93,5 +98,31 @@ public class Flags {
 
     public void setMagnetizingCurrent(double magnetizingCurrent) {
         this.magnetizingCurrent = magnetizingCurrent;
+    }
+
+    public void update(Raw data) {
+        if (data.getType() == Type.SYSTEM_READY) {
+            setSystemReady(data.getRaw() > EPSILON);
+        } else if (data.getType() == Type.ERROR) {
+            setError(data.getRaw() > EPSILON);
+        } else if (data.getType() == Type.WARNING) {
+            setWarning(data.getRaw() > EPSILON);
+        } else if (data.getType() == Type.QUIT_DC_ON) {
+            setQuitDcOn(data.getRaw() > EPSILON);
+        } else if (data.getType() == Type.DC_ON) {
+            setDcOn(data.getRaw() > EPSILON);
+        } else if (data.getType() == Type.QUIT_INVERTER_ON) {
+            setQuitInverterOn(data.getRaw() > EPSILON);
+        } else if (data.getType() == Type.INVERTER_ON) {
+            setInverterOn(data.getRaw() > EPSILON);
+        } else if (data.getType() == Type.DERATING) {
+            setDerating(data.getRaw() > EPSILON);
+        } else if (data.getType() == Type.ACTUAL_VELOCITY) {
+            setActualVelocity(data.getRaw());
+        } else if (data.getType() == Type.TORQUE_CURRENT) {
+            setTorqueCurrent(data.getRaw());
+        } else if (data.getType() == Type.MAGNETIZING_CURRENT) {
+            setMagnetizingCurrent(data.getRaw());
+        }
     }
 }

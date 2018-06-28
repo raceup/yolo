@@ -1,5 +1,10 @@
 package it.raceup.yolo.models.motor;
 
+import it.raceup.yolo.models.data.Raw;
+import it.raceup.yolo.models.data.Type;
+
+import static it.raceup.yolo.models.data.Raw.EPSILON;
+
 public class SetPoint {
     private boolean inverterOn, dcOn, enable, errorReset;
     private double targetVelocity, posTorqueLimit, negTorqueLimit;
@@ -58,6 +63,24 @@ public class SetPoint {
 
     public void setNegTorqueLimit(double negTorqueLimit) {
         this.negTorqueLimit = negTorqueLimit;
+    }
+
+    public void update(Raw data) {
+        if (data.getType() == Type.SP_INVERTER_ON) {
+            setInverterOn(data.getRaw() > EPSILON);
+        } else if (data.getType() == Type.SP_DC_ON) {
+            setDcOn(data.getRaw() > EPSILON);
+        } else if (data.getType() == Type.SP_ENABLE) {
+            setEnable(data.getRaw() > EPSILON);
+        } else if (data.getType() == Type.SP_ERROR_RESET) {
+            setErrorReset(data.getRaw() > EPSILON);
+        } else if (data.getType() == Type.TARGET_VELOCITY) {
+            setTargetVelocity(data.getRaw());
+        } else if (data.getType() == Type.POS_TORQUE_LIMIT) {
+            setPosTorqueLimit(data.getRaw());
+        } else if (data.getType() == Type.NEG_TORQUE_LIMIT) {
+            setNegTorqueLimit(data.getRaw());
+        }
     }
 }
 
