@@ -125,4 +125,32 @@ public class Flags {
             setMagnetizingCurrent(data.getRaw());
         }
     }
+
+    public double get(Type type) {
+        if (type == Type.SYSTEM_READY) {
+            return isSystemReady() ? 1 : 0;
+        } else if (type == Type.ERROR) {
+            return isError() ? 1 : 0;
+        } else if (type == Type.WARNING) {
+            return isWarning() ? 1 : 0;
+        } else if (type == Type.QUIT_DC_ON) {
+            return isQuitDcOn() ? 1 : 0;
+        } else if (type == Type.DC_ON) {
+            return isDcOn() ? 1 : 0;
+        } else if (type == Type.QUIT_INVERTER_ON) {
+            return isQuitInverterOn() ? 1 : 0;
+        } else if (type == Type.INVERTER_ON) {
+            return isInverterOn() ? 1 : 0;
+        } else if (type == Type.DERATING) {
+            return isDerating() ? 1 : 0;
+        } else if (type == Type.ACTUAL_VELOCITY) {
+            return getActualVelocity();
+        } else if (type == Type.TORQUE_CURRENT) {
+            return getTorqueCurrent();
+        } else if (type == Type.MAGNETIZING_CURRENT) {
+            return getMagnetizingCurrent();
+        }
+
+        return 0;  // todo exception
+    }
 }

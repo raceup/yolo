@@ -52,4 +52,18 @@ public class Temperature {
             setErrorInfo((int) data.getRaw());
         }
     }
+
+    public double get(Type type) {
+        if (type == Type.TEMPERATURE_MOTOR) {
+            return getMotor();
+        } else if (type == Type.TEMPERATURE_INVERTER) {
+            return getInverter();
+        } else if (type == Type.TEMPERATURE_IGBT) {
+            return getIgbt();
+        } else if (type == Type.ERROR_INFO) {
+            return getErrorInfo();
+        }
+
+        return 0;  // todo exception
+    }
 }

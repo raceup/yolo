@@ -82,5 +82,25 @@ public class SetPoint {
             setNegTorqueLimit(data.getRaw());
         }
     }
+
+    public double get(Type type) {
+        if (type == Type.SP_INVERTER_ON) {
+            return isInverterOn() ? 1 : 0;
+        } else if (type == Type.SP_DC_ON) {
+            return isDcOn() ? 1 : 0;
+        } else if (type == Type.SP_ENABLE) {
+            return isEnable() ? 1 : 0;
+        } else if (type == Type.SP_ERROR_RESET) {
+            return isErrorReset() ? 1 : 0;
+        } else if (type == Type.TARGET_VELOCITY) {
+            return getTargetVelocity();
+        } else if (type == Type.POS_TORQUE_LIMIT) {
+            return getPosTorqueLimit();
+        } else if (type == Type.NEG_TORQUE_LIMIT) {
+            return getNegTorqueLimit();
+        }
+
+        return 0;  // todo exception
+    }
 }
 

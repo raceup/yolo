@@ -54,15 +54,28 @@ public class Raw {
         return motor;
     }
 
+    public static boolean isTemperature(Type type) {
+        return Arrays.asList(TEMPERATURES).contains(type);
+    }
+
+    public static boolean isSetPoint(Type type) {
+        return Arrays.asList(SET_POINTS).contains(type);
+    }
+
+    public static boolean isFlag(Type type) {
+        return Arrays.asList(FLAGS).contains(type);
+    }
+
+
     public boolean isTemperature() {
-        return Arrays.asList(TEMPERATURES).contains(getType());
+        return isTemperature(getType());
     }
 
     public boolean isSetPoint() {
-        return Arrays.asList(SET_POINTS).contains(getType());
+        return isSetPoint(getType());
     }
 
     public boolean isFlag() {
-        return Arrays.asList(FLAGS).contains(getType());
+        return isFlag(getType());
     }
 }
