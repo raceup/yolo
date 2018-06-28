@@ -21,8 +21,7 @@ public class Main extends JFrame {
 
     private void setup() {
         setupLayout();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setIconImage(appIcon);  // set icon
     }
 
@@ -35,6 +34,12 @@ public class Main extends JFrame {
                         10, 10, 10, 10
                 )
         );  // border
+
+        setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
+        add(getMotorsPanel());
+        add(Box.createRigidArea(new Dimension(10, 0)));
+        add(getCanPanel());
+
         createMenuBar();
     }
 
@@ -45,8 +50,16 @@ public class Main extends JFrame {
         setVisible(true);
     }
 
-    public JPanel getContentPanel() {
-        return null;
+    private JPanel getMotorsPanel() {
+        JPanel panel = new JPanel();
+        panel.setBackground(Color.RED);  // todo
+        return panel;
+    }
+
+    private JPanel getCanPanel() {
+        JPanel panel = new JPanel();
+        panel.setBackground(Color.YELLOW);  // todo
+        return panel;
     }
 
     public void update(Raw data) {

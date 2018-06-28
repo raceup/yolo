@@ -20,7 +20,8 @@ public class Motor extends JFrame {
         setupTables();
         setupLayout();
 
-        setSize(800, 400);
+        setSize(600, 320);
+        setResizable(false);
         setVisible(true);
     }
 
@@ -64,49 +65,33 @@ public class Motor extends JFrame {
                         10, 10, 10, 10
                 )
         );  // border
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
-        panel.setAlignmentX(JScrollPane.RIGHT_ALIGNMENT);
-        panel.setBorder(
-                BorderFactory.createEmptyBorder(
-                        10, 10, 10, 10
-                )
-        );  // border
-
-        panel.add(new JPanel());
-        panel.add(Box.createRigidArea(new Dimension(10, 0)));
-        panel.add(new JPanel());
-
-        add(panel);
-        add(new JPanel());
-
-        /*JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.LINE_AXIS));
-
-        JPanel leftPanel = new JPanel();
-        leftPanel.add(flags);
+        setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
 
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-        rightPanel.add(sp);
-        rightPanel.add(temperature);
+        rightPanel.add(getTablePanel(sp));
+        rightPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        rightPanel.add(getTablePanel(temperature));
 
-        JPanel leftHalf = new JPanel() {
-            // Don't allow us to stretch vertically.
-            public Dimension getMaximumSize() {
-                Dimension pref = getPreferredSize();
-                return new Dimension(Integer.MAX_VALUE,
-                        pref.height);
-            }
-        };
-        leftHalf.setLayout(new BoxLayout(leftHalf, BoxLayout.PAGE_AXIS));
-        leftHalf.add(leftPanel);
+        add(getTablePanel(flags));
+        add(Box.createRigidArea(new Dimension(10, 0)));
+        add(rightPanel);
+    }
 
-        mainPanel.add(leftHalf);
-        mainPanel.add(rightPanel);
-        add(mainPanel);*/
+    private JPanel getTablePanel(JTable table) {
+        JPanel panel = new JPanel();
 
+        JScrollPane tableContainer = new JScrollPane(table);
+        Dimension d = table.getPreferredSize();
+        tableContainer.setPreferredSize(
+                new Dimension(
+                        (int) (d.width * 1.8),
+                        table.getRowHeight() * table.getRowCount() + 22
+                )
+        );
+        panel.add(tableContainer, BorderLayout.CENTER);
+
+        return panel;
     }
 
     public void update(Raw data) {
