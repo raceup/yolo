@@ -19,7 +19,9 @@ public class Motor extends JFrame {
     private void setup() {
         setupTables();
         setupLayout();
+    }
 
+    public void open() {
         setSize(600, 320);
         setResizable(false);
         setVisible(true);

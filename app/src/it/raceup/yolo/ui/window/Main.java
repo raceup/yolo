@@ -1,13 +1,14 @@
 package it.raceup.yolo.ui.window;
 
 import it.raceup.yolo.models.data.Raw;
+import it.raceup.yolo.ui.component.CanMessageSender;
+import it.raceup.yolo.ui.component.MotorInfo;
 import it.raceup.yolo.ui.utils.AboutDialog;
 
 import javax.swing.*;
 import java.awt.*;
 
-import static it.raceup.yolo.models.data.Base.DNF;
-import static it.raceup.yolo.models.data.Type.*;
+import static it.raceup.yolo.models.Car.MOTOR_TAGS;
 
 public class Main extends JFrame {
     private static final String THIS_PACKAGE = "com.raceup.ed.bms.BmsGui";
@@ -15,9 +16,18 @@ public class Main extends JFrame {
     private static final Image appIcon = Toolkit.getDefaultToolkit().getImage(
             THIS_PACKAGE.getClass().getResource(ICON_PATH)
     );
+    private MotorInfo[] motorPanels = new MotorInfo[MOTOR_TAGS.length];
+    private Motor[] motorWindows = new Motor[MOTOR_TAGS.length];
+    private CanMessageSender canPanel = new CanMessageSender();
 
     public Main() {
         super("YOLO | Race Up Electric Division");
+
+        for (int i = 0; i < MOTOR_TAGS.length; i++) {
+            motorPanels[i] = new MotorInfo(MOTOR_TAGS[i]);
+            motorWindows[i] = new Motor(MOTOR_TAGS[i]);
+        }
+
         setup();
         open();
     }
@@ -25,7 +35,7 @@ public class Main extends JFrame {
     private void setup() {
         setupLayout();
         pack();
-        setSize(854, 421);
+        setSize(854, 441);
         setResizable(false);
         setVisible(true);
 
@@ -46,7 +56,7 @@ public class Main extends JFrame {
         setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
         add(getMotorsPanel());
         add(Box.createRigidArea(new Dimension(10, 0)));
-        add(getCanPanel());
+        add(canPanel);
         setJMenuBar(createMenuBar());
     }
 
@@ -57,107 +67,25 @@ public class Main extends JFrame {
         setVisible(true);
     }
 
-    private JTable getMotorTable() {
-        String[] columns = new String[]{
-                "Key", "Value"
-        };  // headers for the table
-
-        it.raceup.yolo.models.data.Type[] labels = new it.raceup.yolo.models.data.Type[]{
-                SYSTEM_READY,
-                it.raceup.yolo.models.data.Type.ERROR,
-                DC_ON,
-                INVERTER_ON,
-                ACTUAL_VELOCITY,
-                TORQUE_CURRENT,
-                TEMPERATURE_MOTOR,
-                TEMPERATURE_INVERTER,
-        };
-
-        // actual data
-        Object[][] data = new Object[labels.length][columns.length];
-        for (int row = 0; row < data.length; row++) {
-            data[row][0] = labels[row];
-            data[row][1] = DNF;
-        }
-
-        JTable table = new JTable(data, columns);
-        table.setEnabled(false);  // non-editable cells
-        return table;
-    }
-
     private JPanel getMotorsPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         JPanel up = new JPanel();
         up.setLayout(new BoxLayout(up, BoxLayout.X_AXIS));
-        up.add(getMotorPanel("Front left"));
+        up.add(motorPanels[0]);
         up.add(Box.createRigidArea(new Dimension(10, 0)));
-        up.add(getMotorPanel("Front right"));
+        up.add(motorPanels[1]);
 
         JPanel down = new JPanel();
         down.setLayout(new BoxLayout(down, BoxLayout.X_AXIS));
-        down.add(getMotorPanel("Rear left"));
+        down.add(motorPanels[2]);
         down.add(Box.createRigidArea(new Dimension(10, 0)));
-        down.add(getMotorPanel("Rear right"));
+        down.add(motorPanels[3]);
 
         panel.add(up);
         panel.add(Box.createRigidArea(new Dimension(0, 10)));
         panel.add(down);
-
-        return panel;
-    }
-
-    private JPanel getMotorPanel(String tag) {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-        JTable table = getMotorTable();
-        JScrollPane tableContainer = new JScrollPane(table);
-        Dimension d = table.getPreferredSize();
-        tableContainer.setPreferredSize(
-                new Dimension(
-                        d.width * 2,
-                        table.getRowHeight() * table.getRowCount() + 22
-                )
-        );
-        panel.add(new JLabel(tag));
-        panel.add(tableContainer);
-
-        return panel;
-    }
-
-    private JPanel getCanPanel() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-        JPanel up = new JPanel();
-        up.setLayout(new BoxLayout(up, BoxLayout.X_AXIS));
-        up.add(getCanEditPanel("ID"));
-        up.add(Box.createRigidArea(new Dimension(10, 0)));
-        up.add(getCanEditPanel("Message (DEC)"));
-
-        JPanel down = new JPanel();
-        down.setLayout(new BoxLayout(down, BoxLayout.X_AXIS));
-        down.add(new JButton("SEND"));
-
-        panel.add(new JLabel("Send CAN message"), BorderLayout.CENTER);
-        panel.add(Box.createRigidArea(new Dimension(0, 10)));
-        panel.add(up);
-        panel.add(Box.createRigidArea(new Dimension(0, 10)));
-        panel.add(down, BorderLayout.CENTER);
-        panel.add(Box.createRigidArea(new Dimension(0, 200)));
-
-        return panel;
-    }
-
-    private JPanel getCanEditPanel(String editField) {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-        panel.add(new JLabel(editField));
-        JTextField editor = new JTextField();
-        panel.add(editor);
 
         return panel;
     }

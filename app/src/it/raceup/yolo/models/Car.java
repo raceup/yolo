@@ -4,14 +4,14 @@ import it.raceup.yolo.models.data.Raw;
 import it.raceup.yolo.models.data.Type;
 
 public class Car {
-    public static String[] motorTags = new String[]{
+    public static String[] MOTOR_TAGS = new String[]{
             "Front Left", "Front Right", "Rear Left", "Rear Right"
     };  // 4 motors in car
-    public Motor[] motors = new Motor[motorTags.length];
+    public Motor[] motors = new Motor[MOTOR_TAGS.length];
 
     public Car() {
         for (int i = 0; i < motors.length; i++) {
-            motors[i] = new Motor(motorTags[i]);  // initialize all motors
+            motors[i] = new Motor(MOTOR_TAGS[i]);  // initialize all motors
         }
     }
 
