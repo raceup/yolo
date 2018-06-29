@@ -11,6 +11,7 @@ import static it.raceup.yolo.models.data.Type.*;
 
 public class MotorInfo extends JPanel {
     private JTable table = getMotorTable();
+    public JButton viewButton;
     public static final it.raceup.yolo.models.data.Type[] LABELS =
             new it.raceup.yolo.models.data.Type[]{
                     SYSTEM_READY,
@@ -24,13 +25,16 @@ public class MotorInfo extends JPanel {
             };
 
     public MotorInfo(String tag) {
-        setup(tag);
+        viewButton = new JButton(tag);
+        setup();
     }
 
-    private void setup(String tag) {
+    private void setup() {
         setupLayout();
 
-        add(new JLabel(tag));
+        add(Box.createRigidArea(new Dimension(0, 10)));
+        add(viewButton);
+        add(Box.createRigidArea(new Dimension(0, 10)));
         add(getTable());
     }
 

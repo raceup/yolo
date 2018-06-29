@@ -30,6 +30,7 @@ public class Main extends JFrame {
         }
 
         setup();
+        setWindowsTogglers();
         open();
     }
 
@@ -69,23 +70,17 @@ public class Main extends JFrame {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        JCheckBox[] checkBoxes = getWindowCheckBox();
-
         JPanel up = new JPanel();
         up.setLayout(new BoxLayout(up, BoxLayout.X_AXIS));
         up.add(motorPanels[0]);
-        up.add(checkBoxes[0]);
         up.add(Box.createRigidArea(new Dimension(10, 0)));
         up.add(motorPanels[1]);
-        up.add(checkBoxes[1]);
 
         JPanel down = new JPanel();
         down.setLayout(new BoxLayout(down, BoxLayout.X_AXIS));
         down.add(motorPanels[2]);
-        down.add(checkBoxes[2]);
         down.add(Box.createRigidArea(new Dimension(10, 0)));
         down.add(motorPanels[3]);
-        down.add(checkBoxes[3]);
 
         panel.add(up);
         panel.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -94,24 +89,18 @@ public class Main extends JFrame {
         return panel;
     }
 
-    private JCheckBox[] getWindowCheckBox() {
-        JCheckBox[] checkBoxes = new JCheckBox[motorWindows.length];
-        for (int i = 0; i < checkBoxes.length; i++) {
-            checkBoxes[i] = new JCheckBox();
-            checkBoxes[i].addActionListener(getCheckAction(i));
+    private void setWindowsTogglers() {
+        for (int i = 0; i < motorPanels.length; i++) {
+            motorPanels[i].viewButton.addActionListener(getCheckAction(i));
         }
-
-        return checkBoxes;
     }
 
     private ActionListener getCheckAction(int motor) {
         return actionEvent -> {
-            AbstractButton abstractButton = (AbstractButton) actionEvent.getSource();
-            boolean selected = abstractButton.getModel().isSelected();
-            if (selected) {
-                motorWindows[motor].open();
-            } else {
+            if (motorWindows[motor].isVisible()) {
                 motorWindows[motor].close();
+            } else {
+                motorWindows[motor].open();
             }
         };
     }

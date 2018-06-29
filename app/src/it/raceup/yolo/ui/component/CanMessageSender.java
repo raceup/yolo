@@ -25,12 +25,13 @@ public class CanMessageSender extends JPanel {
         JPanel up = getUpPanel();
         JPanel down = getDownPanel();
 
-        add(new JLabel("Send CAN message"), BorderLayout.CENTER);
+        add(Box.createRigidArea(new Dimension(0, 10)));
+        add(new JLabel("Send CAN message"));
         add(Box.createRigidArea(new Dimension(0, 10)));
         add(up);
         add(Box.createRigidArea(new Dimension(0, 10)));
         add(down);
-        add(Box.createRigidArea(new Dimension(0, 200)));
+        add(Box.createRigidArea(new Dimension(0, 230)));
     }
 
     private JPanel getCanEditPanel(String editField, JTextField editor) {
