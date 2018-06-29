@@ -1,7 +1,10 @@
 package it.raceup.yolo.ui.component;
 
+import it.raceup.yolo.models.data.Raw;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 
 import static it.raceup.yolo.models.data.Base.DNF;
 import static it.raceup.yolo.models.data.Type.*;
@@ -62,5 +65,15 @@ public class MotorInfo extends JPanel {
         JTable table = new JTable(data, columns);
         table.setEnabled(false);  // non-editable cells
         return table;
+    }
+
+    public void update(Raw data) {
+        if (Arrays.asList(LABELS).contains(data.getType())) {
+            int tableRow = Arrays.asList(LABELS).indexOf(data.getType());
+            if (tableRow >= 0) {
+                String value = Double.toString(data.getRaw());
+                table.setValueAt(value, tableRow, 1);
+            }
+        }
     }
 }

@@ -91,6 +91,19 @@ public class Main extends JFrame {
     }
 
     public void update(Raw data) {
+        int motor = data.getMotor();
+
+        try {
+            motorPanels[motor].update(data);
+        } catch (Exception e) {
+            System.err.println("update(Raw data): CANNOT UPDATE MOTOR PANEL");
+        }
+
+        try {
+            motorWindows[motor].update(data);
+        } catch (Exception e) {
+            System.err.println("update(Raw data): CANNOT UPDATE MOTOR WINDOW");
+        }
     }
 
     private JMenuBar createMenuBar() {
@@ -124,18 +137,12 @@ public class Main extends JFrame {
         return menu;
     }
 
-    /**
-     * Show a dialog about the app
-     */
     private void showAboutDialogOrFail() {
         String content = "";  // todo
         String title = "About this app";
         new AboutDialog(this, content, title).setVisible(true);
     }
 
-    /**
-     * Show a help dialog about the app
-     */
     private void showHelpDialogOrFail() {
         String content = "";  // todo
         String title = "Help";

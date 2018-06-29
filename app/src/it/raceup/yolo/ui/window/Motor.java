@@ -4,6 +4,7 @@ import it.raceup.yolo.models.data.Raw;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 
 import static it.raceup.yolo.models.data.Base.DNF;
 import static it.raceup.yolo.models.data.Raw.*;
@@ -97,5 +98,19 @@ public class Motor extends JFrame {
     }
 
     public void update(Raw data) {
+        if (isVisible()) {  // only if user can see update
+            String value = Double.toString(data.getRaw());
+
+            if (isTemperature(data.getType())) {
+                int tableRow = Arrays.asList(TEMPERATURES).indexOf(data.getType());
+                temperature.setValueAt(value, tableRow, 1);
+            } else if (isSetPoint(data.getType())) {
+                int tableRow = Arrays.asList(SET_POINTS).indexOf(data.getType());
+                sp.setValueAt(value, tableRow, 1);
+            } else if (isFlag(data.getType())) {
+                int tableRow = Arrays.asList(FLAGS).indexOf(data.getType());
+                flags.setValueAt(value, tableRow, 1);
+            }
+        }
     }
 }
