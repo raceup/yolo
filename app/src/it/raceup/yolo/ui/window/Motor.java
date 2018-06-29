@@ -28,6 +28,10 @@ public class Motor extends JFrame {
         setVisible(true);
     }
 
+    public void close() {
+        setVisible(false);
+    }
+
     private void setupTables() {
         String[] columns = new String[]{
                 "Key", "Value"

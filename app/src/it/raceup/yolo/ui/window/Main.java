@@ -7,6 +7,7 @@ import it.raceup.yolo.ui.utils.AboutDialog;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 import static it.raceup.yolo.models.Car.MOTOR_TAGS;
 
@@ -16,9 +17,9 @@ public class Main extends JFrame {
     private static final Image appIcon = Toolkit.getDefaultToolkit().getImage(
             THIS_PACKAGE.getClass().getResource(ICON_PATH)
     );
-    private MotorInfo[] motorPanels = new MotorInfo[MOTOR_TAGS.length];
-    private Motor[] motorWindows = new Motor[MOTOR_TAGS.length];
-    private CanMessageSender canPanel = new CanMessageSender();
+    private final MotorInfo[] motorPanels = new MotorInfo[MOTOR_TAGS.length];
+    private final Motor[] motorWindows = new Motor[MOTOR_TAGS.length];
+    private final CanMessageSender canPanel = new CanMessageSender();
 
     public Main() {
         super("YOLO | Race Up Electric Division");
@@ -34,8 +35,12 @@ public class Main extends JFrame {
 
     private void setup() {
         setupLayout();
+    }
+
+    private void open() {
         pack();
         setSize(900, 500);
+        setLocation(0, 0);  // top left corner
         setResizable(false);
         setVisible(true);
 
@@ -60,34 +65,55 @@ public class Main extends JFrame {
         setJMenuBar(createMenuBar());
     }
 
-    private void open() {
-        pack();
-        setSize(800, 400);
-        setLocation(0, 0);  // top left corner
-        setVisible(true);
-    }
-
     private JPanel getMotorsPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
+        JCheckBox[] checkBoxes = getWindowCheckBox();
+
         JPanel up = new JPanel();
         up.setLayout(new BoxLayout(up, BoxLayout.X_AXIS));
         up.add(motorPanels[0]);
+        up.add(checkBoxes[0]);
         up.add(Box.createRigidArea(new Dimension(10, 0)));
         up.add(motorPanels[1]);
+        up.add(checkBoxes[1]);
 
         JPanel down = new JPanel();
         down.setLayout(new BoxLayout(down, BoxLayout.X_AXIS));
         down.add(motorPanels[2]);
+        down.add(checkBoxes[2]);
         down.add(Box.createRigidArea(new Dimension(10, 0)));
         down.add(motorPanels[3]);
+        down.add(checkBoxes[3]);
 
         panel.add(up);
         panel.add(Box.createRigidArea(new Dimension(0, 10)));
         panel.add(down);
 
         return panel;
+    }
+
+    private JCheckBox[] getWindowCheckBox() {
+        JCheckBox[] checkBoxes = new JCheckBox[motorWindows.length];
+        for (int i = 0; i < checkBoxes.length; i++) {
+            checkBoxes[i] = new JCheckBox();
+            checkBoxes[i].addActionListener(getCheckAction(i));
+        }
+
+        return checkBoxes;
+    }
+
+    private ActionListener getCheckAction(int motor) {
+        return actionEvent -> {
+            AbstractButton abstractButton = (AbstractButton) actionEvent.getSource();
+            boolean selected = abstractButton.getModel().isSelected();
+            if (selected) {
+                motorWindows[motor].open();
+            } else {
+                motorWindows[motor].close();
+            }
+        };
     }
 
     public void update(Raw data) {
