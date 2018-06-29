@@ -4,7 +4,7 @@ import it.raceup.yolo.models.data.Raw;
 import it.raceup.yolo.models.data.Type;
 
 public class Car {
-    public static String[] MOTOR_TAGS = new String[]{
+    public static final String[] MOTOR_TAGS = new String[]{
             "Front Left", "Front Right", "Rear Left", "Rear Right"
     };  // 4 motors in car
     public Motor[] motors = new Motor[MOTOR_TAGS.length];

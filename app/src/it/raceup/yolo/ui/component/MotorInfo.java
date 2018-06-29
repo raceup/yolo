@@ -8,6 +8,17 @@ import static it.raceup.yolo.models.data.Type.*;
 
 public class MotorInfo extends JPanel {
     private JTable table = getMotorTable();
+    public static final it.raceup.yolo.models.data.Type[] LABELS =
+            new it.raceup.yolo.models.data.Type[]{
+                    SYSTEM_READY,
+                    it.raceup.yolo.models.data.Type.ERROR,
+                    DC_ON,
+                    INVERTER_ON,
+                    ACTUAL_VELOCITY,
+                    TORQUE_CURRENT,
+                    TEMPERATURE_MOTOR,
+                    TEMPERATURE_INVERTER,
+            };
 
     public MotorInfo(String tag) {
         setup(tag);
@@ -41,21 +52,10 @@ public class MotorInfo extends JPanel {
                 "Key", "Value"
         };  // headers for the table
 
-        it.raceup.yolo.models.data.Type[] labels = new it.raceup.yolo.models.data.Type[]{
-                SYSTEM_READY,
-                it.raceup.yolo.models.data.Type.ERROR,
-                DC_ON,
-                INVERTER_ON,
-                ACTUAL_VELOCITY,
-                TORQUE_CURRENT,
-                TEMPERATURE_MOTOR,
-                TEMPERATURE_INVERTER,
-        };
-
         // actual data
-        Object[][] data = new Object[labels.length][columns.length];
+        Object[][] data = new Object[LABELS.length][columns.length];
         for (int row = 0; row < data.length; row++) {
-            data[row][0] = labels[row];
+            data[row][0] = LABELS[row];
             data[row][1] = DNF;
         }
 

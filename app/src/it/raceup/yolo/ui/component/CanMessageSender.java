@@ -4,8 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CanMessageSender extends JPanel {
-    private JTextField editorId, editorMessage = new JTextField();
+    private JTextField editorId = new JTextField();
+    private JTextField editorMessage = new JTextField();
     private JButton sendButton = new JButton("SEND");
+    private String currentId, currentMessage;
 
     public CanMessageSender() {
         setup();
@@ -13,6 +15,8 @@ public class CanMessageSender extends JPanel {
 
     private void setup() {
         setupLayout();
+
+        sendButton.addActionListener(e -> sendMessage());
     }
 
     private void setupLayout() {
@@ -42,7 +46,7 @@ public class CanMessageSender extends JPanel {
     private JPanel getUpPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-        panel.add(getCanEditPanel("ID", editorId));
+        panel.add(getCanEditPanel("ID (HEX)", editorId));
         panel.add(Box.createRigidArea(new Dimension(10, 0)));
         panel.add(getCanEditPanel("Message (DEC)", editorMessage));
         return panel;
@@ -53,5 +57,14 @@ public class CanMessageSender extends JPanel {
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         panel.add(sendButton);
         return panel;
+    }
+
+    private void sendMessage() {
+        System.err.println("sendMessage(): NOT IMPLEMENTED");  // todo send
+    }
+
+    private void checkMessage() {
+        currentId = editorId.getText();
+        currentMessage = editorMessage.getText();  // todo add error check
     }
 }

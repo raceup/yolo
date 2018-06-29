@@ -3,13 +3,13 @@ package it.raceup.yolo.models.data;
 import java.util.Arrays;
 
 public class Raw {
-    public static Type[] TEMPERATURES = new Type[]{
+    public static final Type[] TEMPERATURES = new Type[]{
             Type.TEMPERATURE_MOTOR,
             Type.TEMPERATURE_INVERTER,
             Type.TEMPERATURE_IGBT,
             Type.ERROR_INFO
     };
-    public static Type[] SET_POINTS = new Type[]{
+    public static final Type[] SET_POINTS = new Type[]{
             Type.SP_INVERTER_ON,
             Type.SP_DC_ON,
             Type.SP_ENABLE,
@@ -18,7 +18,7 @@ public class Raw {
             Type.POS_TORQUE_LIMIT,
             Type.NEG_TORQUE_LIMIT
     };
-    public static Type[] FLAGS = new Type[]{
+    public static final Type[] FLAGS = new Type[]{
             Type.SYSTEM_READY,
             Type.ERROR,
             Type.WARNING,

@@ -35,7 +35,7 @@ public class Main extends JFrame {
     private void setup() {
         setupLayout();
         pack();
-        setSize(854, 441);
+        setSize(900, 500);
         setResizable(false);
         setVisible(true);
 
