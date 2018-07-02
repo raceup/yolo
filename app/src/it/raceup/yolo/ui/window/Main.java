@@ -47,7 +47,6 @@ public class Main extends JFrame {
         setResizable(false);
         setVisible(true);
 
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setIconImage(appIcon);  // set icon
     }
 

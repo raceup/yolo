@@ -9,6 +9,8 @@ import it.raceup.yolo.models.kvaser.Kvaser;
 import it.raceup.yolo.ui.window.Main;
 import it.raceup.yolo.utils.Debugger;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -20,7 +22,7 @@ public class App extends Debugger {
     private Hal controller;
     private Main view;
     private static final String logFile = System.getProperty("user.dir") +
-            "/yolo/" + getTimeNow("YYYY-MM-dd_HH-mm-ss") + ".log";
+            "/logs/" + getTimeNow("YYYY-MM-dd_HH-mm-ss") + ".log";
     private final FileLogger logger = new FileLogger(logFile);
 
     public App() {
@@ -37,6 +39,12 @@ public class App extends Debugger {
         model = new Car();
         controller = new Hal(model, kvaser);
         view = new Main(kvaser);
+        view.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                close();
+                System.exit(0);
+            }
+        });
     }
 
     public static void main(String[] args) {
@@ -50,6 +58,9 @@ public class App extends Debugger {
         } catch (YoloException e) {
             System.err.println(e.toString());
         }  // start retrieving Kvaser data
+
+        logger.appendWithTime("hello world");
+        logger.appendWithTime("hello world 1");
 
         Timer t = new Timer();
         t.schedule(new TimerTask() {
@@ -80,8 +91,7 @@ public class App extends Debugger {
         }, 0, 100);
     }
 
-    @Override
-    public void finalize() {
+    private void close() {
         view.close();
         logger.save();
     }
