@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Parser {
-    private static final int index_diff_1[] = new int[]{0x283, 0x284, 0x287,
-            0x288};
-    private static final int index_diff_2[] = new int[]{0x285, 0x286, 0x289,
-            0x28A};
+    private static final int index_diff_1[] = new int[]{
+            0x283, 0x284, 0x287, 0x288
+    };
+    private static final int index_diff_2[] = new int[]{
+            0x285, 0x286, 0x289, 0x28A
+    };
     private int id;
     private byte[] data;
     private int motorId;

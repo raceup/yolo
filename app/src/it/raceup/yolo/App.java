@@ -35,7 +35,7 @@ public class App extends Debugger {
 
         model = new Car();
         controller = new Hal(model, kvaser);
-        view = new Main();
+        view = new Main(kvaser);
     }
 
     public void start() {

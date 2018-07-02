@@ -1,6 +1,7 @@
 package it.raceup.yolo.ui.window;
 
 import it.raceup.yolo.models.data.Raw;
+import it.raceup.yolo.models.kvaser.Kvaser;
 import it.raceup.yolo.ui.component.CanMessageSender;
 import it.raceup.yolo.ui.component.MotorInfo;
 import it.raceup.yolo.ui.utils.AboutDialog;
@@ -19,9 +20,9 @@ public class Main extends JFrame {
     );
     private final MotorInfo[] motorPanels = new MotorInfo[MOTOR_TAGS.length];
     private final Motor[] motorWindows = new Motor[MOTOR_TAGS.length];
-    private final CanMessageSender canPanel = new CanMessageSender();
+    private final CanMessageSender canPanel;
 
-    public Main() {
+    public Main(Kvaser kvaser) {
         super("YOLO | Race Up Electric Division");
 
         for (int i = 0; i < MOTOR_TAGS.length; i++) {
@@ -29,6 +30,7 @@ public class Main extends JFrame {
             motorWindows[i] = new Motor(MOTOR_TAGS[i]);
         }
 
+        canPanel = new CanMessageSender(kvaser);
         setup();
         setWindowsTogglers();
         open();

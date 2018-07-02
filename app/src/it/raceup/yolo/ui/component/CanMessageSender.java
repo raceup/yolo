@@ -1,16 +1,20 @@
 package it.raceup.yolo.ui.component;
 
+import it.raceup.yolo.models.kvaser.Kvaser;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class CanMessageSender extends JPanel {
-    private JTextField editorId = new JTextField();
-    private JTextField editorMessage = new JTextField();
-    private JButton sendButton = new JButton("SEND");
+    private final JTextField editorId = new JTextField();
+    private final JTextField editorMessage = new JTextField();
+    private final JButton sendButton = new JButton("SEND");
     private String currentId, currentMessage;
+    private final Kvaser kvaser;
 
-    public CanMessageSender() {
+    public CanMessageSender(Kvaser kvaser) {
         setup();
+        this.kvaser = kvaser;
     }
 
     private void setup() {
@@ -61,6 +65,10 @@ public class CanMessageSender extends JPanel {
     }
 
     private void sendMessage() {
+        String msgId = editorId.getText();
+        String msgContent = editorMessage.getText();
+        // todo kvaser.sendMessage(Integer.parseInt(msgId), new byte[]{}, 0);
+        System.err.println("@" + msgId + ": " + msgContent);
         System.err.println("sendMessage(): NOT IMPLEMENTED");  // todo send
     }
 
