@@ -11,6 +11,6 @@ public class YoloException extends Exception {
 
     @Override
     public String toString() {
-        return super.toString();
+        return "[ " + type.toString() + "]: " + message;
     }
 }

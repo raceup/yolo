@@ -1,6 +1,8 @@
 package it.raceup.yolo.models.kvaser;
 
 import core.Canlib;
+import it.raceup.yolo.error.ExceptionType;
+import it.raceup.yolo.error.YoloException;
 import obj.CanlibException;
 import obj.Handle;
 import obj.Message;
@@ -8,20 +10,17 @@ import obj.Message;
 public class CanDump {
     private int canBitrate;
 
-    public CanDump() {
+    public CanDump() throws YoloException {
         this(Canlib.canBITRATE_1M);
     }
 
-    public CanDump(int canBitrate) {
+    public CanDump(int canBitrate) throws YoloException {
         this.canBitrate = canBitrate;
         try {
             setup();
         } catch (Exception e) {
-            throw new IllegalArgumentException();
+            throw new YoloException(e.getMessage(), ExceptionType.CANLIB);
         }
-    }
-
-    public static void main(String[] args) throws CanlibException {
     }
 
     /*
@@ -61,7 +60,7 @@ public class CanDump {
         }
     }
 
-    public void setup() throws obj.CanlibException {
+    private void setup() throws obj.CanlibException {
         // Setting up the channel and going on bus
         Handle handle = new Handle(0);
         handle.setBusParams(this.canBitrate, 0, 0, 0, 0, 0);
