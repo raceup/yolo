@@ -2,6 +2,7 @@ package it.raceup.yolo;
 
 import it.raceup.yolo.control.Hal;
 import it.raceup.yolo.error.YoloException;
+import it.raceup.yolo.logging.FileLogger;
 import it.raceup.yolo.models.Car;
 import it.raceup.yolo.models.data.Raw;
 import it.raceup.yolo.models.kvaser.Kvaser;
@@ -11,19 +12,19 @@ import it.raceup.yolo.utils.Debugger;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static it.raceup.yolo.utils.Utils.getTimeNow;
+
 public class App extends Debugger {
     private Kvaser kvaser;
     private Car model;
     private Hal controller;
     private Main view;
+    private static final String logFile = System.getProperty("user.dir") +
+            "/yolo/" + getTimeNow("YYYY-MM-dd_HH-mm-ss") + ".log";
+    private final FileLogger logger = new FileLogger(logFile);
 
     public App() {
         setup();
-    }
-
-    public static void main(String[] args) {
-        App app = new App();
-        app.start();
     }
 
     private void setup() {
@@ -38,6 +39,11 @@ public class App extends Debugger {
         view = new Main(kvaser);
     }
 
+    public static void main(String[] args) {
+        App app = new App();
+        app.start();
+    }
+
     public void start() {
         try {
             controller.startConnection();
@@ -49,9 +55,26 @@ public class App extends Debugger {
         t.schedule(new TimerTask() {
             @Override
             public void run() {
-                Raw[] buffer = controller.getBuffer();
-                for (Raw data : buffer) {
-                    view.update(data);
+                try {
+                    Raw[] buffer = controller.getBuffer();
+                    for (Raw data : buffer) {
+                        try {
+                            view.update(data);
+                        } catch (Exception e) {
+                            System.err.println("Cannot get update view");
+                            System.err.println("\t" + e.toString());
+                        }
+
+                        try {
+                            logger.appendWithTime(data.toString());
+                        } catch (Exception e) {
+                            System.err.println("Cannot log");
+                            System.err.println("\t" + e.toString());
+                        }
+                    }
+                } catch (Exception e) {
+                    System.err.println("Cannot get current Kvaser buffer");
+                    System.err.println("\t" + e.toString());
                 }
             }
         }, 0, 100);

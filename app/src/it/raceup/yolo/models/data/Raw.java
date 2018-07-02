@@ -77,4 +77,10 @@ public class Raw {
     public boolean isFlag() {
         return isFlag(getType());
     }
+
+    @Override
+    public String toString() {
+        return getType().toString() + " @" + Integer.toString(getMotor()) + ": " +
+                Double.toString(getRaw());
+    }
 }

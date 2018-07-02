@@ -3,6 +3,8 @@ package it.raceup.yolo.logging;
 import java.io.File;
 import java.io.PrintWriter;
 
+import static it.raceup.yolo.utils.Utils.getTimeNow;
+
 public class FileLogger {
     private PrintWriter writer;
 
@@ -31,5 +33,15 @@ public class FileLogger {
 
     public void appendNew(String content) {
         writer.print(content);
+    }
+
+    public void appendWithTime(String content) {
+        String line = "[" + getTimeNow("YYYY-MM-dd_HH-mm-ss") + "] " +
+                content;
+        appendNewLine(line);
+    }
+
+    public void save() {
+        writer.close();
     }
 }
