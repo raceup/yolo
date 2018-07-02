@@ -23,14 +23,22 @@ public class Kvaser {
         }
     }
 
-    public boolean hasData() throws obj.CanlibException {
-        return handle.hasMessage();
+    public boolean hasData() {
+        try {
+            return handle.hasMessage();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
-    public CanData getMostRecentData() throws obj.CanlibException {
-        Message message = handle.read();
-        CanData data = new CanData(message);
-        return data;
+    public CanData getMostRecentData() {
+        try {
+            Message message = handle.read();
+            CanData data = new CanData(message);
+            return data;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public void close() {

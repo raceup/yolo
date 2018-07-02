@@ -35,6 +35,10 @@ public class Raw {
     public double raw;
     private int motor;
 
+    public Raw(int id, byte[] data) {
+        // parse to get value raw, motor id and type of data
+    }
+
     public Raw(double raw, int motor, Type type) {
         this.type = type;
         this.raw = raw;

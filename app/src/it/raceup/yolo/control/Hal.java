@@ -4,16 +4,19 @@ import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.Car;
 import it.raceup.yolo.models.data.Raw;
 import it.raceup.yolo.models.data.Type;
+import it.raceup.yolo.models.kvaser.CanData;
 import it.raceup.yolo.models.kvaser.Kvaser;
 
 /**
  * Parses inputs and updates model
  */
 public class Hal {
-    private Car car = new Car();
+    private Car car;
     private Kvaser kvaser;
 
-    public Hal() {
+    public Hal(Car car) {
+        this.car = car;
+        setup();
     }
 
     private void setup() {
@@ -25,22 +28,20 @@ public class Hal {
     }
 
     public void startConnection() {
-        Thread kvaserThread = new Thread() {
-
-        }
+        Thread t = new Thread(() -> {
+            while (kvaser.hasData()) {
+                CanData data = kvaser.getMostRecentData();
+                System.out.println(data.toString());  // todo update
+            }
+        });
+        t.start();
     }
 
     public void close() {
         kvaser.close();
     }
 
-    private class KvaseThread {
-        public void run() {
-
-        }
-    }
-
-    public void update(Raw data) {
+    private void update(Raw data) {
         car.update(data);
     }
 
