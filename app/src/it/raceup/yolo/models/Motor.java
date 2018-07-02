@@ -9,9 +9,9 @@ import it.raceup.yolo.models.motor.Temperature;
 import static it.raceup.yolo.models.data.Raw.*;
 
 public class Motor {
-    public Flags flags;
-    public SetPoint setPoint;
-    public Temperature temperature;
+    public Flags flags = new Flags();
+    public SetPoint setPoint = new SetPoint();
+    public Temperature temperature = new Temperature();
     public String tag;
 
     public Motor(String tag) {

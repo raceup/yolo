@@ -5,8 +5,10 @@ import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.Car;
 import it.raceup.yolo.models.data.Raw;
 import it.raceup.yolo.models.data.Type;
-import it.raceup.yolo.models.kvaser.CanData;
 import it.raceup.yolo.models.kvaser.Kvaser;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Parses inputs and updates model
@@ -14,6 +16,7 @@ import it.raceup.yolo.models.kvaser.Kvaser;
 public class Hal {
     private Car car;
     private Kvaser kvaser;
+    private Raw mostRecentValue;
 
     public Hal(Car car) {
         this.car = car;
@@ -30,14 +33,16 @@ public class Hal {
 
     public void startConnection() throws YoloException {
         if (kvaser.startConnection()) {
-            Thread t = new Thread(() -> {
-                while (kvaser.hasData()) {
-                    CanData data = kvaser.getMostRecentData();
-                    System.out.println(data.toString());  // todo update
+            Timer t = new Timer();
+            t.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    // CanData data = kvaser.getMostRecentData();
+                    // Raw value = new Raw(data.getId(), data.getData());
+                    mostRecentValue = new Raw(0, new byte[]{0});
+                    update();
                 }
-                System.out.println("Kvaser has no more data!");
-            });
-            t.start();
+            }, 0, 10);
         } else {
             throw new YoloException("Cannot start kvaser connection",
                     ExceptionType.KVASER);
@@ -48,11 +53,15 @@ public class Hal {
         kvaser.close();
     }
 
-    private void update(Raw data) {
-        car.update(data);
+    private void update() {
+        car.update(mostRecentValue);
     }
 
     public double get(Type type, int motor) {
         return car.get(type, motor);
+    }
+
+    public Raw getMostRecentValue() {
+        return mostRecentValue;
     }
 }
