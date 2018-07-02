@@ -18,17 +18,9 @@ public class Hal {
     private Kvaser kvaser;
     private Raw mostRecentValue;
 
-    public Hal(Car car) {
+    public Hal(Car car, Kvaser kvaser) {
         this.car = car;
-        setup();
-    }
-
-    private void setup() {
-        try {
-            kvaser = new Kvaser();
-        } catch (YoloException e) {
-            System.out.println(e.toString());
-        }
+        this.kvaser = kvaser;
     }
 
     public void startConnection() throws YoloException {

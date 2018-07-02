@@ -4,6 +4,7 @@ import it.raceup.yolo.control.Hal;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.Car;
 import it.raceup.yolo.models.data.Raw;
+import it.raceup.yolo.models.kvaser.Kvaser;
 import it.raceup.yolo.ui.window.Main;
 import it.raceup.yolo.utils.Debugger;
 
@@ -11,11 +12,33 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class App extends Debugger {
-    public static void main(String[] args) {
-        Car model = new Car();
-        Hal controller = new Hal(model);
-        Main view = new Main();
+    private Kvaser kvaser;
+    private Car model;
+    private Hal controller;
+    private Main view;
 
+    public App() {
+        setup();
+    }
+
+    public static void main(String[] args) {
+        App app = new App();
+        app.start();
+    }
+
+    private void setup() {
+        try {
+            kvaser = new Kvaser();
+        } catch (YoloException e) {
+            System.out.println(e.toString());
+        }
+
+        model = new Car();
+        controller = new Hal(model, kvaser);
+        view = new Main();
+    }
+
+    public void start() {
         try {
             controller.startConnection();
         } catch (YoloException e) {
@@ -30,5 +53,6 @@ public class App extends Debugger {
                 view.update(value);
             }
         }, 0, 100);
+
     }
 }
