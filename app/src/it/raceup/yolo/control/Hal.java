@@ -1,5 +1,6 @@
 package it.raceup.yolo.control;
 
+import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.Car;
 import it.raceup.yolo.models.data.Raw;
@@ -27,14 +28,20 @@ public class Hal {
         }
     }
 
-    public void startConnection() {
-        Thread t = new Thread(() -> {
-            while (kvaser.hasData()) {
-                CanData data = kvaser.getMostRecentData();
-                System.out.println(data.toString());  // todo update
-            }
-        });
-        t.start();
+    public void startConnection() throws YoloException {
+        if (kvaser.startConnection()) {
+            Thread t = new Thread(() -> {
+                while (kvaser.hasData()) {
+                    CanData data = kvaser.getMostRecentData();
+                    System.out.println(data.toString());  // todo update
+                }
+                System.out.println("Kvaser has no more data!");
+            });
+            t.start();
+        } else {
+            throw new YoloException("Cannot start kvaser connection",
+                    ExceptionType.KVASER);
+        }
     }
 
     public void close() {

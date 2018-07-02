@@ -54,7 +54,12 @@ public class Kvaser {
         handle.setBusParams(this.canBitrate, 0, 0, 0, 0, 0);
     }
 
-    public void startConnection() throws obj.CanlibException {
-        handle.busOn();
+    public boolean startConnection() {
+        try {
+            handle.busOn();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
