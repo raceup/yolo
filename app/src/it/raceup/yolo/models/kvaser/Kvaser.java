@@ -62,4 +62,14 @@ public class Kvaser {
             return false;
         }
     }
+
+    public boolean sendMessage(int id, byte[] data, int flags) {
+        Message message = new Message(id, data, data.length, flags);
+        try {
+            handle.write(message);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

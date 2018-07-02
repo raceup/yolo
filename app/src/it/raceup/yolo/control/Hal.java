@@ -3,6 +3,7 @@ package it.raceup.yolo.control;
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.Car;
+import it.raceup.yolo.models.data.Parser;
 import it.raceup.yolo.models.data.Raw;
 import it.raceup.yolo.models.data.Type;
 import it.raceup.yolo.models.kvaser.Kvaser;
@@ -31,7 +32,7 @@ public class Hal {
                 public void run() {
                     // CanData data = kvaser.getMostRecentData();
                     // Raw value = new Raw(data.getId(), data.getData());
-                    mostRecentValue = new Raw(0, new byte[]{0});
+                    mostRecentValue = new Parser(0, new byte[]{0}).buildRawData();
                     update();
                 }
             }, 0, 10);

@@ -1,7 +1,6 @@
 package it.raceup.yolo.models.data;
 
 import java.util.Arrays;
-import java.util.Random;
 
 public class Raw {
     public static final Type[] TEMPERATURES = new Type[]{
@@ -32,15 +31,10 @@ public class Raw {
             Type.TORQUE_CURRENT,
             Type.MAGNETIZING_CURRENT
     };
+
     public Type type;
     public double raw;
     private int motor;
-
-    public Raw(int id, byte[] data) {
-        this(
-                parseRawValue(data), parseMotorId(id), parseType(data)
-        );
-    }
 
     public Raw(double raw, int motor, Type type) {
         this.type = type;
@@ -70,21 +64,6 @@ public class Raw {
 
     public static boolean isFlag(Type type) {
         return Arrays.asList(FLAGS).contains(type);
-    }
-
-    public static int parseMotorId(int id) {
-        return new Random().nextInt(4);  // todo parse
-    }
-
-    public static double parseRawValue(byte[] data) {
-        return new Random().nextInt(10) / 10.0;  // todo parse
-    }
-
-    public static Type parseType(byte[] data) {
-        // todo parse
-        Type[] all = Type.values();  // get the array
-        int randomNum = new Random().nextInt(all.length);  // random int
-        return all[randomNum];  // get the random obj
     }
 
     public boolean isTemperature() {
