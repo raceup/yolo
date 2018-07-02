@@ -18,7 +18,6 @@ import static it.raceup.yolo.utils.Utils.getTimeNow;
 
 public class App extends Debugger {
     private Kvaser kvaser;
-    private Car model;
     private Hal controller;
     private Main view;
     private static final String logFile = System.getProperty("user.dir") +
@@ -36,7 +35,7 @@ public class App extends Debugger {
             System.out.println(e.toString());
         }
 
-        model = new Car();
+        Car model = new Car();
         controller = new Hal(model, kvaser);
         view = new Main(kvaser);
         view.addWindowListener(new WindowAdapter() {
