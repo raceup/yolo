@@ -17,7 +17,7 @@ import java.util.TimerTask;
 public class Hal {
     private Car car;
     private Kvaser kvaser;
-    private Raw mostRecentValue;
+    private Raw[] buffer;
 
     public Hal(Car car, Kvaser kvaser) {
         this.car = car;
@@ -31,8 +31,8 @@ public class Hal {
                 @Override
                 public void run() {
                     // CanData data = kvaser.getMostRecentData();
-                    // Raw value = new Raw(data.getId(), data.getData());
-                    mostRecentValue = new Parser(0, new byte[]{0}).buildRawData();
+                    // Raw value = new Raw(data.getId(), data.getParsedData());
+                    buffer = new Parser(0, new byte[]{0}).getParsedData();
                     update();
                 }
             }, 0, 10);
@@ -47,14 +47,16 @@ public class Hal {
     }
 
     private void update() {
-        car.update(mostRecentValue);
+        for (Raw data : buffer) {
+            car.update(data);
+        }
     }
 
     public double get(Type type, int motor) {
         return car.get(type, motor);
     }
 
-    public Raw getMostRecentValue() {
-        return mostRecentValue;
+    public Raw[] getBuffer() {
+        return buffer;
     }
 }

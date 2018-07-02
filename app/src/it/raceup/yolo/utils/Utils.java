@@ -17,4 +17,8 @@ public class Utils {
         Format format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return format.format(date);
     }
+
+    public static int getBit(byte content, int position) {
+        return ((content >> position) & 1);
+    }
 }

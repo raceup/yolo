@@ -1,5 +1,8 @@
 package it.raceup.yolo.models.data;
 
+import it.raceup.yolo.utils.Utils;
+
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Parser {
@@ -10,8 +13,8 @@ public class Parser {
     private int id;
     private byte[] data;
     private int motorId;
-    private double motorValue;
-    private Type dataType;
+    private static final double TORQUE_CURRENT = 107.2 / 16384;
+    private ArrayList<Raw> parsedData = new ArrayList<>();
 
     public Parser(int id, byte[] data) {
         this.id = id;
@@ -22,8 +25,7 @@ public class Parser {
 
     private void parse() {
         parseMotorId();
-        parseValue();
-        parseType();
+        parseValues();
     }
 
     private void parseMotorId() {
@@ -42,14 +44,123 @@ public class Parser {
         return motorId;
     }
 
-    public void parseValue() {
+    public void parseValues() {
         if (getValueType() == 1) {
-            // read amk 1
+            readMotor1();
         } else {
-            // read amk 2
+            readMotor2();
         }
+    }
 
-        motorValue = new Random().nextInt(10) / 10.0;  // todo parse
+    private void readMotor1() {
+        parsedData.add(
+                new Raw(
+                        Utils.getBit(data[1], 0),
+                        getMotorId(),
+                        Type.SYSTEM_READY
+                )
+        );
+        parsedData.add(
+                new Raw(
+                        Utils.getBit(data[1], 1),
+                        getMotorId(),
+                        Type.ERROR
+                )
+        );
+        parsedData.add(
+                new Raw(
+                        Utils.getBit(data[1], 2),
+                        getMotorId(),
+                        Type.WARNING
+                )
+        );
+        parsedData.add(
+                new Raw(
+                        Utils.getBit(data[1], 3),
+                        getMotorId(),
+                        Type.QUIT_DC_ON
+                )
+        );
+        parsedData.add(
+                new Raw(
+                        Utils.getBit(data[1], 4),
+                        getMotorId(),
+                        Type.DC_ON
+                )
+        );
+        parsedData.add(
+                new Raw(
+                        Utils.getBit(data[1], 5),
+                        getMotorId(),
+                        Type.QUIT_INVERTER_ON
+                )
+        );
+        parsedData.add(
+                new Raw(
+                        Utils.getBit(data[1], 6),
+                        getMotorId(),
+                        Type.INVERTER_ON
+                )
+        );
+        parsedData.add(
+                new Raw(
+                        Utils.getBit(data[1], 7),
+                        getMotorId(),
+                        Type.DERATING
+                )
+        );
+        parsedData.add(
+                new Raw(
+                        data[2] | data[3] << 8,
+                        getMotorId(),
+                        Type.ACTUAL_VELOCITY
+                )
+        );
+        parsedData.add(
+                new Raw(
+                        (data[4] | data[5] << 8) * TORQUE_CURRENT,
+                        getMotorId(),
+                        Type.TORQUE_CURRENT
+                )
+        );
+        parsedData.add(
+                new Raw(
+                        data[6] | data[7] << 8,
+                        getMotorId(),
+                        Type.MAGNETIZING_CURRENT
+                )
+        );
+    }
+
+    private void readMotor2() {
+        parsedData.add(
+                new Raw(
+                        (data[0] | data[1] << 8) / 10,
+                        getMotorId(),
+                        Type.TEMPERATURE_MOTOR
+                )
+        );
+        parsedData.add(
+                new Raw(
+                        (data[2] | data[3] << 8) / 10,
+                        getMotorId(),
+                        Type.TEMPERATURE_INVERTER
+                )
+        );
+        parsedData.add(
+                new Raw(
+                        (data[4] | data[5] << 8) / 10,
+                        getMotorId(),
+                        Type.TEMPERATURE_IGBT
+                )
+        );
+        parsedData.add(
+                new Raw(
+                        data[6] | data[7] << 8,
+                        getMotorId(),
+                        Type.ERROR_INFO
+                )
+        );
     }
 
     public int getValueType() {
@@ -65,26 +176,7 @@ public class Parser {
         return 0;
     }
 
-    public void parseType() {
-        // todo parse
-        Type[] all = Type.values();  // get the array
-        int randomNum = new Random().nextInt(all.length);  // random int
-        dataType = all[randomNum];  // get the random obj
-    }
-
-    public Type getDataType() {
-        return dataType;
-    }
-
-    public double getMotorValue() {
-        return motorValue;
-    }
-
-    public Raw buildRawData() {
-        return new Raw(
-                getMotorValue(),
-                getMotorId(),
-                getDataType()
-        );
+    public Raw[] getParsedData() {
+        return parsedData.toArray(new Raw[parsedData.size()]);
     }
 }

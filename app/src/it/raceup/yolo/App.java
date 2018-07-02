@@ -49,8 +49,10 @@ public class App extends Debugger {
         t.schedule(new TimerTask() {
             @Override
             public void run() {
-                Raw value = controller.getMostRecentValue();
-                view.update(value);
+                Raw[] buffer = controller.getBuffer();
+                for (Raw data : buffer) {
+                    view.update(data);
+                }
             }
         }, 0, 100);
 
