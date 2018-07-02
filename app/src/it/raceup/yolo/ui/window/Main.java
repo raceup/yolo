@@ -166,4 +166,7 @@ public class Main extends JFrame {
         new AboutDialog(this, content, title).setVisible(true);
     }
 
+    public void close() {
+        setVisible(false);
+    }
 }

@@ -49,7 +49,7 @@ public class App extends Debugger {
             controller.startConnection();
         } catch (YoloException e) {
             System.err.println(e.toString());
-        }  // start logging Kvaser data
+        }  // start retrieving Kvaser data
 
         Timer t = new Timer();
         t.schedule(new TimerTask() {
@@ -61,7 +61,7 @@ public class App extends Debugger {
                         try {
                             view.update(data);
                         } catch (Exception e) {
-                            System.err.println("Cannot get update view");
+                            System.err.println("Cannot update view");
                             System.err.println("\t" + e.toString());
                         }
 
@@ -78,6 +78,11 @@ public class App extends Debugger {
                 }
             }
         }, 0, 100);
+    }
 
+    @Override
+    public void finalize() {
+        view.close();
+        logger.save();
     }
 }
