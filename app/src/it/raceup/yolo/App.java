@@ -58,9 +58,6 @@ public class App extends Debugger {
             System.err.println(e.toString());
         }  // start retrieving Kvaser data
 
-        logger.appendWithTime("hello world");
-        logger.appendWithTime("hello world 1");
-
         Timer t = new Timer();
         t.schedule(new TimerTask() {
             @Override
