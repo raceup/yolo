@@ -91,11 +91,11 @@ public class RestActivity {
         restServiceCanFlushRx.addParam("func", Integer.toString(CanlibRest.canIOCTL_FLUSH_RX_BUFFER));
     }
 
-    private String parseResult(String json_text) {
+    private String parseResult(String jsonText) {
         String log = "";
 
         try {
-            JSONTokener jsonTokener = new JSONTokener(json_text);
+            JSONTokener jsonTokener = new JSONTokener(jsonText);
             JSONObject json = (JSONObject) jsonTokener.nextValue();
             int canStatus;
             int ident = json.getInt("ident");
@@ -129,7 +129,7 @@ public class RestActivity {
                     log = CanlibRest.getErrorText(canStatus);
             }
         } catch (Exception e) {
-            log = "Get: Failed to parse JSON: " + json_text;
+            log = "Get: Failed to parse JSON: " + jsonText;
         }
 
         return log;

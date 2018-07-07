@@ -13,7 +13,7 @@ public class CanlibRest {
     private static final HashMap<Integer, String> errorMap;
 
     static {
-        errorMap = new HashMap<Integer, String>();
+        errorMap = new HashMap<>();
         errorMap.put(canOK, "canOK");
         errorMap.put(-1, "canERR_PARAM");
         errorMap.put(-2, "canERR_NOMSG");
@@ -69,5 +69,4 @@ public class CanlibRest {
         }
         return errorString;
     }
-
 }

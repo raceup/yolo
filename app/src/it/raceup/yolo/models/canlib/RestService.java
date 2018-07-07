@@ -14,12 +14,12 @@ public class RestService {
     public final static int DELETE = 4;
 
     private String url;
-    private int RequestType;
+    private int requestType;
     private ArrayList<ParcelableNameValuePair> params;
 
     public RestService(String url, int RequestType) {
         this.url = url;
-        this.RequestType = RequestType;
+        this.requestType = RequestType;
         params = new ArrayList<>();
     }
 
