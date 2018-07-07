@@ -50,6 +50,7 @@ public class Kvaser {
     }
 
     private void setup() throws obj.CanlibException {
+        Canlib.ICanlib canInstance = Canlib.ICanlib.INSTANCE;
         handle = new Handle(0);  // Set up the channel and going on bus
         handle.setBusParams(this.canBitrate, 0, 0, 0, 0, 0);
     }
