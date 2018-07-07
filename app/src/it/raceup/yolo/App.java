@@ -23,6 +23,7 @@ public class App extends Debugger {
     private static final String logFile = System.getProperty("user.dir") +
             "/logs/" + getTimeNow("YYYY-MM-dd_HH-mm-ss") + ".log";
     private final FileLogger logger = new FileLogger(logFile);
+    private static final int updateMs = 150;
 
     public App() {
         setup();
@@ -62,11 +63,16 @@ public class App extends Debugger {
         t.schedule(new TimerTask() {
             @Override
             public void run() {
+                System.out.println("[" + System.currentTimeMillis() + "]: " +
+                        "new run");
                 try {
                     Raw[] buffer = controller.getBuffer();
+                    System.out.println("\tData received: " + buffer.length);
+
                     for (Raw data : buffer) {
                         try {
                             view.update(data);
+                            System.out.println("\t\t" + data.toString());
                         } catch (Exception e) {
                             System.err.println("Cannot update view");
                             System.err.println("\t" + e.toString());
@@ -80,11 +86,11 @@ public class App extends Debugger {
                         }
                     }
                 } catch (Exception e) {
-                    System.err.println("Cannot get current Kvaser buffer");
-                    System.err.println("\t" + e.toString());
+                    System.err.println("\tCannot get current Kvaser buffer (" +
+                            e.toString() + ")");
                 }
             }
-        }, 0, 100);
+        }, 0, updateMs);
     }
 
     private void close() {
