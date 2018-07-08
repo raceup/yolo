@@ -1,11 +1,15 @@
 package it.raceup.yolo.models.kvaser;
 
 import it.raceup.yolo.models.data.CanMessage;
+import it.raceup.yolo.utils.Logger;
 
-public abstract class Kvaser {
-    public static String TAG = "KVASER";
+public abstract class Kvaser extends Logger {
+    public Kvaser() {
+        TAG = "KVASER";
+    }
 
-    public void setup(int canBitrate) {
+    public boolean setup(int canBitrate) {
+        return false;
     }
 
     public CanMessage[] read() {
@@ -17,11 +21,5 @@ public abstract class Kvaser {
     }
 
     public void close() {
-    }
-
-    protected void logAction(String message) {
-        String timing = "[" + System.currentTimeMillis() + "]";
-        String content = ": " + message;
-        System.out.println(timing + " " + TAG + content);
     }
 }

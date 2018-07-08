@@ -5,9 +5,9 @@ import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.logging.FileLogger;
 import it.raceup.yolo.models.Car;
 import it.raceup.yolo.models.data.Raw;
+import it.raceup.yolo.models.kvaser.Kvaser;
 import it.raceup.yolo.models.kvaser.RemoteKvaser;
 import it.raceup.yolo.ui.window.Main;
-import it.raceup.yolo.utils.Debugger;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -16,8 +16,8 @@ import java.util.TimerTask;
 
 import static it.raceup.yolo.utils.Utils.getTimeNow;
 
-public class App extends Debugger {
-    private RemoteKvaser kvaser;
+public class App {
+    private Kvaser kvaser;
     private Hal controller;
     private Main view;
     private static final String logFile = System.getProperty("user.dir") +

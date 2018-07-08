@@ -18,29 +18,34 @@ public class RemoteKvaser extends Kvaser {
 
     public RemoteKvaser(String scheme, String host, int port) {
         url = getUrl(scheme, host, port);
-        TAG = "REMOTEKVASER@" + url;
+        TAG = "REMOTE_KVASER @" + url;
         restActivity = new RestActivity(url);
     }
 
     @Override
-    public void setup(int canBitrate) {
+    public boolean setup(int canBitrate) {
         if (openConnection()) {
             logAction("connected!");
         } else {
             logAction("can't connect");
+            return false;
         }
 
         if (setupCan(0, 8, 4, canBitrate)) {
             logAction("CAN up");
         } else {
             logAction("can't open CAN");
+            return false;
         }
 
         if (onBus()) {
             logAction("on bus");
         } else {
             logAction("can't on bus");
+            return false;
         }
+
+        return true;
     }
 
     private static String getUrl(String scheme, String host, int port) {
