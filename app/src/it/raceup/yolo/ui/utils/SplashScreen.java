@@ -68,7 +68,7 @@ class SplashScreen extends JFrame implements Runnable {
         JPanel statusPanel = new JPanel();  // where status bar will be
         statusPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
         statusPanel.setPreferredSize(new Dimension(getWidth(),
-                statusBarHeight));  // setup statusbar
+                statusBarHeight));  // createServices statusbar
         statusPanel.setLayout(new BoxLayout(statusPanel, BoxLayout.X_AXIS));
 
         statusBar = new JLabel("");

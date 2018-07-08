@@ -1,11 +1,14 @@
 package it.raceup.yolo.models.canlib;
 
+import org.apache.http.client.utils.URIBuilder;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import static it.raceup.yolo.models.canlib.RestService.GET;
+import static it.raceup.yolo.models.canlib.RestService.*;
 
-
+/**
+ * Sends/receives data to/from remote Kvaser
+ */
 public class RestActivity {
     public static final int IDENT_DEVICE_STATUS = 1;
     public static final int IDENT_INIT = 2;
@@ -20,75 +23,86 @@ public class RestActivity {
     public static final int IDENT_UNLOAD = 11;
     public static final int IDENT_WRITE = 12;
     private static final int CLEAR_ID = 1;
-    String bitRateConstant = "-4";
-    String driverType = "4";
-    private RestService restServiceDeviceStatus,
-            restServiceCanInit,
-            restServiceCanOpenChannel,
-            restServiceCanRead,
-            restServiceCanBusOn,
-            restServiceCanBusOff,
-            restServiceCanSetBusOutputControl,
-            restServiceCanSetBusParams,
-            restServiceCanClose,
-            restServiceCanUnloadLibrary,
-            restServiceCanFlushRx;
+    private String bitRateConstant = "-4";
+    private String driverType = "4";
+    private RestService restServiceDeviceStatus;
+    private RestService restServiceCanInit;
+    private RestService restServiceCanOpenChannel;
+    private RestService restServiceCanRead;
+    private RestService restServiceCanBusOn;
+    private RestService restServiceCanBusOff;
+    private RestService restServiceCanSetBusOutputControl;
+    private RestService restServiceCanSetBusParams;
+    private RestService restServiceCanClose;
+    private RestService restServiceCanUnloadLibrary;
+    private RestService restServiceCanFlushRx;
     private String url;
     private String session;
     private int canHandle = 0;
     private int hnd;
 
-    public RestActivity(String url) {
-        this.url = url;
-
-        setup();
+    public RestActivity(String url, String session) {
+        this.url = getUrl(url, session);
+        this.session = session;
+        createServices();
     }
 
-    public void setup() {
-        restServiceDeviceStatus = new RestService(url + "/deviceStatus", GET);
-        restServiceDeviceStatus.addParam("ident", Integer.toString(IDENT_DEVICE_STATUS));
+    public RestActivity(String url) {
+        this(url, null);
+    }
 
-        restServiceCanInit = new RestService(url + "/deviceStatus", GET);
-        restServiceCanInit.addParam("ident", Integer.toString(IDENT_INIT));
+    private static String getUrl(String baseUrl, String session) {
+        try {
+            URIBuilder uriBuilder = new URIBuilder(baseUrl);
+            uriBuilder.setPath(session);
+            return uriBuilder.toString();
+        } catch (Exception e) {
+            return baseUrl;
+        }
+    }
 
-        restServiceCanOpenChannel = new RestService(url + "/deviceStatus", GET);
-        restServiceCanOpenChannel.addParam("ident", Integer.toString(IDENT_OPEN_CHANNEL));
-        restServiceCanOpenChannel.addParam("channel", "0");
-        restServiceCanOpenChannel.addParam("flags", "0");
+    public RestService getRestServiceDeviceStatus() {
+        return restServiceDeviceStatus;
+    }
 
-        restServiceCanRead = new RestService(url + "/deviceStatus", GET);
-        restServiceCanRead.addParam("ident", Integer.toString(IDENT_READ));
-        restServiceCanRead.addParam("hnd", Integer.toString(canHandle));
+    public RestService getRestServiceCanInit() {
+        return restServiceCanInit;
+    }
 
-        restServiceCanBusOn = new RestService(url + "/deviceStatus", GET);
-        restServiceCanBusOn.addParam("ident", Integer.toString(IDENT_BUS_ON));
-        restServiceCanBusOn.addParam("hnd", Integer.toString(canHandle));
+    public RestService getRestServiceCanOpenChannel() {
+        return restServiceCanOpenChannel;
+    }
 
-        restServiceCanBusOff = new RestService(url + "/deviceStatus", GET);
-        restServiceCanBusOff.addParam("ident", Integer.toString(IDENT_BUS_OFF));
-        restServiceCanBusOff.addParam("hnd", Integer.toString(canHandle));
+    public RestService getRestServiceCanRead() {
+        return restServiceCanRead;
+    }
 
-        restServiceCanSetBusOutputControl = new RestService(url + "/deviceStatus", GET);
-        restServiceCanSetBusOutputControl.addParam("ident", Integer.toString(IDENT_SET_BUS_OUTPUT_CONTROL));
-        restServiceCanSetBusOutputControl.addParam("hnd", Integer.toString(canHandle));
-        restServiceCanSetBusOutputControl.addParam("drivertype", driverType);
+    public RestService getRestServiceCanBusOn() {
+        return restServiceCanBusOn;
+    }
 
-        restServiceCanSetBusParams = new RestService(url + "/deviceStatus", GET);
-        restServiceCanSetBusParams.addParam("ident", Integer.toString(IDENT_SET_BUS_PARAMS));
-        restServiceCanSetBusParams.addParam("hnd", Integer.toString(canHandle));
-        restServiceCanSetBusParams.addParam("freq", bitRateConstant);
+    public RestService getRestServiceCanBusOff() {
+        return restServiceCanBusOff;
+    }
 
-        restServiceCanClose = new RestService(url + "/deviceStatus", GET);
-        restServiceCanClose.addParam("ident", Integer.toString(IDENT_CLOSE_CHANNEL));
-        restServiceCanClose.addParam("hnd", Integer.toString(canHandle));
+    public RestService getRestServiceCanSetBusOutputControl() {
+        return restServiceCanSetBusOutputControl;
+    }
 
-        restServiceCanUnloadLibrary = new RestService(url + "/deviceStatus", GET);
-        restServiceCanUnloadLibrary.addParam("ident", Integer.toString(IDENT_UNLOAD));
+    public RestService getRestServiceCanSetBusParams() {
+        return restServiceCanSetBusParams;
+    }
 
-        restServiceCanFlushRx = new RestService(url + "/deviceStatus", GET);
-        restServiceCanFlushRx.addParam("ident", Integer.toString(IDENT_FLUSH_RX));
-        restServiceCanFlushRx.addParam("hnd", Integer.toString(canHandle));
-        restServiceCanFlushRx.addParam("func", Integer.toString(CanlibRest.canIOCTL_FLUSH_RX_BUFFER));
+    public RestService getRestServiceCanClose() {
+        return restServiceCanClose;
+    }
+
+    public RestService getRestServiceCanUnloadLibrary() {
+        return restServiceCanUnloadLibrary;
+    }
+
+    public RestService getRestServiceCanFlushRx() {
+        return restServiceCanFlushRx;
     }
 
     private String parseResult(String jsonText) {
@@ -151,6 +165,20 @@ public class RestActivity {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    private void createServices() {
+        restServiceDeviceStatus = new RestService(url, DEVICE_STATUS, IDENT_DEVICE_STATUS);
+        restServiceCanInit = new RestService(url, CAN_INITIALIZE_LIBRARY, IDENT_INIT);
+        restServiceCanOpenChannel = new RestService(url, CAN_OPEN_CHANNEL, IDENT_OPEN_CHANNEL);
+        restServiceCanRead = new RestService(url, CAN_READ, IDENT_READ);
+        restServiceCanBusOn = new RestService(url, CAN_BUS_ON, IDENT_BUS_ON);
+        restServiceCanBusOff = new RestService(url, CAN_BUS_OFF, IDENT_BUS_OFF);
+        restServiceCanSetBusOutputControl = new RestService(url, CAN_SET_BUS_OUTPUT_CONTROL, IDENT_SET_BUS_OUTPUT_CONTROL);
+        restServiceCanSetBusParams = new RestService(url, CAN_SET_BUS_PARAMS, IDENT_SET_BUS_PARAMS);
+        restServiceCanClose = new RestService(url, CAN_CLOSE, IDENT_CLOSE_CHANNEL);
+        restServiceCanUnloadLibrary = new RestService(url, CAN_UNLOAD_LIBRARY, IDENT_UNLOAD);
+        restServiceCanFlushRx = new RestService(url, CAN_FLUSH_RX, IDENT_FLUSH_RX);
     }
 }
 
