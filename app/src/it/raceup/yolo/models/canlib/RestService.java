@@ -17,20 +17,6 @@ public class RestService {
     public final static int POST = 2;
     public final static int PUT = 3;
     public final static int DELETE = 4;
-    public final static String DEVICE_STATUS = "/deviceStatus";
-    public final static String CAN_INITIALIZE_LIBRARY = "/canInitializeLibrary";
-    public final static String CAN_OPEN_CHANNEL = "/canOpenChannel";
-    public final static String CAN_READ = "/canRead";
-    public final static String CAN_WRITE = "/canWrite";
-    public final static String CAN_BUS_ON = "/canBusOn";
-    public final static String CAN_BUS_OFF = "/canBusOff";
-    public final static String CAN_SET_BUS_OUTPUT_CONTROL =
-            "/canSetBusOutputControl";
-    public final static String CAN_SET_BUS_PARAMS = "/canSetBusParams";
-    public final static String CAN_CLOSE = "/canClose";
-    public final static String CAN_UNLOAD_LIBRARY = "/canUnloadLibrary";
-    public final static String CAN_FLUSH_RX = "/canIoCtl";
-
     private String url;
     private ArrayList<ParcelableNameValuePair> params;
 

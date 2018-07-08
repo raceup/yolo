@@ -6,12 +6,12 @@ import org.json.JSONObject;
 
 import static it.raceup.yolo.models.canlib.CanlibRest.CAN_ERROR;
 import static it.raceup.yolo.models.canlib.CanlibRest.CAN_OK;
-import static it.raceup.yolo.models.canlib.RestService.*;
 
 /**
  * Sends/receives data to/from remote Kvaser
  */
 public class RestActivity {
+    // api keys
     public static final int IDENT_DEVICE_STATUS = 1;
     public static final int IDENT_INIT = 2;
     public static final int IDENT_OPEN_CHANNEL = 3;
@@ -24,6 +24,22 @@ public class RestActivity {
     public static final int IDENT_CLOSE_CHANNEL = 10;
     public static final int IDENT_UNLOAD = 11;
     public static final int IDENT_WRITE = 12;
+
+    // api endpoints
+    public final static String DEVICE_STATUS = "/deviceStatus";
+    public final static String CAN_INITIALIZE_LIBRARY = "/canInitializeLibrary";
+    public final static String CAN_OPEN_CHANNEL = "/canOpenChannel";
+    public final static String CAN_READ = "/canRead";
+    public final static String CAN_WRITE = "/canWrite";
+    public final static String CAN_BUS_ON = "/canBusOn";
+    public final static String CAN_BUS_OFF = "/canBusOff";
+    public final static String CAN_SET_BUS_OUTPUT_CONTROL =
+            "/canSetBusOutputControl";
+    public final static String CAN_SET_BUS_PARAMS = "/canSetBusParams";
+    public final static String CAN_CLOSE = "/canClose";
+    public final static String CAN_UNLOAD_LIBRARY = "/canUnloadLibrary";
+    public final static String CAN_FLUSH_RX = "/canIoCtl";
+
     private static final int CLEAR_ID = 1;
     private static final int SESSION_ID_LENGTH = 32;
     private String bitRateConstant = "-4";
@@ -276,9 +292,13 @@ public class RestActivity {
         }
     }
 
-    public boolean canIoCtl() {
+    public boolean canIoCtl(int func) {
         try {
-            return true;  // todo implement
+            RestService service = getRestServiceCanFlushRx();
+            service.addParam("hnd", Integer.toString(hnd));
+            service.addParam("func", Integer.toString(func));
+            JSONObject result = service.get();
+            return isOk(result);
         } catch (Exception e) {
             return false;
         }
