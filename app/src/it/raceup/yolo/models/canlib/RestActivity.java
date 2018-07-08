@@ -331,9 +331,16 @@ public class RestActivity {
         }
     }
 
-    public int canReadTimer() {
+    public long canReadTimer() {
         try {
-            return CAN_ERROR;  // todo implement
+            RestService service = getRestServiceCanReadTimer();
+            service.addParam("hnd", Integer.toString(hnd));
+            JSONObject result = service.get();
+            if (isOk(result)) {
+                return result.getLong("time");
+            }
+
+            return CAN_ERROR;
         } catch (Exception e) {
             return CAN_ERROR;
         }
