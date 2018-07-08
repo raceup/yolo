@@ -1,7 +1,7 @@
 package it.raceup.yolo.ui.window;
 
 import it.raceup.yolo.models.data.Raw;
-import it.raceup.yolo.models.kvaser.CableKvaser;
+import it.raceup.yolo.models.kvaser.Kvaser;
 import it.raceup.yolo.ui.component.CanMessageSender;
 import it.raceup.yolo.ui.component.MotorInfo;
 import it.raceup.yolo.ui.utils.AboutDialog;
@@ -10,7 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-import static it.raceup.yolo.models.Car.MOTOR_TAGS;
+import static it.raceup.yolo.models.car.Car.MOTOR_TAGS;
 
 public class Main extends JFrame {
     private static final String THIS_PACKAGE = "com.raceup.ed.bms.BmsGui";
@@ -22,7 +22,7 @@ public class Main extends JFrame {
     private final Motor[] motorWindows = new Motor[MOTOR_TAGS.length];
     private final CanMessageSender canPanel;
 
-    public Main(CableKvaser kvaser) {
+    public Main(Kvaser kvaser) {
         super("YOLO | Race Up Electric Division");
 
         for (int i = 0; i < MOTOR_TAGS.length; i++) {
@@ -107,16 +107,19 @@ public class Main extends JFrame {
     }
 
     public void update(Raw data) {
-        int motor = data.getMotor();
+        update(data.getMotor(), data.getType(), data.getRaw());
+    }
 
+    public void update(int motor, it.raceup.yolo.models.data.Type type,
+                       Double data) {
         try {
-            motorPanels[motor].update(data);
+            motorPanels[motor].update(type, data);
         } catch (Exception e) {
             System.err.println("update(Raw data): CANNOT UPDATE MOTOR PANEL");
         }
 
         try {
-            motorWindows[motor].update(data);
+            motorWindows[motor].update(type, data);
         } catch (Exception e) {
             System.err.println("update(Raw data): CANNOT UPDATE MOTOR WINDOW");
         }

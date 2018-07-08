@@ -102,15 +102,19 @@ public class Motor extends JFrame {
     }
 
     public void update(Raw data) {
-        String value = Double.toString(data.getRaw());
-        if (isTemperature(data.getType())) {
-            int tableRow = Arrays.asList(TEMPERATURES).indexOf(data.getType());
+        update(data.getType(), data.getRaw());
+    }
+
+    public void update(it.raceup.yolo.models.data.Type type, Double data) {
+        String value = Double.toString(data);
+        if (isTemperature(type)) {
+            int tableRow = Arrays.asList(TEMPERATURES).indexOf(type);
             temperature.setValueAt(value, tableRow, 1);
-        } else if (isSetPoint(data.getType())) {
-            int tableRow = Arrays.asList(SET_POINTS).indexOf(data.getType());
+        } else if (isSetPoint(type)) {
+            int tableRow = Arrays.asList(SET_POINTS).indexOf(type);
             sp.setValueAt(value, tableRow, 1);
-        } else if (isFlag(data.getType())) {
-            int tableRow = Arrays.asList(FLAGS).indexOf(data.getType());
+        } else if (isFlag(type)) {
+            int tableRow = Arrays.asList(FLAGS).indexOf(type);
             flags.setValueAt(value, tableRow, 1);
         }
     }

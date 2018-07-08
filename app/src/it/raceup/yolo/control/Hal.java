@@ -2,12 +2,14 @@ package it.raceup.yolo.control;
 
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
-import it.raceup.yolo.models.Car;
+import it.raceup.yolo.models.car.Car;
+import it.raceup.yolo.models.data.CanMessage;
 import it.raceup.yolo.models.data.Parser;
 import it.raceup.yolo.models.data.Raw;
 import it.raceup.yolo.models.data.Type;
 import it.raceup.yolo.models.kvaser.Kvaser;
 
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -19,7 +21,6 @@ import static core.Canlib.canBITRATE_1M;
 public class Hal {
     private Car car;
     private Kvaser kvaser;
-    private Raw[] buffer;
 
     public Hal(Car car, Kvaser kvaser) {
         this.car = car;
@@ -32,11 +33,10 @@ public class Hal {
             t.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    // todo get kvaser data
-                    buffer = new Parser(0, new byte[]{0}).getParsedData();
-                    update();
+                    CanMessage[] messages = kvaser.read();
+                    update(messages);
                 }
-            }, 0, 10);
+            }, 0, 100);
         } else {
             throw new YoloException("Cannot start Kvaser connection",
                     ExceptionType.KVASER);
@@ -47,9 +47,20 @@ public class Hal {
         kvaser.close();
     }
 
-    private void update() {
-        for (Raw data : buffer) {
-            car.update(data);
+    private void update(Raw data) {
+        car.update(data);
+    }
+
+    private void update(Raw[] data) {
+        for (Raw raw : data) {
+            update(raw);
+        }
+    }
+
+    private void update(CanMessage[] messages) {
+        for (CanMessage message : messages) {
+            Raw[] data = new Parser(message).getParsedData();
+            update(data);
         }
     }
 
@@ -57,7 +68,20 @@ public class Hal {
         return car.get(type, motor);
     }
 
-    public Raw[] getBuffer() {
-        return buffer;
+    public HashMap<Type, Double> getInfo(int motor) {
+        HashMap<Type, Double> info = new HashMap<>();
+        for (Type type : Type.values()) {
+            Double value = null;
+            try {
+                value = get(type, motor);
+            } catch (Exception e) {
+            }
+            info.put(type, value);
+        }
+        return info;
+    }
+
+    public int numberOfMotors() {
+        return car.numberOfMotors();
     }
 }

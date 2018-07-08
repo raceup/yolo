@@ -113,7 +113,7 @@ public class RemoteKvaser extends Kvaser {
     }
 
     private boolean closeCan() {
-        return restActivity.canClose();
+        return offBus() && restActivity.canClose();
     }
 
     private boolean closeConnection() {

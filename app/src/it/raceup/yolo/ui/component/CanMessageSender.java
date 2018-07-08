@@ -1,6 +1,6 @@
 package it.raceup.yolo.ui.component;
 
-import it.raceup.yolo.models.kvaser.CableKvaser;
+import it.raceup.yolo.models.kvaser.Kvaser;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,9 +10,9 @@ public class CanMessageSender extends JPanel {
     private final JTextField editorMessage = new JTextField();
     private final JButton sendButton = new JButton("SEND");
     private String currentId, currentMessage;
-    private final CableKvaser kvaser;
+    private final Kvaser kvaser;
 
-    public CanMessageSender(CableKvaser kvaser) {
+    public CanMessageSender(Kvaser kvaser) {
         setup();
         this.kvaser = kvaser;
     }

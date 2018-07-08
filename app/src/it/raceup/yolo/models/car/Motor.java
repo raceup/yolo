@@ -1,4 +1,4 @@
-package it.raceup.yolo.models;
+package it.raceup.yolo.models.car;
 
 import it.raceup.yolo.models.data.Raw;
 import it.raceup.yolo.models.data.Type;

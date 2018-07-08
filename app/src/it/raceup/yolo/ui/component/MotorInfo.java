@@ -1,6 +1,7 @@
 package it.raceup.yolo.ui.component;
 
 import it.raceup.yolo.models.data.Raw;
+import it.raceup.yolo.models.data.Type;
 
 import javax.swing.*;
 import java.awt.*;
@@ -71,13 +72,17 @@ public class MotorInfo extends JPanel {
         return table;
     }
 
-    public void update(Raw data) {
-        if (Arrays.asList(LABELS).contains(data.getType())) {
-            int tableRow = Arrays.asList(LABELS).indexOf(data.getType());
+    public void update(Type type, Double data) {
+        if (Arrays.asList(LABELS).contains(type)) {
+            int tableRow = Arrays.asList(LABELS).indexOf(type);
             if (tableRow >= 0) {
-                String value = Double.toString(data.getRaw());
+                String value = Double.toString(data);
                 table.setValueAt(value, tableRow, 1);
             }
         }
+    }
+
+    public void update(Raw data) {
+        update(data.getType(), data.getRaw());
     }
 }

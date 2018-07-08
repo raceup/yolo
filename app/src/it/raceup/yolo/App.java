@@ -3,20 +3,22 @@ package it.raceup.yolo;
 import it.raceup.yolo.control.Hal;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.logging.FileLogger;
-import it.raceup.yolo.models.Car;
-import it.raceup.yolo.models.data.Raw;
+import it.raceup.yolo.models.car.Car;
+import it.raceup.yolo.models.data.Type;
 import it.raceup.yolo.models.kvaser.Kvaser;
 import it.raceup.yolo.models.kvaser.RemoteKvaser;
 import it.raceup.yolo.ui.window.Main;
+import it.raceup.yolo.utils.Logger;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import static it.raceup.yolo.utils.Utils.getTimeNow;
 
-public class App {
+public class App extends Logger {
     private Kvaser kvaser;
     private Hal controller;
     private Main view;
@@ -26,6 +28,7 @@ public class App {
     private static final int updateMs = 150;
 
     public App() {
+        TAG = "APP";
         setup();
     }
 
@@ -56,41 +59,30 @@ public class App {
         try {
             controller.startConnection();
         } catch (YoloException e) {
-            System.err.println(e.toString());
-        }  // start retrieving CableKvaser data
+            logError(e.toString());
 
-        Timer t = new Timer();
-        t.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                System.out.println("[" + System.currentTimeMillis() + "]: " +
-                        "new run");
-                try {
-                    Raw[] buffer = controller.getBuffer();
-                    System.out.println("\tData received: " + buffer.length);
-
-                    for (Raw data : buffer) {
-                        try {
-                            view.update(data);
-                            System.out.println("\t\t" + data.toString());
-                        } catch (Exception e) {
-                            System.err.println("Cannot update view");
-                            System.err.println("\t" + e.toString());
-                        }
-
-                        try {
-                            logger.appendWithTime(data.toString());
-                        } catch (Exception e) {
-                            System.err.println("Cannot log");
-                            System.err.println("\t" + e.toString());
-                        }
+            Timer t = new Timer();
+            t.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    try {
+                        updateView();
+                    } catch (Exception e) {
+                        logError("error while updating");
                     }
-                } catch (Exception e) {
-                    System.err.println("\tCannot get current CableKvaser buffer (" +
-                            e.toString() + ")");
                 }
+            }, 0, updateMs);
+        }
+    }
+
+    private void updateView() {
+        for (int i = 0; i < controller.numberOfMotors(); i++) {
+            HashMap<Type, Double> info = controller.getInfo(i);
+            for (Type type : info.keySet()) {
+                view.update(i, type, info.get(type));
             }
-        }, 0, updateMs);
+            // todo log with logger
+        }
     }
 
     private void close() {
