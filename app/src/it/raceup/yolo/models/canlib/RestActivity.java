@@ -1,6 +1,7 @@
 package it.raceup.yolo.models.canlib;
 
 import org.apache.http.client.utils.URIBuilder;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import static it.raceup.yolo.models.canlib.CanlibRest.CAN_ERROR;
@@ -238,11 +239,19 @@ public class RestActivity {
         }
     }
 
-    public JSONObject[] canRead() {
+    public JSONArray canRead(int max) {
         try {
-            return new JSONObject[]{};  // todo implement
+            RestService service = getRestServiceCanRead();
+            service.addParam("hnd", Integer.toString(hnd));
+            service.addParam("max", Integer.toString(max));
+            JSONObject result = service.get();
+            if (isOk(result)) {
+                return result.getJSONArray("msgs");
+            }
+
+            return new JSONArray();
         } catch (Exception e) {
-            return new JSONObject[]{};
+            return new JSONArray();
         }
     }
 
