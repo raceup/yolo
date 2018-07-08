@@ -192,9 +192,9 @@ public class RestActivity {
         }
     }
 
-    public boolean canSetBusParams(int hnd, int freq) {
+    public boolean canSetBusParams(int freq) {
         try {
-            RestService service = getRestServiceCanClose();
+            RestService service = getRestServiceCanSetBusParams();
             service.addParam("hnd", Integer.toString(hnd));
             service.addParam("freq", Integer.toString(freq));
             JSONObject result = service.get();
@@ -204,9 +204,12 @@ public class RestActivity {
         }
     }
 
-    public boolean canBusOn(int hnd) {
+    public boolean canBusOn() {
         try {
-            return true;  // todo implement
+            RestService service = getRestServiceCanBusOn();
+            service.addParam("hnd", Integer.toString(hnd));
+            JSONObject result = service.get();
+            return isOk(result);
         } catch (Exception e) {
             return false;
         }
