@@ -47,6 +47,16 @@ public class RestActivity {
     private int canHandle = 0;
     private int hnd;
 
+    private static String getUrl(String baseUrl, String session) {
+        try {
+            URIBuilder uriBuilder = new URIBuilder(baseUrl);
+            uriBuilder.setPath(session);
+            return uriBuilder.toString();
+        } catch (Exception e) {
+            return baseUrl;
+        }
+    }
+
     public RestActivity(String url, String session) {
         this.baseUrl = url;
         this.url = getUrl(url, session);
@@ -57,6 +67,8 @@ public class RestActivity {
     public RestActivity(String url) {
         this(url, null);
     }
+
+    ///////////////////////////////////////////////////////////// Rest Services
 
     public RestService getRestServiceDeviceStatus() {
         return restServiceDeviceStatus;
@@ -102,61 +114,25 @@ public class RestActivity {
         return restServiceCanFlushRx;
     }
 
-    private static String getUrl(String baseUrl, String session) {
-        try {
-            URIBuilder uriBuilder = new URIBuilder(baseUrl);
-            uriBuilder.setPath(session);
-            return uriBuilder.toString();
-        } catch (Exception e) {
-            return baseUrl;
-        }
+    private void createServices() {
+        restServiceDeviceStatus = new RestService(baseUrl, DEVICE_STATUS,
+                IDENT_DEVICE_STATUS);
+        restServiceCanInit = new RestService(baseUrl, CAN_INITIALIZE_LIBRARY,
+                IDENT_INIT);
+        restServiceCanOpenChannel = new RestService(url, CAN_OPEN_CHANNEL, IDENT_OPEN_CHANNEL);
+        restServiceCanRead = new RestService(url, CAN_READ, IDENT_READ);
+        restServiceCanBusOn = new RestService(url, CAN_BUS_ON, IDENT_BUS_ON);
+        restServiceCanBusOff = new RestService(url, CAN_BUS_OFF, IDENT_BUS_OFF);
+        restServiceCanSetBusOutputControl = new RestService(url, CAN_SET_BUS_OUTPUT_CONTROL, IDENT_SET_BUS_OUTPUT_CONTROL);
+        restServiceCanSetBusParams = new RestService(url, CAN_SET_BUS_PARAMS, IDENT_SET_BUS_PARAMS);
+        restServiceCanClose = new RestService(url, CAN_CLOSE, IDENT_CLOSE_CHANNEL);
+        restServiceCanUnloadLibrary = new RestService(url, CAN_UNLOAD_LIBRARY, IDENT_UNLOAD);
+        restServiceCanFlushRx = new RestService(url, CAN_FLUSH_RX, IDENT_FLUSH_RX);
     }
 
-    private String parseResult(String jsonText) {
-        String log = "";
+    //////////////////////////////////////////////////////////////// Canlib API
 
-        try {
-            JSONTokener jsonTokener = new JSONTokener(jsonText);
-            JSONObject json = (JSONObject) jsonTokener.nextValue();
-            int canStatus;
-            int ident = json.getInt("ident");
-            switch (ident) {
-                case IDENT_DEVICE_STATUS:
-                    int usage = json.getInt("usage");
-                    if (usage == CanlibRest.kvrDeviceUsage_FREE) {
-                        log = "\nkvrDeviceUsage_FREE";
-                    } else if (usage == CanlibRest.kvrDeviceUsage_REMOTE) {
-                        log = "\nkvrDeviceUsage_REMOTE";
-                    }
-                    break;
-                case IDENT_INIT:
-                    canStatus = json.getInt("stat");
-                    log = CanlibRest.getErrorText(canStatus);
-                    if (canStatus == CAN_OK) {
-                        session = json.getString("session");
-                    }
-                    break;
-                case IDENT_OPEN_CHANNEL:
-                    int hnd = json.getInt("hnd");
-                    canStatus = json.getInt("stat");
-                    log = CanlibRest.getErrorText(canStatus);
-                    if (canStatus == CAN_OK) {
-                        this.hnd = hnd;
-                    }
-                    break;
-
-                default:
-                    canStatus = json.getInt("stat");
-                    log = CanlibRest.getErrorText(canStatus);
-            }
-        } catch (Exception e) {
-            log = "Get: Failed to parse JSON: " + jsonText;
-        }
-
-        return log;
-    }
-
-    public int getDeviceStatus() {
+    public int deviceStatus() {
         try {
             JSONObject result = getRestServiceDeviceStatus().get();
             return result.getInt("usage");
@@ -165,16 +141,7 @@ public class RestActivity {
         }
     }
 
-    public boolean isDeviceFree() {
-        try {
-            int deviceStatus = getDeviceStatus();
-            return deviceStatus == CAN_OK;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public String getSession() {
+    public String canInitializeLibrary() {
         if (!isValidSession(session)) {
             try {
                 JSONObject result = getRestServiceCanInit().get();
@@ -192,25 +159,85 @@ public class RestActivity {
         return session;
     }
 
+    public boolean canUnloadLibrary() {
+        return false;  // todo implement
+    }
+
+    public int canOpenChannel() {
+        return CAN_ERROR;  // todo implement
+    }
+
+    public boolean canClose() {
+        return false;  // todo implement
+    }
+
+    public boolean canSetBusParams() {
+        return false;  // todo implement
+    }
+
+    public boolean canBusOn() {
+        return false;  // todo implement
+    }
+
+    public boolean canBusOff() {
+        return false;  // todo implement
+    }
+
+    public boolean canSetBusOutputControl() {
+        return false;  // todo implement
+    }
+
+    public JSONObject[] canRead() {
+        return new JSONObject[]{};  // todo implement
+    }
+
+    public boolean canWrite() {
+        return false;  // todo implement
+    }
+
+    public boolean canIoCtl() {
+        return false;  // todo implement
+    }
+
+    public int canReadTimer() {
+        return CAN_ERROR;  // todo implement
+    }
+
+    public boolean canAddFilter() {
+        return false;  // todo implement
+    }
+
+    public boolean canClearFilters() {
+        return false;  // todo implement
+    }
+
+    ///////////////////////////////////////////////////////////// Device status
+
+    public boolean isDeviceFree() {
+        try {
+            int deviceStatus = deviceStatus();
+            return deviceStatus == CAN_OK;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /////////////////////////////////////////////////////////////////// Session
+
     public void setSession(String session) {
         this.url = getUrl(this.baseUrl, session);
         createServices();  // reload services with session id
     }
 
-    private void createServices() {
-        restServiceDeviceStatus = new RestService(baseUrl, DEVICE_STATUS,
-                IDENT_DEVICE_STATUS);
-        restServiceCanInit = new RestService(baseUrl, CAN_INITIALIZE_LIBRARY,
-                IDENT_INIT);
-        restServiceCanOpenChannel = new RestService(url, CAN_OPEN_CHANNEL, IDENT_OPEN_CHANNEL);
-        restServiceCanRead = new RestService(url, CAN_READ, IDENT_READ);
-        restServiceCanBusOn = new RestService(url, CAN_BUS_ON, IDENT_BUS_ON);
-        restServiceCanBusOff = new RestService(url, CAN_BUS_OFF, IDENT_BUS_OFF);
-        restServiceCanSetBusOutputControl = new RestService(url, CAN_SET_BUS_OUTPUT_CONTROL, IDENT_SET_BUS_OUTPUT_CONTROL);
-        restServiceCanSetBusParams = new RestService(url, CAN_SET_BUS_PARAMS, IDENT_SET_BUS_PARAMS);
-        restServiceCanClose = new RestService(url, CAN_CLOSE, IDENT_CLOSE_CHANNEL);
-        restServiceCanUnloadLibrary = new RestService(url, CAN_UNLOAD_LIBRARY, IDENT_UNLOAD);
-        restServiceCanFlushRx = new RestService(url, CAN_FLUSH_RX, IDENT_FLUSH_RX);
+    private boolean isOk(String jsonText) {
+        try {
+            JSONTokener jsonTokener = new JSONTokener(jsonText);
+            JSONObject json = (JSONObject) jsonTokener.nextValue();
+            int canStatus = json.getInt("stat");
+            return canStatus == CAN_OK;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     private boolean isValidSession(String session) {
