@@ -1,7 +1,10 @@
 package it.raceup.yolo.models.kvaser;
 
 import it.raceup.yolo.models.canlib.RestActivity;
+import it.raceup.yolo.models.data.CanMessage;
 import org.apache.http.client.utils.URIBuilder;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class RemoteKvaser {
     public static final String HTTP_SCHEME = "http";
@@ -54,9 +57,18 @@ public class RemoteKvaser {
         return restActivity.canBusOff();
     }
 
-    public String[] readCan() {
-        // todo can read with max messages
-        return new String[]{};
+    public CanMessage[] readCan() {
+        try {
+            JSONArray raw = restActivity.canRead(Byte.MAX_VALUE);
+            CanMessage[] messages = new CanMessage[raw.length()];
+            for (int i = 0; i < raw.length(); i++) {
+                JSONObject message = raw.getJSONObject(i);
+                messages[i] = CanMessage.parseJson(message);
+            }
+            return messages;
+        } catch (Exception e) {
+            return new CanMessage[]{};
+        }
     }
 
     public boolean writeCan() {
