@@ -75,7 +75,7 @@ public class RestService {
         params.add(new ParcelableNameValuePair(name, value));
     }
 
-    public JSONObject execute() {
+    public JSONObject get() {
         try {
             URL requestUrl = getFullUrl();
             URLConnection connection = requestUrl.openConnection();

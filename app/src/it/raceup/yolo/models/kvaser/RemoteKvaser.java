@@ -27,8 +27,9 @@ public class RemoteKvaser {
     }
 
     public boolean setup() {
-        // todo check for device status
-        // todo call session init
+        if (restActivity.isDeviceFree()) {
+            String session = restActivity.getSession();
+        }
         // todo set can params
         return false;
     }

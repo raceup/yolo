@@ -4,6 +4,7 @@ import org.apache.http.client.utils.URIBuilder;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import static it.raceup.yolo.models.canlib.CanlibRest.canOK;
 import static it.raceup.yolo.models.canlib.RestService.*;
 
 /**
@@ -37,11 +38,13 @@ public class RestActivity {
     private RestService restServiceCanUnloadLibrary;
     private RestService restServiceCanFlushRx;
     private String url;
+    private String baseUrl;
     private String session;
     private int canHandle = 0;
     private int hnd;
 
     public RestActivity(String url, String session) {
+        this.baseUrl = url;
         this.url = getUrl(url, session);
         this.session = session;
         createServices();
@@ -49,16 +52,6 @@ public class RestActivity {
 
     public RestActivity(String url) {
         this(url, null);
-    }
-
-    private static String getUrl(String baseUrl, String session) {
-        try {
-            URIBuilder uriBuilder = new URIBuilder(baseUrl);
-            uriBuilder.setPath(session);
-            return uriBuilder.toString();
-        } catch (Exception e) {
-            return baseUrl;
-        }
     }
 
     public RestService getRestServiceDeviceStatus() {
@@ -105,6 +98,16 @@ public class RestActivity {
         return restServiceCanFlushRx;
     }
 
+    private static String getUrl(String baseUrl, String session) {
+        try {
+            URIBuilder uriBuilder = new URIBuilder(baseUrl);
+            uriBuilder.setPath(session);
+            return uriBuilder.toString();
+        } catch (Exception e) {
+            return baseUrl;
+        }
+    }
+
     private String parseResult(String jsonText) {
         String log = "";
 
@@ -125,7 +128,7 @@ public class RestActivity {
                 case IDENT_INIT:
                     canStatus = json.getInt("stat");
                     log = CanlibRest.getErrorText(canStatus);
-                    if (canStatus == CanlibRest.canOK) {
+                    if (canStatus == canOK) {
                         session = json.getString("session");
                     }
                     break;
@@ -133,7 +136,7 @@ public class RestActivity {
                     int hnd = json.getInt("hnd");
                     canStatus = json.getInt("stat");
                     log = CanlibRest.getErrorText(canStatus);
-                    if (canStatus == CanlibRest.canOK) {
+                    if (canStatus == canOK) {
                         this.hnd = hnd;
                     }
                     break;
@@ -149,27 +152,45 @@ public class RestActivity {
         return log;
     }
 
-    public JSONObject getDeviceStatus() {
+    public String getDeviceStatus() {
         try {
-            return restServiceDeviceStatus.execute();
+            JSONObject result = getRestServiceDeviceStatus().get();
+            String usage = result.getString("usage");
+            return usage;
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    public boolean isDeviceFree() {
+        try {
+            String deviceStatus = getDeviceStatus();
+            int status = Integer.parseInt(deviceStatus);
+            return status == canOK;
+        } catch (Exception e) {
+            return false;
         }
     }
 
     public String getSession() {
         try {
-            JSONObject result = restServiceCanInit.execute();
-            // todo validate result
-            return null;
+            JSONObject result = getRestServiceCanInit().get();
+            return result.getString("session");
         } catch (Exception e) {
             return null;
         }
     }
 
+    public void setSession() {
+        this.url = getUrl(this.baseUrl, session);
+        createServices();  // reload services with session id
+    }
+
     private void createServices() {
-        restServiceDeviceStatus = new RestService(url, DEVICE_STATUS, IDENT_DEVICE_STATUS);
-        restServiceCanInit = new RestService(url, CAN_INITIALIZE_LIBRARY, IDENT_INIT);
+        restServiceDeviceStatus = new RestService(baseUrl, DEVICE_STATUS,
+                IDENT_DEVICE_STATUS);
+        restServiceCanInit = new RestService(baseUrl, CAN_INITIALIZE_LIBRARY,
+                IDENT_INIT);
         restServiceCanOpenChannel = new RestService(url, CAN_OPEN_CHANNEL, IDENT_OPEN_CHANNEL);
         restServiceCanRead = new RestService(url, CAN_READ, IDENT_READ);
         restServiceCanBusOn = new RestService(url, CAN_BUS_ON, IDENT_BUS_ON);
