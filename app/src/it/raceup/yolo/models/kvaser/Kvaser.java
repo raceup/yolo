@@ -1,76 +1,27 @@
 package it.raceup.yolo.models.kvaser;
 
-import core.Canlib;
-import it.raceup.yolo.error.ExceptionType;
-import it.raceup.yolo.error.YoloException;
-import obj.Handle;
-import obj.Message;
+import it.raceup.yolo.models.data.CanMessage;
 
-public class Kvaser {
-    private Handle handle;
-    private int canBitrate;
+public abstract class Kvaser {
+    public static String TAG = "KVASER";
 
-    public Kvaser() throws YoloException {
-        this(Canlib.canBITRATE_1M);
+    public void setup(int canBitrate) {
     }
 
-    public Kvaser(int canBitrate) throws YoloException {
-        this.canBitrate = canBitrate;
-        try {
-            setup();
-        } catch (Exception e) {
-            throw new YoloException(e.getMessage(), ExceptionType.CANLIB);
-        }
+    public CanMessage[] read() {
+        return null;
     }
 
-    public boolean hasData() {
-        try {
-            return handle.hasMessage();
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public CanData getMostRecentData() {
-        try {
-            Message message = handle.read();
-            CanData data = new CanData(message);
-            return data;
-        } catch (Exception e) {
-            return null;
-        }
+    public boolean write(int id, byte[] data, int flags) {
+        return false;
     }
 
     public void close() {
-        try {
-            handle.busOff();  // Going off bus and closing channel
-            handle.close();
-        } catch (Exception e) {
-        }
     }
 
-    private void setup() throws obj.CanlibException {
-        Canlib.ICanlib canInstance = Canlib.ICanlib.INSTANCE;
-        handle = new Handle(0);  // Set up the channel and going on bus
-        handle.setBusParams(this.canBitrate, 0, 0, 0, 0, 0);
-    }
-
-    public boolean startConnection() {
-        try {
-            handle.busOn();
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public boolean sendMessage(int id, byte[] data, int flags) {
-        Message message = new Message(id, data, data.length, flags);
-        try {
-            handle.write(message);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+    protected void logAction(String message) {
+        String timing = "[" + System.currentTimeMillis() + "]";
+        String content = ": " + message;
+        System.out.println(timing + " " + TAG + content);
     }
 }

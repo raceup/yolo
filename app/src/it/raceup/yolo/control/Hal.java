@@ -6,7 +6,7 @@ import it.raceup.yolo.models.Car;
 import it.raceup.yolo.models.data.Parser;
 import it.raceup.yolo.models.data.Raw;
 import it.raceup.yolo.models.data.Type;
-import it.raceup.yolo.models.kvaser.Kvaser;
+import it.raceup.yolo.models.kvaser.CableKvaser;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -16,10 +16,10 @@ import java.util.TimerTask;
  */
 public class Hal {
     private Car car;
-    private Kvaser kvaser;
+    private CableKvaser kvaser;
     private Raw[] buffer;
 
-    public Hal(Car car, Kvaser kvaser) {
+    public Hal(Car car, CableKvaser kvaser) {
         this.car = car;
         this.kvaser = kvaser;
     }
@@ -30,8 +30,6 @@ public class Hal {
             t.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    // CanData data = kvaser.getMostRecentData();
-                    // Raw value = new Raw(data.getId(), data.getParsedData());
                     buffer = new Parser(0, new byte[]{0}).getParsedData();
                     update();
                 }

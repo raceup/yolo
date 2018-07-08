@@ -8,7 +8,7 @@ import static it.raceup.yolo.models.canlib.CanlibRest.CAN_ERROR;
 import static it.raceup.yolo.models.canlib.CanlibRest.CAN_OK;
 
 /**
- * Sends/receives data to/from remote Kvaser
+ * Sends/receives data to/from remote CableKvaser
  */
 public class RestActivity {
     // api keys
@@ -414,4 +414,3 @@ public class RestActivity {
         return String.join(",", bytes);
     }
 }
-

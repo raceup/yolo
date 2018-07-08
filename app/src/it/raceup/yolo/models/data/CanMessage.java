@@ -1,21 +1,21 @@
 package it.raceup.yolo.models.data;
 
+import obj.Message;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class CanMessage {
-    private int id;
+public class CanMessage extends Message {
     private int dlc;
-    private long time;
-    private int flag;
-    private byte[] data;
 
-    public CanMessage(int id, int dlc, long time, int flag, byte[] data) {
-        this.id = id;
+    public CanMessage(int id, byte[] data, int length, int flags, long time,
+                      int dlc) {
+        super(id, data, length, flags, time);
         this.dlc = dlc;
-        this.time = time;
-        this.flag = flag;
-        this.data = data;
+    }
+
+    public CanMessage(Message message) {
+        this(message.id, message.data, message.length, message.flags,
+                message.time, -1);
     }
 
     public static CanMessage parseJson(JSONObject message) {
@@ -27,10 +27,11 @@ public class CanMessage {
 
         return new CanMessage(
                 message.getInt("id"),
-                message.getInt("dlc"),
-                message.getInt("time"),
+                data,
+                data.length,
                 message.getInt("flag"),
-                data
+                message.getInt("time"),
+                message.getInt("dlc")
         );
     }
 
@@ -40,14 +41,6 @@ public class CanMessage {
 
     public int getDlc() {
         return dlc;
-    }
-
-    public long getTime() {
-        return time;
-    }
-
-    public int getFlag() {
-        return flag;
     }
 
     public byte[] getData() {

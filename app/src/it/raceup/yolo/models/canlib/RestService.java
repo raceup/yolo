@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * Contacts remote Kvaser web-server
+ * Contacts remote CableKvaser web-server
  */
 public class RestService {
     public final static int GET = 1;

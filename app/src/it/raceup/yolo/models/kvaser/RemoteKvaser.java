@@ -6,7 +6,7 @@ import org.apache.http.client.utils.URIBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class RemoteKvaser {
+public class RemoteKvaser extends Kvaser {
     public static final String HTTP_SCHEME = "http";
     public static final int PORT = 8080;
     private String url;
@@ -18,7 +18,29 @@ public class RemoteKvaser {
 
     public RemoteKvaser(String scheme, String host, int port) {
         url = getUrl(scheme, host, port);
+        TAG = "REMOTEKVASER@" + url;
         restActivity = new RestActivity(url);
+    }
+
+    @Override
+    public void setup(int canBitrate) {
+        if (openConnection()) {
+            logAction("connected!");
+        } else {
+            logAction("can't connect");
+        }
+
+        if (setupCan(0, 8, 4, canBitrate)) {
+            logAction("CAN up");
+        } else {
+            logAction("can't open CAN");
+        }
+
+        if (onBus()) {
+            logAction("on bus");
+        } else {
+            logAction("can't on bus");
+        }
     }
 
     private static String getUrl(String scheme, String host, int port) {
@@ -29,12 +51,12 @@ public class RemoteKvaser {
         return uriBuilder.toString();
     }
 
-    public boolean openConnection() {
+    private boolean openConnection() {
         return restActivity.canInitializeLibrary();
     }
 
-    public boolean setupCan(int channel, int flags, int driverType,
-                            int freq) {
+    private boolean setupCan(int channel, int flags, int driverType,
+                             int freq) {
         boolean isOk = restActivity.canOpenChannel(channel, flags);
         if (!isOk) {
             return false;
@@ -49,15 +71,15 @@ public class RemoteKvaser {
         return isOk;
     }
 
-    public boolean onBus() {
+    private boolean onBus() {
         return restActivity.canBusOn();
     }
 
-    public boolean offBus() {
+    private boolean offBus() {
         return restActivity.canBusOff();
     }
 
-    public CanMessage[] readCan() {
+    private CanMessage[] readCan() {
         try {
             JSONArray raw = restActivity.canRead(Byte.MAX_VALUE);
             CanMessage[] messages = new CanMessage[raw.length()];
@@ -71,15 +93,36 @@ public class RemoteKvaser {
         }
     }
 
-    public boolean writeCan(int id, int flag, byte[] msg, int dlc) {
+    @Override
+    public CanMessage[] read() {
+        return readCan();
+    }
+
+    private boolean writeCan(int id, int flag, byte[] msg, int dlc) {
         return restActivity.canWrite(id, flag, msg, dlc);
     }
 
-    public boolean closeCan() {
+    @Override
+    public boolean write(int id, byte[] data, int flags) {
+        return writeCan(id, flags, data, 4);  // todo check dlc
+    }
+
+    private boolean closeCan() {
         return restActivity.canClose();
     }
 
-    public boolean closeConnection() {
+    private boolean closeConnection() {
         return restActivity.canUnloadLibrary();
+    }
+
+    @Override
+    public void close() {
+        if (!closeCan()) {
+            logAction("cannot close CAN");
+        }
+
+        if (!closeConnection()) {
+            logAction("cannot close connection");
+        }
     }
 }

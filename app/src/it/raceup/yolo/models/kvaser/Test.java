@@ -1,5 +1,7 @@
 package it.raceup.yolo.models.kvaser;
 
+import it.raceup.yolo.models.data.CanMessage;
+
 import static core.Canlib.canBITRATE_1M;
 
 public class Test {
@@ -16,7 +18,7 @@ public class Test {
         isOk = kvaser.onBus();
         System.out.println(isOk);
 
-        String[] messages = kvaser.readCan();
+        CanMessage[] messages = kvaser.readCan();
         System.out.println(messages.length);
 
         isOk = kvaser.offBus();

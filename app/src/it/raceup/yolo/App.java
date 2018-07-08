@@ -5,7 +5,7 @@ import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.logging.FileLogger;
 import it.raceup.yolo.models.Car;
 import it.raceup.yolo.models.data.Raw;
-import it.raceup.yolo.models.kvaser.Kvaser;
+import it.raceup.yolo.models.kvaser.RemoteKvaser;
 import it.raceup.yolo.ui.window.Main;
 import it.raceup.yolo.utils.Debugger;
 
@@ -17,7 +17,7 @@ import java.util.TimerTask;
 import static it.raceup.yolo.utils.Utils.getTimeNow;
 
 public class App extends Debugger {
-    private Kvaser kvaser;
+    private RemoteKvaser kvaser;
     private Hal controller;
     private Main view;
     private static final String logFile = System.getProperty("user.dir") +
@@ -31,8 +31,8 @@ public class App extends Debugger {
 
     private void setup() {
         try {
-            kvaser = new Kvaser();
-        } catch (YoloException e) {
+            kvaser = new RemoteKvaser("192.168.0.100");  // todo test
+        } catch (Exception e) {
             System.out.println(e.toString());
         }
 
@@ -57,7 +57,7 @@ public class App extends Debugger {
             controller.startConnection();
         } catch (YoloException e) {
             System.err.println(e.toString());
-        }  // start retrieving Kvaser data
+        }  // start retrieving CableKvaser data
 
         Timer t = new Timer();
         t.schedule(new TimerTask() {
@@ -86,7 +86,7 @@ public class App extends Debugger {
                         }
                     }
                 } catch (Exception e) {
-                    System.err.println("\tCannot get current Kvaser buffer (" +
+                    System.err.println("\tCannot get current CableKvaser buffer (" +
                             e.toString() + ")");
                 }
             }
