@@ -365,7 +365,10 @@ public class RestActivity {
 
     public boolean canClearFilters() {
         try {
-            return true;  // todo implement
+            RestService service = getRestServiceCanClearFilters();
+            service.addParam("hnd", Integer.toString(hnd));
+            JSONObject result = service.get();
+            return isOk(result);
         } catch (Exception e) {
             return false;
         }
