@@ -192,15 +192,19 @@ public class RestActivity {
         }
     }
 
-    public boolean canSetBusParams() {
+    public boolean canSetBusParams(int hnd, int freq) {
         try {
-            return true;  // todo implement
+            RestService service = getRestServiceCanClose();
+            service.addParam("hnd", Integer.toString(hnd));
+            service.addParam("freq", Integer.toString(freq));
+            JSONObject result = service.get();
+            return isOk(result);
         } catch (Exception e) {
             return false;
         }
     }
 
-    public boolean canBusOn() {
+    public boolean canBusOn(int hnd) {
         try {
             return true;  // todo implement
         } catch (Exception e) {
