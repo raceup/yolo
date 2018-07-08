@@ -27,16 +27,7 @@ public class RemoteKvaser {
     }
 
     public boolean openConnection() {
-        if (restActivity.isDeviceFree()) {
-            String session = restActivity.canInitializeLibrary();
-            System.out.println(session);
-            if (session != null) {
-                restActivity.setSession(session);
-                return true;
-            }
-        }
-
-        return false;
+        return restActivity.canInitializeLibrary();
     }
 
     public boolean setupCan(int channel, int flags, int driverType,

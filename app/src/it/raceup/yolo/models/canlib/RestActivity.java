@@ -3,8 +3,6 @@ package it.raceup.yolo.models.canlib;
 import org.apache.http.client.utils.URIBuilder;
 import org.json.JSONObject;
 
-import java.util.NoSuchElementException;
-
 import static it.raceup.yolo.models.canlib.CanlibRest.CAN_ERROR;
 import static it.raceup.yolo.models.canlib.CanlibRest.CAN_OK;
 import static it.raceup.yolo.models.canlib.RestService.*;
@@ -140,22 +138,21 @@ public class RestActivity {
         }
     }
 
-    public String canInitializeLibrary() {
-        if (!isValidSession(session)) {
-            try {
-                JSONObject result = getRestServiceCanInit().get();
+    public boolean canInitializeLibrary() {
+        try {
+            JSONObject result = getRestServiceCanInit().get();
+            if (isOk(result)) {
                 String session = result.getString("session");
-                if (session.length() == SESSION_ID_LENGTH) {
-                    return session;
+                if (isValidSession(session)) {
+                    setSession(session);
+                    return true;
                 }
-
-                throw new NoSuchElementException("No session found");
-            } catch (Exception e) {
-                return null;
             }
-        }
 
-        return session;
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean canUnloadLibrary() {
@@ -167,11 +164,20 @@ public class RestActivity {
         }
     }
 
-    public int canOpenChannel() {
+    public boolean canOpenChannel(int channel, int flags) {
         try {
-            return CAN_ERROR;  // todo implement
+            RestService service = getRestServiceCanOpenChannel();
+            service.addParam("channel", Integer.toString(channel));
+            service.addParam("flags", Integer.toString(flags));
+            JSONObject result = service.get();
+            if (isOk(result)) {
+                hnd = result.getInt("hnd");
+                return true;
+            }
+
+            return false;
         } catch (Exception e) {
-            return CAN_ERROR;
+            return false;
         }
     }
 
@@ -278,6 +284,7 @@ public class RestActivity {
 
     public void setSession(String session) {
         this.url = getUrl(this.baseUrl, session);
+        this.session = session;
         createServices();  // reload services with session id
     }
 
