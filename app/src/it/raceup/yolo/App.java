@@ -60,7 +60,6 @@ public class App extends Logger {
             controller.startConnection();
         } catch (YoloException e) {
             logError(e.toString());
-
             Timer t = new Timer();
             t.schedule(new TimerTask() {
                 @Override
