@@ -1,7 +1,7 @@
 package it.raceup.yolo.models.kvaser;
 
+import it.raceup.yolo.logging.Logger;
 import it.raceup.yolo.models.data.CanMessage;
-import it.raceup.yolo.utils.Logger;
 
 public abstract class Kvaser extends Logger {
     public Kvaser() {

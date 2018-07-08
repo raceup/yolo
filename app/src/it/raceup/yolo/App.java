@@ -3,12 +3,12 @@ package it.raceup.yolo;
 import it.raceup.yolo.control.Hal;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.logging.FileLogger;
+import it.raceup.yolo.logging.Logger;
 import it.raceup.yolo.models.car.Car;
 import it.raceup.yolo.models.data.Type;
 import it.raceup.yolo.models.kvaser.Kvaser;
 import it.raceup.yolo.models.kvaser.RemoteKvaser;
 import it.raceup.yolo.ui.window.Main;
-import it.raceup.yolo.utils.Logger;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -79,10 +79,18 @@ public class App extends Logger {
         for (int i = 0; i < controller.numberOfMotors(); i++) {
             HashMap<Type, Double> info = controller.getInfo(i);
             for (Type type : info.keySet()) {
-                view.update(i, type, info.get(type));
+                Double value = info.get(type);
+
+                view.update(i, type, value);
+                log(i, type, value);
             }
-            // todo log with logger
         }
+    }
+
+    private void log(int motor, Type type, Double value) {
+        String log = Integer.toString(motor) + ": " + value.toString() +
+                " " + type.toString();
+        logger.appendWithTime(log);
     }
 
     private void close() {

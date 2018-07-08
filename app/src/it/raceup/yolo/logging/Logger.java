@@ -1,4 +1,4 @@
-package it.raceup.yolo.utils;
+package it.raceup.yolo.logging;
 
 import java.io.PrintStream;
 
