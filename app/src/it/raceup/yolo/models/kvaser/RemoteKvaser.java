@@ -7,6 +7,7 @@ public class RemoteKvaser {
     public static final String HTTP_SCHEME = "http";
     public static final int PORT = 8080;
     private String url;
+    private int hnd;
     private RestActivity restActivity;
 
     public RemoteKvaser(String ip) {
@@ -26,7 +27,7 @@ public class RemoteKvaser {
         return uriBuilder.toString();
     }
 
-    public boolean setupConnection() {
+    public boolean openConnection() {
         if (restActivity.isDeviceFree()) {
             String session = restActivity.getSession();
             System.out.println(session);
@@ -39,18 +40,46 @@ public class RemoteKvaser {
         return false;
     }
 
-    public boolean setupCan() {
-        // todo set can params
+    public boolean setupCan(int channel, int flags, int driverType,
+                            int freq) {
+        // todo open can to get hnd
+        // todo set bus control
+        // todo set bus param
+        return false;
+    }
+
+    public boolean onBus() {
+        // todo can bus on
+        return false;
+    }
+
+    public boolean offBus() {
+        // todo can bus off
+        return false;
+    }
+
+    public String[] readCan() {
+        // todo can read with max messages
+        return new String[]{};
+    }
+
+    public boolean writeCan() {
+        // todo write can
+        return false;
+    }
+
+    public boolean closeCan() {
+        // todo close can
+        return false;
+    }
+
+    public boolean closeConnection() {
+        // todo close connection
         return false;
     }
 
     public String[] getMessages() {
         // todo can read
         return new String[]{};
-    }
-
-    public boolean close() {
-        // todo unload library
-        return false;
     }
 }
