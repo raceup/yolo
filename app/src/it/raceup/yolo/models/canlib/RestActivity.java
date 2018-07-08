@@ -48,8 +48,6 @@ public class RestActivity {
 
     private static final int CLEAR_ID = 1;
     private static final int SESSION_ID_LENGTH = 32;
-    private String bitRateConstant = "-4";
-    private String driverType = "4";
     private RestService restServiceDeviceStatus;
     private RestService restServiceCanInit;
     private RestService restServiceCanOpenChannel;
@@ -68,7 +66,6 @@ public class RestActivity {
     private String url;
     private String baseUrl;
     private String session;
-    private int canHandle = CAN_ERROR;
     private int hnd = CAN_ERROR;
 
     private static String getUrl(String baseUrl, String session) {
@@ -92,7 +89,7 @@ public class RestActivity {
         this(url, null);
     }
 
-    ///////////////////////////////////////////////////////////// Rest Services
+    ///////////////////////////////////////////////////////////// rest services
 
     public RestService getRestServiceDeviceStatus() {
         return restServiceDeviceStatus;
@@ -177,7 +174,7 @@ public class RestActivity {
                 IDENT_CLEAR_FILTERS);
     }
 
-    //////////////////////////////////////////////////////////////// Canlib API
+    //////////////////////////////////////////////////////////////// canlib API
 
     public int deviceStatus() {
         try {
@@ -374,7 +371,7 @@ public class RestActivity {
         }
     }
 
-    ///////////////////////////////////////////////////////////// Device status
+    ///////////////////////////////////////////////////////////// device status
 
     public boolean isDeviceFree() {
         try {
@@ -385,7 +382,7 @@ public class RestActivity {
         }
     }
 
-    /////////////////////////////////////////////////////////////////// Session
+    /////////////////////////////////////////////////////////////////// session
 
     public void setSession(String session) {
         this.url = getUrl(this.baseUrl, session);
@@ -397,7 +394,7 @@ public class RestActivity {
         return session != null && session.length() == SESSION_ID_LENGTH;
     }
 
-    ///////////////////////////////////////////////////////////////////// Utils
+    ///////////////////////////////////////////////////////////////////// utils
 
     private boolean isOk(JSONObject jsonText) {
         try {

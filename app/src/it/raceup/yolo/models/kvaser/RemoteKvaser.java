@@ -32,20 +32,26 @@ public class RemoteKvaser {
 
     public boolean setupCan(int channel, int flags, int driverType,
                             int freq) {
-        // todo open can to get hnd
-        // todo set bus control
-        // todo set bus param
-        return false;
+        boolean isOk = restActivity.canOpenChannel(channel, flags);
+        if (!isOk) {
+            return false;
+        }
+
+        isOk = restActivity.canSetBusOutputControl(driverType);
+        if (!isOk) {
+            return false;
+        }
+
+        isOk = restActivity.canSetBusParams(freq);
+        return isOk;
     }
 
     public boolean onBus() {
-        // todo can bus on
-        return false;
+        return restActivity.canBusOn();
     }
 
     public boolean offBus() {
-        // todo can bus off
-        return false;
+        return restActivity.canBusOff();
     }
 
     public String[] readCan() {
