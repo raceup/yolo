@@ -217,7 +217,10 @@ public class RestActivity {
 
     public boolean canBusOff() {
         try {
-            return true;  // todo implement
+            RestService service = getRestServiceCanBusOff();
+            service.addParam("hnd", Integer.toString(hnd));
+            JSONObject result = service.get();
+            return isOk(result);
         } catch (Exception e) {
             return false;
         }
