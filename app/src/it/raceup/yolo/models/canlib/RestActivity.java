@@ -2,7 +2,6 @@ package it.raceup.yolo.models.canlib;
 
 import org.apache.http.client.utils.URIBuilder;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import java.util.NoSuchElementException;
 
@@ -44,8 +43,8 @@ public class RestActivity {
     private String url;
     private String baseUrl;
     private String session;
-    private int canHandle = 0;
-    private int hnd;
+    private int canHandle = CAN_ERROR;
+    private int hnd = CAN_ERROR;
 
     private static String getUrl(String baseUrl, String session) {
         try {
@@ -160,55 +159,108 @@ public class RestActivity {
     }
 
     public boolean canUnloadLibrary() {
-        return false;  // todo implement
+        try {
+            JSONObject result = getRestServiceCanUnloadLibrary().get();
+            return isOk(result);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public int canOpenChannel() {
-        return CAN_ERROR;  // todo implement
+        try {
+            return CAN_ERROR;  // todo implement
+        } catch (Exception e) {
+            return CAN_ERROR;
+        }
     }
 
     public boolean canClose() {
-        return false;  // todo implement
+        try {
+            return true;  // todo implement
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean canSetBusParams() {
-        return false;  // todo implement
+        try {
+            return true;  // todo implement
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean canBusOn() {
-        return false;  // todo implement
+        try {
+            return true;  // todo implement
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean canBusOff() {
-        return false;  // todo implement
+        try {
+            return true;  // todo implement
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean canSetBusOutputControl() {
-        return false;  // todo implement
+        try {
+            return true;  // todo implement
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public JSONObject[] canRead() {
-        return new JSONObject[]{};  // todo implement
+        try {
+            return new JSONObject[]{};  // todo implement
+        } catch (Exception e) {
+            return new JSONObject[]{};
+        }
     }
 
     public boolean canWrite() {
-        return false;  // todo implement
+        try {
+            return true;  // todo implement
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean canIoCtl() {
-        return false;  // todo implement
+        try {
+            return true;  // todo implement
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public int canReadTimer() {
-        return CAN_ERROR;  // todo implement
+        try {
+            return CAN_ERROR;  // todo implement
+        } catch (Exception e) {
+            return CAN_ERROR;
+        }
     }
 
     public boolean canAddFilter() {
-        return false;  // todo implement
+        try {
+            return true;  // todo implement
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean canClearFilters() {
-        return false;  // todo implement
+        try {
+            return true;  // todo implement
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     ///////////////////////////////////////////////////////////// Device status
@@ -229,19 +281,19 @@ public class RestActivity {
         createServices();  // reload services with session id
     }
 
-    private boolean isOk(String jsonText) {
+    private boolean isValidSession(String session) {
+        return session != null && session.length() == SESSION_ID_LENGTH;
+    }
+
+    ///////////////////////////////////////////////////////////////////// Utils
+
+    private boolean isOk(JSONObject jsonText) {
         try {
-            JSONTokener jsonTokener = new JSONTokener(jsonText);
-            JSONObject json = (JSONObject) jsonTokener.nextValue();
-            int canStatus = json.getInt("stat");
+            int canStatus = jsonText.getInt("stat");
             return canStatus == CAN_OK;
         } catch (Exception e) {
             return false;
         }
-    }
-
-    private boolean isValidSession(String session) {
-        return session != null && session.length() == SESSION_ID_LENGTH;
     }
 }
 

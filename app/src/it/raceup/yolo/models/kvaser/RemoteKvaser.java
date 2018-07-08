@@ -7,7 +7,6 @@ public class RemoteKvaser {
     public static final String HTTP_SCHEME = "http";
     public static final int PORT = 8080;
     private String url;
-    private int hnd;
     private RestActivity restActivity;
 
     public RemoteKvaser(String ip) {
@@ -29,7 +28,7 @@ public class RemoteKvaser {
 
     public boolean openConnection() {
         if (restActivity.isDeviceFree()) {
-            String session = restActivity.getSession();
+            String session = restActivity.canInitializeLibrary();
             System.out.println(session);
             if (session != null) {
                 restActivity.setSession(session);
