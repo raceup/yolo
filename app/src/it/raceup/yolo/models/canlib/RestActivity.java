@@ -346,9 +346,18 @@ public class RestActivity {
         }
     }
 
-    public boolean canAddFilter() {
+    public boolean canAddFilter(int type, int id, int counterThreshold, int
+            counterMax, int flags) {
         try {
-            return true;  // todo implement
+            RestService service = getRestServiceCanAddFilter();
+            service.addParam("hnd", Integer.toString(hnd));
+            service.addParam("type", Integer.toString(type));
+            service.addParam("id", Integer.toString(id));
+            service.addParam("counterThreshold", Integer.toString(counterThreshold));
+            service.addParam("counterMax", Integer.toString(counterMax));
+            service.addParam("flags", Integer.toString(flags));
+            JSONObject result = service.get();
+            return isOk(result);
         } catch (Exception e) {
             return false;
         }
