@@ -24,6 +24,9 @@ public class RestActivity {
     public static final int IDENT_CLOSE_CHANNEL = 10;
     public static final int IDENT_UNLOAD = 11;
     public static final int IDENT_WRITE = 12;
+    public static final int IDENT_READ_TIMER = 13;
+    public static final int IDENT_ADD_FILTER = 14;
+    public static final int IDENT_CLEAR_FILTERS = 15;
 
     // api endpoints
     public final static String DEVICE_STATUS = "/deviceStatus";
@@ -39,6 +42,9 @@ public class RestActivity {
     public final static String CAN_CLOSE = "/canClose";
     public final static String CAN_UNLOAD_LIBRARY = "/canUnloadLibrary";
     public final static String CAN_FLUSH_RX = "/canIoCtl";
+    public final static String CAN_READ_TIMER = "/canReadTimer";
+    public final static String CAN_ADD_FILTER = "/canAddFilter";
+    public final static String CAN_CLEAR_FILTERS = "/canClearFilters";
 
     private static final int CLEAR_ID = 1;
     private static final int SESSION_ID_LENGTH = 32;
@@ -56,6 +62,9 @@ public class RestActivity {
     private RestService restServiceCanClose;
     private RestService restServiceCanUnloadLibrary;
     private RestService restServiceCanFlushRx;
+    private RestService restServiceCanReadTimer;
+    private RestService restServiceCanAddFilter;
+    private RestService restServiceCanClearFilters;
     private String url;
     private String baseUrl;
     private String session;
@@ -133,6 +142,18 @@ public class RestActivity {
         return restServiceCanFlushRx;
     }
 
+    public RestService getRestServiceCanReadTimer() {
+        return restServiceCanReadTimer;
+    }
+
+    public RestService getRestServiceCanAddFilter() {
+        return restServiceCanAddFilter;
+    }
+
+    public RestService getRestServiceCanClearFilters() {
+        return restServiceCanClearFilters;
+    }
+
     private void createServices() {
         restServiceDeviceStatus = new RestService(baseUrl, DEVICE_STATUS,
                 IDENT_DEVICE_STATUS);
@@ -148,6 +169,12 @@ public class RestActivity {
         restServiceCanClose = new RestService(url, CAN_CLOSE, IDENT_CLOSE_CHANNEL);
         restServiceCanUnloadLibrary = new RestService(url, CAN_UNLOAD_LIBRARY, IDENT_UNLOAD);
         restServiceCanFlushRx = new RestService(url, CAN_FLUSH_RX, IDENT_FLUSH_RX);
+        restServiceCanReadTimer = new RestService(url, CAN_READ_TIMER,
+                IDENT_READ_TIMER);
+        restServiceCanAddFilter = new RestService(url, CAN_ADD_FILTER,
+                IDENT_ADD_FILTER);
+        restServiceCanClearFilters = new RestService(url, CAN_CLEAR_FILTERS,
+                IDENT_CLEAR_FILTERS);
     }
 
     //////////////////////////////////////////////////////////////// Canlib API
