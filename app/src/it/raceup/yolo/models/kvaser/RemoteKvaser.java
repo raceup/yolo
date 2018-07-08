@@ -71,23 +71,15 @@ public class RemoteKvaser {
         }
     }
 
-    public boolean writeCan() {
-        // todo write can
-        return false;
+    public boolean writeCan(int id, int flag, byte[] msg, int dlc) {
+        return restActivity.canWrite(id, flag, msg, dlc);
     }
 
     public boolean closeCan() {
-        // todo close can
-        return false;
+        return restActivity.canClose();
     }
 
     public boolean closeConnection() {
-        // todo close connection
-        return false;
-    }
-
-    public String[] getMessages() {
-        // todo can read
-        return new String[]{};
+        return restActivity.canUnloadLibrary();
     }
 }
