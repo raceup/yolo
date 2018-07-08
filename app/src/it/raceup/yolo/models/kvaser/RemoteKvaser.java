@@ -26,10 +26,20 @@ public class RemoteKvaser {
         return uriBuilder.toString();
     }
 
-    public boolean setup() {
+    public boolean setupConnection() {
         if (restActivity.isDeviceFree()) {
             String session = restActivity.getSession();
+            System.out.println(session);
+            if (session != null) {
+                restActivity.setSession(session);
+                return true;
+            }
         }
+
+        return false;
+    }
+
+    public boolean setupCan() {
         // todo set can params
         return false;
     }

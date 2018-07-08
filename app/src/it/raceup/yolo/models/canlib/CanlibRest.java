@@ -6,14 +6,15 @@ public class CanlibRest {
     public static final int canMSG_EXT = 0x0004;
     public static final int canMSG_STD = 0x0002;
     public static final int canIOCTL_FLUSH_RX_BUFFER = 10;
-    public static final int canOK = 0;
+    public static final int CAN_OK = 0;
+    public static final int CAN_ERROR = -132;
     protected static final int kvrDeviceUsage_FREE = 1;
     protected static final int kvrDeviceUsage_REMOTE = 2;
     private static final HashMap<Integer, String> errorMap;
 
     static {
         errorMap = new HashMap<>();
-        errorMap.put(canOK, "canOK");
+        errorMap.put(CAN_OK, "CAN_OK");
         errorMap.put(-1, "canERR_PARAM");
         errorMap.put(-2, "canERR_NOMSG");
         errorMap.put(-3, "canERR_NOTFOUND");

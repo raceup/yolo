@@ -4,7 +4,10 @@ import org.apache.http.client.utils.URIBuilder;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import static it.raceup.yolo.models.canlib.CanlibRest.canOK;
+import java.util.NoSuchElementException;
+
+import static it.raceup.yolo.models.canlib.CanlibRest.CAN_ERROR;
+import static it.raceup.yolo.models.canlib.CanlibRest.CAN_OK;
 import static it.raceup.yolo.models.canlib.RestService.*;
 
 /**
@@ -24,6 +27,7 @@ public class RestActivity {
     public static final int IDENT_UNLOAD = 11;
     public static final int IDENT_WRITE = 12;
     private static final int CLEAR_ID = 1;
+    private static final int SESSION_ID_LENGTH = 32;
     private String bitRateConstant = "-4";
     private String driverType = "4";
     private RestService restServiceDeviceStatus;
@@ -128,7 +132,7 @@ public class RestActivity {
                 case IDENT_INIT:
                     canStatus = json.getInt("stat");
                     log = CanlibRest.getErrorText(canStatus);
-                    if (canStatus == canOK) {
+                    if (canStatus == CAN_OK) {
                         session = json.getString("session");
                     }
                     break;
@@ -136,7 +140,7 @@ public class RestActivity {
                     int hnd = json.getInt("hnd");
                     canStatus = json.getInt("stat");
                     log = CanlibRest.getErrorText(canStatus);
-                    if (canStatus == canOK) {
+                    if (canStatus == CAN_OK) {
                         this.hnd = hnd;
                     }
                     break;
@@ -152,36 +156,43 @@ public class RestActivity {
         return log;
     }
 
-    public String getDeviceStatus() {
+    public int getDeviceStatus() {
         try {
             JSONObject result = getRestServiceDeviceStatus().get();
-            String usage = result.getString("usage");
-            return usage;
+            return result.getInt("usage");
         } catch (Exception e) {
-            return null;
+            return CAN_ERROR;
         }
     }
 
     public boolean isDeviceFree() {
         try {
-            String deviceStatus = getDeviceStatus();
-            int status = Integer.parseInt(deviceStatus);
-            return status == canOK;
+            int deviceStatus = getDeviceStatus();
+            return deviceStatus == CAN_OK;
         } catch (Exception e) {
             return false;
         }
     }
 
     public String getSession() {
-        try {
-            JSONObject result = getRestServiceCanInit().get();
-            return result.getString("session");
-        } catch (Exception e) {
-            return null;
+        if (!isValidSession(session)) {
+            try {
+                JSONObject result = getRestServiceCanInit().get();
+                String session = result.getString("session");
+                if (session.length() == SESSION_ID_LENGTH) {
+                    return session;
+                }
+
+                throw new NoSuchElementException("No session found");
+            } catch (Exception e) {
+                return null;
+            }
         }
+
+        return session;
     }
 
-    public void setSession() {
+    public void setSession(String session) {
         this.url = getUrl(this.baseUrl, session);
         createServices();  // reload services with session id
     }
@@ -200,6 +211,10 @@ public class RestActivity {
         restServiceCanClose = new RestService(url, CAN_CLOSE, IDENT_CLOSE_CHANNEL);
         restServiceCanUnloadLibrary = new RestService(url, CAN_UNLOAD_LIBRARY, IDENT_UNLOAD);
         restServiceCanFlushRx = new RestService(url, CAN_FLUSH_RX, IDENT_FLUSH_RX);
+    }
+
+    private boolean isValidSession(String session) {
+        return session != null && session.length() == SESSION_ID_LENGTH;
     }
 }
 
