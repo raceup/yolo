@@ -32,6 +32,7 @@ public class RestActivity {
     private RestService restServiceCanInit;
     private RestService restServiceCanOpenChannel;
     private RestService restServiceCanRead;
+    private RestService restServiceCanWrite;
     private RestService restServiceCanBusOn;
     private RestService restServiceCanBusOff;
     private RestService restServiceCanSetBusOutputControl;
@@ -84,6 +85,10 @@ public class RestActivity {
         return restServiceCanRead;
     }
 
+    public RestService getRestServiceCanWrite() {
+        return restServiceCanWrite;
+    }
+
     public RestService getRestServiceCanBusOn() {
         return restServiceCanBusOn;
     }
@@ -119,6 +124,7 @@ public class RestActivity {
                 IDENT_INIT);
         restServiceCanOpenChannel = new RestService(url, CAN_OPEN_CHANNEL, IDENT_OPEN_CHANNEL);
         restServiceCanRead = new RestService(url, CAN_READ, IDENT_READ);
+        restServiceCanWrite = new RestService(url, CAN_WRITE, IDENT_WRITE);
         restServiceCanBusOn = new RestService(url, CAN_BUS_ON, IDENT_BUS_ON);
         restServiceCanBusOff = new RestService(url, CAN_BUS_OFF, IDENT_BUS_OFF);
         restServiceCanSetBusOutputControl = new RestService(url, CAN_SET_BUS_OUTPUT_CONTROL, IDENT_SET_BUS_OUTPUT_CONTROL);
@@ -255,9 +261,16 @@ public class RestActivity {
         }
     }
 
-    public boolean canWrite() {
+    public boolean canWrite(int id, int flag, byte[] msg, int dlc) {
         try {
-            return true;  // todo implement
+            RestService service = getRestServiceCanWrite();
+            service.addParam("hnd", Integer.toString(hnd));
+            service.addParam("id", Integer.toString(id));
+            service.addParam("flag", Integer.toString(flag));
+            service.addParam("msg", getCanMsg(msg));
+            service.addParam("dlc", Integer.toString(dlc));
+            JSONObject result = service.get();
+            return isOk(result);
         } catch (Exception e) {
             return false;
         }
@@ -327,6 +340,15 @@ public class RestActivity {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    private String getCanMsg(byte[] msg) {
+        String[] bytes = new String[msg.length];
+        for (int i = 0; i < msg.length; i++) {
+            bytes[i] = Byte.toString(msg[i]);
+        }
+
+        return String.join(",", bytes);
     }
 }
 

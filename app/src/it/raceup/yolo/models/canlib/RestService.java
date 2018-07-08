@@ -21,6 +21,7 @@ public class RestService {
     public final static String CAN_INITIALIZE_LIBRARY = "/canInitializeLibrary";
     public final static String CAN_OPEN_CHANNEL = "/canOpenChannel";
     public final static String CAN_READ = "/canRead";
+    public final static String CAN_WRITE = "/canWrite";
     public final static String CAN_BUS_ON = "/canBusOn";
     public final static String CAN_BUS_OFF = "/canBusOff";
     public final static String CAN_SET_BUS_OUTPUT_CONTROL =
