@@ -226,9 +226,13 @@ public class RestActivity {
         }
     }
 
-    public boolean canSetBusOutputControl() {
+    public boolean canSetBusOutputControl(int drivertype) {
         try {
-            return true;  // todo implement
+            RestService service = getRestServiceCanSetBusOutputControl();
+            service.addParam("hnd", Integer.toString(hnd));
+            service.addParam("drivertype", Integer.toString(drivertype));
+            JSONObject result = service.get();
+            return isOk(result);
         } catch (Exception e) {
             return false;
         }
