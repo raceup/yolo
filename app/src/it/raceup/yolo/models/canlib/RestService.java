@@ -68,6 +68,7 @@ public class RestService extends Logger {
         try {
             URL requestUrl = getFullUrl();
             logAction("GET " + requestUrl.toString());
+
             URLConnection connection = requestUrl.openConnection();
             connection.setDoOutput(true);
             Scanner scanner = new Scanner(requestUrl.openStream());
