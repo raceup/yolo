@@ -1,5 +1,6 @@
 package it.raceup.yolo.models.canlib;
 
+import it.raceup.yolo.logging.Logger;
 import org.apache.http.client.utils.URIBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -10,7 +11,7 @@ import static it.raceup.yolo.models.canlib.CanlibRest.CAN_OK;
 /**
  * Sends/receives data to/from remote CableKvaser
  */
-public class RestActivity {
+public class RestActivity extends Logger {
     // api keys
     public static final int IDENT_DEVICE_STATUS = 1;
     public static final int IDENT_INIT = 2;
@@ -79,6 +80,7 @@ public class RestActivity {
     }
 
     public RestActivity(String url, String session) {
+        TAG = "RestActivity";
         this.baseUrl = url;
         this.url = getUrl(url, session);
         this.session = session;
@@ -398,6 +400,8 @@ public class RestActivity {
 
     private boolean isOk(JSONObject jsonText) {
         try {
+            logAction("Validating JSON:");
+            logAction(jsonText.toString() + "\n");
             int canStatus = jsonText.getInt("stat");
             return canStatus == CAN_OK;
         } catch (Exception e) {
