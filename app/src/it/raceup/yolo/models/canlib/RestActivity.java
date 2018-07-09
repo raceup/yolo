@@ -80,7 +80,7 @@ public class RestActivity extends Logger {
     }
 
     public RestActivity(String url, String session) {
-        TAG = "RestActivity";
+        TAG = "REST ACTIVITY";
         this.baseUrl = url;
         this.url = getUrl(url, session);
         this.session = session;

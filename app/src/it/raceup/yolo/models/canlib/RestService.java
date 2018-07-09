@@ -1,5 +1,6 @@
 package it.raceup.yolo.models.canlib;
 
+import it.raceup.yolo.logging.Logger;
 import org.apache.http.client.utils.URIBuilder;
 import org.json.JSONObject;
 
@@ -12,7 +13,7 @@ import java.util.Scanner;
 /**
  * Contacts remote CableKvaser web-server
  */
-public class RestService {
+public class RestService extends Logger {
     public final static int GET = 1;
     public final static int POST = 2;
     public final static int PUT = 3;
@@ -21,6 +22,7 @@ public class RestService {
     private ArrayList<ParcelableNameValuePair> params;
 
     public RestService(String baseUrl, String type, int ident) {
+        TAG = "REST SERVICE";
         this.url = getUrl(baseUrl, type, ident);
         params = new ArrayList<>();
     }
@@ -65,6 +67,7 @@ public class RestService {
     public JSONObject get() {
         try {
             URL requestUrl = getFullUrl();
+            logAction("GET " + requestUrl.toString());
             URLConnection connection = requestUrl.openConnection();
             connection.setDoOutput(true);
             Scanner scanner = new Scanner(requestUrl.openStream());
@@ -73,6 +76,7 @@ public class RestService {
             scanner.close();
             return json;
         } catch (Exception e) {
+            logError(e.toString());
             return null;
         }
     }
