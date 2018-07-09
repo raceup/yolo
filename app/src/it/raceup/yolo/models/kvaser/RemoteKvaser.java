@@ -34,14 +34,14 @@ public class RemoteKvaser extends Kvaser {
         if (setupCan(0, 8, 4, canBitrate)) {
             logAction("CAN up");
         } else {
-            logAction("can't open CAN");
+            logError("can't open CAN");
             return false;
         }
 
         if (onBus()) {
             logAction("on bus");
         } else {
-            logAction("can't on bus");
+            logError("can't on bus");
             return false;
         }
 
@@ -64,16 +64,23 @@ public class RemoteKvaser extends Kvaser {
                              int freq) {
         boolean isOk = restActivity.canOpenChannel(channel, flags);
         if (!isOk) {
+            logError("can't open channel");
             return false;
         }
 
         isOk = restActivity.canSetBusOutputControl(driverType);
         if (!isOk) {
+            logError("can't set bus output control");
             return false;
         }
 
         isOk = restActivity.canSetBusParams(freq);
-        return isOk;
+        if (!isOk) {
+            logError("can't set bus params");
+            return false;
+        }
+
+        return true;
     }
 
     private boolean onBus() {

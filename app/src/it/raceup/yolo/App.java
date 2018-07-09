@@ -34,7 +34,7 @@ public class App extends Logger {
 
     private void setup() {
         try {
-            kvaser = new RemoteKvaser("192.168.0.100");  // todo test
+            kvaser = new RemoteKvaser("192.168.0.101");  // todo test
         } catch (Exception e) {
             System.out.println(e.toString());
         }
