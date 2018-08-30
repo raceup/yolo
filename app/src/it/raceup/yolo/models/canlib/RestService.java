@@ -25,6 +25,8 @@ public class RestService extends Logger {
         TAG = "REST SERVICE";
         this.url = getUrl(baseUrl, type, ident);
         params = new ArrayList<>();
+
+        this.logAction("\tnew service: " + this.url + " full url is " + getFullUrl());
     }
 
     public void addParam(String name, String value) {
@@ -33,8 +35,8 @@ public class RestService extends Logger {
 
     private static String getUrl(String baseUrl, String type, int ident) {
         try {
+            baseUrl += type;  // add path
             URIBuilder uriBuilder = new URIBuilder(baseUrl);
-            uriBuilder.setPath(type);
             uriBuilder.setParameter("ident", Integer.toString(ident));
             return uriBuilder.toString();
         } catch (Exception e) {

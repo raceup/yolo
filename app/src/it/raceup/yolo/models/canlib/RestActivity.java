@@ -81,10 +81,10 @@ public class RestActivity extends Logger {
 
     public RestActivity(String url, String session) {
         TAG = "REST ACTIVITY";
+
         this.baseUrl = url;
         this.url = getUrl(url, session);
-        this.session = session;
-        createServices();
+        this.setSession(session);
     }
 
     public RestActivity(String url) {

@@ -5,6 +5,7 @@ import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.logging.FileLogger;
 import it.raceup.yolo.logging.Logger;
 import it.raceup.yolo.models.car.Car;
+import it.raceup.yolo.models.data.CanMessage;
 import it.raceup.yolo.models.data.Type;
 import it.raceup.yolo.models.kvaser.Kvaser;
 import it.raceup.yolo.models.kvaser.RemoteKvaser;
@@ -32,9 +33,20 @@ public class App extends Logger {
         setup();
     }
 
+    public static void main(String[] args) {
+        RemoteKvaser kvaser = new RemoteKvaser("192.168.43.228");
+        kvaser.setup(-1);
+        CanMessage[] msgs = kvaser.read();
+        System.out.println("Found " + msgs.length + " messages");
+        kvaser.close();
+
+        // App app = new App();  // todo add in production
+        // app.start();
+    }
+
     private void setup() {
         try {
-            kvaser = new RemoteKvaser("192.168.0.101");  // todo test
+            kvaser = new RemoteKvaser("192.168.43.228");  // todo user dialog
         } catch (Exception e) {
             System.out.println(e.toString());
         }
@@ -48,11 +60,6 @@ public class App extends Logger {
                 System.exit(0);
             }
         });
-    }
-
-    public static void main(String[] args) {
-        App app = new App();
-        app.start();
     }
 
     public void start() {
