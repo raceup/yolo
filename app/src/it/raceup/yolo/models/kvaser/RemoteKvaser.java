@@ -27,21 +27,21 @@ public class RemoteKvaser extends Kvaser {
     @Override
     public boolean setup(int canBitrate) {
         if (openConnection()) {
-            logAction("connected!");
+            log("connected!");
         } else {
-            logAction("can't connect");
+            log("can't connect");
             return false;
         }
 
         if (setupCan(0, 8, 4, canBitrate)) {
-            logAction("can is up");
+            log("can is up");
         } else {
             logError("can't open CAN");
             return false;
         }
 
         if (onBus()) {
-            logAction("on bus");
+            log("on bus");
         } else {
             logError("can't on bus");
             return false;
@@ -96,7 +96,7 @@ public class RemoteKvaser extends Kvaser {
     private CanMessage[] readCan() {
         try {
             JSONArray raw = restActivity.canRead(Byte.MAX_VALUE);
-            this.logAction("read " + raw.length() + " messages");
+            this.log("read " + raw.length() + " messages");
             CanMessage[] messages = new CanMessage[raw.length()];
             for (int i = 0; i < raw.length(); i++) {
                 JSONObject message = raw.getJSONObject(i);
@@ -137,11 +137,11 @@ public class RemoteKvaser extends Kvaser {
     @Override
     public void close() {
         if (!closeCan()) {
-            logAction("cannot close CAN");
+            log("cannot close CAN");
         }
 
         if (!closeConnection()) {
-            logAction("cannot close connection");
+            log("cannot close connection");
         }
     }
 }

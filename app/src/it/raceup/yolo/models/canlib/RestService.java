@@ -69,7 +69,7 @@ public class RestService extends Logger {
     public JSONObject get() {
         try {
             URL requestUrl = getFullUrl();
-            logAction("GET " + requestUrl.toString());
+            log("GET " + requestUrl.toString());
 
             URLConnection connection = requestUrl.openConnection();
             connection.setDoOutput(true);

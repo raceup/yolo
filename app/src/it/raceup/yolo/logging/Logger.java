@@ -1,23 +1,13 @@
 package it.raceup.yolo.logging;
 
-import java.io.PrintStream;
+import java.io.OutputStream;
 
-import static it.raceup.yolo.utils.Utils.convertTime;
+public interface Logger {
+    String TAG = "LOGGER";
 
-public class Logger {
-    public String TAG = "LOGGER";
+    void log(String message);
 
-    protected void logAction(String message) {
-        log(System.out, message);
-    }
+    void logError(String message);
 
-    protected void logError(String message) {
-        log(System.err, message);
-    }
-
-    protected void log(PrintStream out, String message) {
-        String timing = "[" + convertTime(System.currentTimeMillis()) + "]";
-        String content = ": " + message;
-        out.println(timing + " " + TAG + content);
-    }
+    void log(OutputStream out, String message);
 }

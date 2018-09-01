@@ -13,12 +13,9 @@ import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static core.Canlib.canBITRATE_1M;
-
 /**
- * Handles business logic of telemetry.
- * Opens connection with Kvaser and remains listening for incoming data.
- * When there is new data, updates car data.
+ * Handles business logic of telemetry. Opens connection with Kvaser and
+ * remains listening for incoming data. When there is new data, updates car data.
  */
 public class Hal {
     private Car car;
@@ -29,8 +26,8 @@ public class Hal {
         this.kvaser = kvaser;
     }
 
-    public void startConnection() throws YoloException {
-        if (kvaser.setup(canBITRATE_1M)) {
+    public void setup(int canBitrate) throws YoloException {
+        if (kvaser.setup(canBitrate)) {
             Timer t = new Timer();
             t.schedule(new TimerTask() {
                 @Override

@@ -3,7 +3,7 @@ package it.raceup.yolo.models.kvaser;
 import it.raceup.yolo.logging.Logger;
 import it.raceup.yolo.models.data.CanMessage;
 
-public abstract class Kvaser extends Logger {
+public abstract class Kvaser implements Logger {
     public Kvaser() {
         TAG = "KVASER";
     }

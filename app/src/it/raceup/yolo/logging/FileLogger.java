@@ -1,46 +1,26 @@
 package it.raceup.yolo.logging;
 
+import it.raceup.yolo.error.ExceptionType;
+import it.raceup.yolo.error.YoloException;
+
 import java.io.File;
-import java.io.PrintWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
-import static it.raceup.yolo.utils.Utils.getTimeNow;
+public class FileLogger extends StreamLogger {
+    public FileLogger(String filename) throws FileNotFoundException {
+        super(new FileOutputStream(filename));
 
-public class FileLogger {
-    private PrintWriter writer;
-
-    public FileLogger(String filename) {
         if (!setup(filename)) {
-            System.err.println("Cannot open file logger @" + filename);
+            new YoloException(
+                    "Cannot open file logger @" + filename, ExceptionType.UNKNOWN
+            ).print();
         }
     }
 
-    private boolean setup(String filename) {
-        try {
-            writer = new PrintWriter(filename, "UTF-8");
-            return true;
-        } catch (Exception e) {
-            boolean isOk = new File(filename)
-                    .getParentFile()
-                    .mkdirs();
-            return isOk && setup(filename);
-        }
-    }
-
-    public void appendNewLine(String line) {
-        appendNew("\n" + line);
-    }
-
-    public void appendNew(String content) {
-        writer.print(content);
-    }
-
-    public void appendWithTime(String content) {
-        String line = "[" + getTimeNow("YYYY-MM-dd_HH-mm-ss") + "] " +
-                content;
-        appendNewLine(line);
-    }
-
-    public void save() {
-        writer.close();
+    private static boolean setup(String filename) {
+        return new File(filename)
+                .getParentFile()
+                .mkdirs();
     }
 }
