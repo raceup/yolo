@@ -25,8 +25,6 @@ public class RestService extends Logger {
         TAG = "REST SERVICE";
         this.url = getUrl(baseUrl, type, ident);
         params = new ArrayList<>();
-
-        this.logAction("\tnew service: " + this.url + " full url is " + getFullUrl());
     }
 
     public void addParam(String name, String value) {

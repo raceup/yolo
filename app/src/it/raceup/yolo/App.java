@@ -5,7 +5,6 @@ import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.logging.FileLogger;
 import it.raceup.yolo.logging.Logger;
 import it.raceup.yolo.models.car.Car;
-import it.raceup.yolo.models.data.CanMessage;
 import it.raceup.yolo.models.data.Type;
 import it.raceup.yolo.models.kvaser.Kvaser;
 import it.raceup.yolo.models.kvaser.RemoteKvaser;
@@ -29,24 +28,33 @@ public class App extends Logger {
     private static final int updateMs = 150;
 
     public App() {
+        this("192.168.1.1");
+    }
+
+    /**
+     * Creates app
+     *
+     * @param ip Kvaser IP
+     */
+    public App(String ip) {
         TAG = "APP";
-        setup();
+        setup(ip);
     }
 
     public static void main(String[] args) {
-        RemoteKvaser kvaser = new RemoteKvaser("192.168.43.228");
-        kvaser.setup(-1);
-        CanMessage[] msgs = kvaser.read();
-        System.out.println("Found " + msgs.length + " messages");
-        kvaser.close();
-
-        // App app = new App();  // todo add in production
-        // app.start();
+        System.out.println(args[0]);
+        App app = new App("192.168.43.228");
+        app.start();
     }
 
-    private void setup() {
+    /**
+     * Setups app and connects to kvaser
+     *
+     * @param ip Kvaser IP
+     */
+    private void setup(String ip) {
         try {
-            kvaser = new RemoteKvaser("192.168.43.228");  // todo user dialog
+            kvaser = new RemoteKvaser(ip);  // todo user dialog
         } catch (Exception e) {
             System.out.println(e.toString());
         }

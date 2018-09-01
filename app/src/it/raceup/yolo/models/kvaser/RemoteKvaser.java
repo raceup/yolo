@@ -32,7 +32,7 @@ public class RemoteKvaser extends Kvaser {
         }
 
         if (setupCan(0, 8, 4, canBitrate)) {
-            logAction("CAN up");
+            logAction("can is up");
         } else {
             logError("can't open CAN");
             return false;
@@ -94,6 +94,7 @@ public class RemoteKvaser extends Kvaser {
     private CanMessage[] readCan() {
         try {
             JSONArray raw = restActivity.canRead(Byte.MAX_VALUE);
+            this.logAction("read " + raw.length() + " messages");
             CanMessage[] messages = new CanMessage[raw.length()];
             for (int i = 0; i < raw.length(); i++) {
                 JSONObject message = raw.getJSONObject(i);

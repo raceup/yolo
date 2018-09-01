@@ -19,7 +19,7 @@ public class CanMessage extends Message {
     }
 
     public static CanMessage parseJson(JSONObject message) {
-        JSONArray rawData = message.getJSONArray("data");
+        JSONArray rawData = message.getJSONArray("msg");
         byte[] data = new byte[rawData.length()];
         for (int j = 0; j < rawData.length(); j++) {
             data[j] = (byte) rawData.optInt(j);
@@ -45,5 +45,24 @@ public class CanMessage extends Message {
 
     public byte[] getData() {
         return data;
+    }
+
+    public String getDataToString() {
+        StringBuilder out = new StringBuilder("[");  // todo check speed
+        for (byte b : data) {
+            out.append(Byte.toString(b)).append(" ");
+        }
+        out.append("]");
+        return out.toString();
+    }
+
+    @Override
+    public String toString() {
+        String buffer = "time: " + time + "\n";
+        buffer += "id: " + id + "\n";
+        buffer += "\tflag: " + flags + "\n";
+        buffer += "\tdlc: " + dlc + "\n";
+        buffer += "\tdata: " + getDataToString() + "\n";
+        return buffer;
     }
 }
