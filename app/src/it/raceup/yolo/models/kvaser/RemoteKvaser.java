@@ -19,8 +19,8 @@ public class RemoteKvaser extends Kvaser {
     }
 
     public RemoteKvaser(String scheme, String host, int port) {
+        super("REMOTE KVASER @" + getUrl(scheme, host, port));
         url = getUrl(scheme, host, port);
-        TAG = "REMOTE_KVASER @" + url;
         restActivity = new RestActivity(url);
     }
 

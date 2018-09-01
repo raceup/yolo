@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import static it.raceup.yolo.utils.Utils.getTimeNow;
 
 public class StreamLogger implements Logger {
+    protected static String TAG = "STREAM LOGGER";
     private OutputStream writer;
 
     public StreamLogger(OutputStream writer) {
@@ -27,12 +28,12 @@ public class StreamLogger implements Logger {
 
     @Override
     public void log(String message) {
-        log(writer, message);
+        log(writer, "{" + TAG + "} " + message);
     }
 
     @Override
     public void logError(String message) {
-        log("ERROR: " + message, true, false);
+        log("! Error ! " + message, true, false);
     }
 
     @Override

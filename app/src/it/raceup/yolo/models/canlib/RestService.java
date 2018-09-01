@@ -2,7 +2,7 @@ package it.raceup.yolo.models.canlib;
 
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
-import it.raceup.yolo.logging.Logger;
+import it.raceup.yolo.logging.ShellLogger;
 import org.apache.http.client.utils.URIBuilder;
 import org.json.JSONObject;
 
@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * Contacts remote CableKvaser web-server
+ * Contacts Kvaser web-server
  */
-public class RestService extends Logger {
+public class RestService extends ShellLogger {
     public final static int GET = 1;
     public final static int POST = 2;
     public final static int PUT = 3;

@@ -1,11 +1,20 @@
 package it.raceup.yolo.models.kvaser;
 
 import it.raceup.yolo.logging.Logger;
+import it.raceup.yolo.logging.ShellLogger;
 import it.raceup.yolo.models.data.CanMessage;
 
-public abstract class Kvaser implements Logger {
+import java.io.OutputStream;
+
+public abstract class Kvaser extends ObservableKvaser implements Logger {
+    private final ShellLogger logger;
+
     public Kvaser() {
-        TAG = "KVASER";
+        this("KVASER");
+    }
+
+    public Kvaser(String tag) {
+        logger = new ShellLogger(tag);
     }
 
     public boolean setup(int canBitrate) {
@@ -21,5 +30,17 @@ public abstract class Kvaser implements Logger {
     }
 
     public void close() {
+    }
+
+    public void log(String message) {
+        logger.log(message);
+    }
+
+    public void logError(String message) {
+        logger.logError(message);
+    }
+
+    public void log(OutputStream out, String message) {
+        logger.log(out, message);
     }
 }

@@ -1,6 +1,6 @@
 package it.raceup.yolo.models.canlib;
 
-import it.raceup.yolo.logging.Logger;
+import it.raceup.yolo.logging.ShellLogger;
 import org.apache.http.client.utils.URIBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -9,9 +9,9 @@ import static it.raceup.yolo.models.canlib.CanlibRest.CAN_ERROR;
 import static it.raceup.yolo.models.canlib.CanlibRest.CAN_OK;
 
 /**
- * Sends/receives data to/from remote CableKvaser
+ * Sends/receives data to/from Kvaser
  */
-public class RestActivity extends Logger {
+public class RestActivity extends ShellLogger {
     // api keys
     public static final int IDENT_DEVICE_STATUS = 1;
     public static final int IDENT_INIT = 2;
