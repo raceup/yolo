@@ -16,7 +16,9 @@ import java.util.TimerTask;
 import static core.Canlib.canBITRATE_1M;
 
 /**
- * Parses inputs and updates model
+ * Handles business logic of telemetry.
+ * Opens connection with Kvaser and remains listening for incoming data.
+ * When there is new data, updates car data.
  */
 public class Hal {
     private Car car;

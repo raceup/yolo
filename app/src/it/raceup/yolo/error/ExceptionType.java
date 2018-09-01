@@ -2,7 +2,7 @@ package it.raceup.yolo.error;
 
 public enum ExceptionType {
     CANLIB("Canlib"),
-    APP("App"),
+    APP("Gui"),
     KVASER("CableKvaser"),
     UNKNOWN("Unknown"),
     MODEL("Model"),

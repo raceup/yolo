@@ -1,6 +1,6 @@
 <div align="center">
 	<h1>YOLO</h1>
-	<em>Motors telemetry desktop app</em></br>
+	<em>Motors telemetry desktop gui</em></br>
 
 <a href="https://github.com/raceup/yolo/pulls"><img src="https://badges.frapsoft.com/os/v1/open-source.svg?v=103"></a> <a href="https://github.com/raceup/yolo/issues"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat"></a> <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg"></a>
 </div>
