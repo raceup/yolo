@@ -4,6 +4,8 @@ import obj.Message;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.Arrays;
+
 public class CanMessage extends Message {
     private int dlc;
 
@@ -39,6 +41,14 @@ public class CanMessage extends Message {
         return id;
     }
 
+    public int getFlags() {
+        return flags;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
     public int getDlc() {
         return dlc;
     }
@@ -47,22 +57,14 @@ public class CanMessage extends Message {
         return data;
     }
 
-    public String getDataToString() {
-        StringBuilder out = new StringBuilder("[");  // todo check speed
-        for (byte b : data) {
-            out.append(Byte.toString(b)).append(" ");
-        }
-        out.append("]");
-        return out.toString();
-    }
-
     @Override
     public String toString() {
-        String buffer = "time: " + time + "\n";
-        buffer += "id: " + id + "\n";
-        buffer += "\tflag: " + flags + "\n";
-        buffer += "\tdlc: " + dlc + "\n";
-        buffer += "\tdata: " + getDataToString() + "\n";
+        String buffer = "CanMessage {\n";
+        buffer += "\ttime: " + getTime() + "\n";
+        buffer += "\tid: " + getId() + "\n";
+        buffer += "\tflag: " + getFlags() + "\n";
+        buffer += "\tdlc: " + getDlc() + "\n";
+        buffer += "\tdata: " + Arrays.toString(getData()) + "\n}";
         return buffer;
     }
 }

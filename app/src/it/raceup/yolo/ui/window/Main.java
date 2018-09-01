@@ -1,5 +1,7 @@
 package it.raceup.yolo.ui.window;
 
+import it.raceup.yolo.error.ExceptionType;
+import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.data.Raw;
 import it.raceup.yolo.models.kvaser.Kvaser;
 import it.raceup.yolo.ui.component.CanMessageSender;
@@ -23,6 +25,10 @@ public class Main extends JFrame {
                     THIS_PACKAGE.getClass().getResource(ICON_PATH)
             );
         } catch (Exception e) {
+            new YoloException(
+                    "cannot set app icon",
+                    ExceptionType.APP
+            ).print();
             appIcon = null;
         }
     }
@@ -49,17 +55,28 @@ public class Main extends JFrame {
     }
 
     private void open() {
-        pack();
-        setSize(900, 500);
-        setLocation(0, 0);  // top left corner
-        setResizable(false);
-        setVisible(true);
+        try {
+            pack();
+            setSize(900, 500);
+            setLocation(0, 0);  // top left corner
+            setResizable(false);
+            setVisible(true);
+        } catch (Exception e) {
+            new YoloException(
+                    "cannot open view",
+                    e,
+                    ExceptionType.VIEW
+            ).print();
+        }
 
         try {
             setIconImage(appIcon);  // set icon
         } catch (Exception e) {
-            System.err.println("Cannot set image");
-            System.err.println(e.toString());
+            new YoloException(
+                    "cannot set image",
+                    e,
+                    ExceptionType.APP
+            ).print();
         }
     }
 

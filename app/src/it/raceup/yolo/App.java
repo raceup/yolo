@@ -1,6 +1,7 @@
 package it.raceup.yolo;
 
 import it.raceup.yolo.control.Hal;
+import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.logging.FileLogger;
 import it.raceup.yolo.logging.Logger;
@@ -28,7 +29,7 @@ public class App extends Logger {
     private static final int updateMs = 150;
 
     public App() {
-        this("192.168.1.1");
+        this("192.168.1.10");
     }
 
     /**
@@ -59,9 +60,9 @@ public class App extends Logger {
      */
     private void setup(String ip) {
         try {
-            kvaser = new RemoteKvaser(ip);  // todo user dialog
+            kvaser = new RemoteKvaser(ip);  // todo user input
         } catch (Exception e) {
-            System.out.println(e.toString());
+            new YoloException(e, ExceptionType.KVASER).print();
         }
 
         Car model = new Car();
@@ -87,8 +88,8 @@ public class App extends Logger {
                     try {
                         updateView();
                     } catch (Exception e) {
-                        logError("error while updating");
-                        logError(e.toString());
+                        new YoloException("cannot update", e,
+                                ExceptionType.CONTROLLER).print();
                     }
                 }
             }, 0, updateMs);
@@ -104,13 +105,13 @@ public class App extends Logger {
                 try {
                     view.update(i, type, value);  // update screen
                 } catch (Exception e) {
-                    logError(e.toString());
+                    new YoloException(e, ExceptionType.VIEW).print();
                 }
 
                 try {
                     log(i, type, value);  // add to log
                 } catch (Exception e) {
-                    logError(e.toString());
+                    new YoloException(e, ExceptionType.LOGGING).print();
                 }
             }
         }

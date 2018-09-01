@@ -4,6 +4,18 @@ public class YoloException extends Exception {
     private String message;
     private ExceptionType type;
 
+    public YoloException(Exception e) {
+        this(e, ExceptionType.UNKNOWN);
+    }
+
+    public YoloException(Exception e, ExceptionType type) {
+        this(e.toString(), type);
+    }
+
+    public YoloException(String message, Exception e, ExceptionType type) {
+        this(message + "\n" + e.toString(), type);
+    }
+
     public YoloException(String message, ExceptionType type) {
         this.message = message;
         this.type = type;
@@ -12,5 +24,9 @@ public class YoloException extends Exception {
     @Override
     public String toString() {
         return "[" + type.toString() + "]: " + message;
+    }
+
+    public void print() {
+        System.err.println(toString());
     }
 }

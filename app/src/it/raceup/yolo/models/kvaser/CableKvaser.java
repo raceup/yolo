@@ -1,5 +1,7 @@
 package it.raceup.yolo.models.kvaser;
 
+import it.raceup.yolo.error.ExceptionType;
+import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.data.CanMessage;
 import obj.Handle;
 import obj.Message;
@@ -26,6 +28,8 @@ public class CableKvaser extends Kvaser {
             CanMessage data = new CanMessage(message);
             return new CanMessage[]{data};
         } catch (Exception e) {
+            new YoloException("Cannot read", e, ExceptionType.CANLIB)
+                    .print();
             return null;
         }
     }
@@ -36,6 +40,8 @@ public class CableKvaser extends Kvaser {
             handle.busOff();  // Going off bus and closing channel
             handle.close();
         } catch (Exception e) {
+            new YoloException("Cannot close handle", e, ExceptionType.CANLIB)
+                    .print();
         }
     }
 
@@ -45,13 +51,17 @@ public class CableKvaser extends Kvaser {
             handle = new Handle(0);  // Set up the channel and going on bus
             handle.setBusParams(canBitrate, 0, 0, 0, 0, 0);
             if (!startConnection()) {
-                logAction("cannot start connection");
+                new YoloException(
+                        "handle: OK, connection: NOT OK",
+                        ExceptionType.KVASER
+                ).print();
                 return false;
             }
 
             return true;
         } catch (Exception e) {
-            System.err.println(e);
+            new YoloException("cannot setup handle", e, ExceptionType.CANLIB)
+                    .print();
             return false;
         }
     }
@@ -72,6 +82,10 @@ public class CableKvaser extends Kvaser {
             handle.write(message);
             return true;
         } catch (Exception e) {
+            new YoloException(
+                    "cannot write",
+                    ExceptionType.KVASER
+            ).print();
             return false;
         }
     }

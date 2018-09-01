@@ -1,10 +1,12 @@
 package it.raceup.yolo.models.data;
 
+import it.raceup.yolo.error.ExceptionType;
+import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
-import static it.raceup.yolo.utils.Utils.printByteArray;
 
 public class Parser {
     private static final int index_diff_1[] = new int[]{
@@ -36,9 +38,8 @@ public class Parser {
         try {
             parseValues();
         } catch (Exception e) {
-            System.err.println("Cannot parse");
-            printByteArray(System.err, data);
-            System.err.println(e.toString());
+            new YoloException("Cannot parse " + Arrays.toString(data), e,
+                    ExceptionType.KVASER).print();
         }
     }
 

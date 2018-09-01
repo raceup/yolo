@@ -288,6 +288,7 @@ public class RestActivity extends Logger {
     }
 
     public JSONArray canRead(int max) {
+        JSONArray none = new JSONArray();
         try {
             RestService service = getRestServiceCanRead();
             service.addParam("hnd", Integer.toString(hnd));
@@ -297,9 +298,9 @@ public class RestActivity extends Logger {
                 return result.getJSONArray("msgs");
             }
 
-            return new JSONArray();
+            return none;
         } catch (Exception e) {
-            return new JSONArray();
+            return none;
         }
     }
 

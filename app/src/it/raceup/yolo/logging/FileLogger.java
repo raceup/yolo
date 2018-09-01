@@ -23,7 +23,6 @@ public class FileLogger {
                     .getParentFile()
                     .mkdirs();
             return isOk && setup(filename);
-
         }
     }
 

@@ -18,6 +18,7 @@ public class Motor {
         this.tag = tag;
     }
 
+    // todo oop
     public void update(Raw data) {
         if (data.isTemperature()) {
             temperature.update(data);
@@ -28,6 +29,7 @@ public class Motor {
         }
     }
 
+    // todo oop
     public double get(Type type) {
         if (isTemperature(type)) {
             temperature.get(type);

@@ -1,5 +1,7 @@
 package it.raceup.yolo.models.canlib;
 
+import it.raceup.yolo.error.ExceptionType;
+import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.logging.Logger;
 import org.apache.http.client.utils.URIBuilder;
 import org.json.JSONObject;
@@ -77,7 +79,11 @@ public class RestService extends Logger {
             scanner.close();
             return json;
         } catch (Exception e) {
-            logError(e.toString());
+            new YoloException(
+                    "cannot GET",
+                    e,
+                    ExceptionType.KVASER
+            ).print();
             return null;
         }
     }

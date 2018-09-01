@@ -1,5 +1,7 @@
 package it.raceup.yolo.models.kvaser;
 
+import it.raceup.yolo.error.ExceptionType;
+import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.canlib.RestActivity;
 import it.raceup.yolo.models.data.CanMessage;
 import org.apache.http.client.utils.URIBuilder;
@@ -102,6 +104,10 @@ public class RemoteKvaser extends Kvaser {
             }
             return messages;
         } catch (Exception e) {
+            new YoloException(
+                    "cannot start connection",
+                    ExceptionType.KVASER
+            ).print();
             return new CanMessage[]{};
         }
     }

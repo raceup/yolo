@@ -2,9 +2,13 @@ package it.raceup.yolo.error;
 
 public enum ExceptionType {
     CANLIB("Canlib"),
+    APP("App"),
     KVASER("CableKvaser"),
-    NULL("Null"),
-    UNKNOWN("Unknown");
+    UNKNOWN("Unknown"),
+    MODEL("Model"),
+    VIEW("View"),
+    CONTROLLER("Controller"),
+    LOGGING("Logging");
 
     private final String name;
 
@@ -13,7 +17,7 @@ public enum ExceptionType {
     }
 
     public boolean equalsName(String otherName) {
-        // (otherName == null) check is not needed because name.equals(null) returns false
+        // check is not needed because name.equals(null) returns false
         return name.equals(otherName);
     }
 
