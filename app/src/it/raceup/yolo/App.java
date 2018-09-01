@@ -42,8 +42,13 @@ public class App extends Logger {
     }
 
     public static void main(String[] args) {
-        System.out.println(args[0]);
-        App app = new App("192.168.43.228");
+        if (args.length != 1) {  // todo refactor
+            System.out.println("Usage: java -jar yolo.jar <IP>. Example: " +
+                    "java jar yolo.jar 192.168.1.12");
+            System.exit(1);
+        }
+
+        App app = new App(args[0]);
         app.start();
     }
 
@@ -83,6 +88,7 @@ public class App extends Logger {
                         updateView();
                     } catch (Exception e) {
                         logError("error while updating");
+                        logError(e.toString());
                     }
                 }
             }, 0, updateMs);
@@ -95,8 +101,17 @@ public class App extends Logger {
             for (Type type : info.keySet()) {
                 Double value = info.get(type);
 
-                view.update(i, type, value);
-                log(i, type, value);
+                try {
+                    view.update(i, type, value);  // update screen
+                } catch (Exception e) {
+                    logError(e.toString());
+                }
+
+                try {
+                    log(i, type, value);  // add to log
+                } catch (Exception e) {
+                    logError(e.toString());
+                }
             }
         }
     }

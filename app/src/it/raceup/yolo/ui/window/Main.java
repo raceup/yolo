@@ -15,9 +15,17 @@ import static it.raceup.yolo.models.car.Car.MOTOR_TAGS;
 public class Main extends JFrame {
     private static final String THIS_PACKAGE = "com.raceup.ed.bms.BmsGui";
     private static final String ICON_PATH = "/res/images/logo.png";
-    private static final Image appIcon = Toolkit.getDefaultToolkit().getImage(
-            THIS_PACKAGE.getClass().getResource(ICON_PATH)
-    );
+    private static Image appIcon = null;
+
+    static {
+        try {
+            appIcon = Toolkit.getDefaultToolkit().getImage(
+                    THIS_PACKAGE.getClass().getResource(ICON_PATH)
+            );
+        } catch (Exception e) {
+            appIcon = null;
+        }
+    }
     private final MotorInfo[] motorPanels = new MotorInfo[MOTOR_TAGS.length];
     private final Motor[] motorWindows = new Motor[MOTOR_TAGS.length];
     private final CanMessageSender canPanel;
@@ -47,7 +55,12 @@ public class Main extends JFrame {
         setResizable(false);
         setVisible(true);
 
-        setIconImage(appIcon);  // set icon
+        try {
+            setIconImage(appIcon);  // set icon
+        } catch (Exception e) {
+            System.err.println("Cannot set image");
+            System.err.println(e.toString());
+        }
     }
 
     private void setupLayout() {
