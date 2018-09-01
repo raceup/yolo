@@ -400,8 +400,6 @@ public class RestActivity extends Logger {
 
     private boolean isOk(JSONObject jsonText) {
         try {
-            logAction("Validating JSON:");
-            logAction(jsonText.toString() + "\n");
             int canStatus = jsonText.getInt("stat");
             return canStatus == CAN_OK;
         } catch (Exception e) {

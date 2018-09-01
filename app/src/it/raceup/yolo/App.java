@@ -44,7 +44,7 @@ public class App extends Logger {
     public static void main(String[] args) {
         if (args.length != 1) {  // todo refactor
             System.out.println("Usage: java -jar yolo.jar <IP>. Example: " +
-                    "java jar yolo.jar 192.168.1.12");
+                    "java jar yolo.jar 192.168.1.52");
             System.exit(1);
         }
 
@@ -124,6 +124,7 @@ public class App extends Logger {
 
     private void close() {
         view.close();
+        kvaser.close();
         logger.save();
     }
 }

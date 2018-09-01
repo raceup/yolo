@@ -3,7 +3,8 @@ package it.raceup.yolo.models.data;
 import it.raceup.yolo.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.Random;
+
+import static it.raceup.yolo.utils.Utils.printByteArray;
 
 public class Parser {
     private static final int index_diff_1[] = new int[]{
@@ -15,8 +16,8 @@ public class Parser {
     private int motorId;
     private static final double TORQUE_CURRENT = 107.2 / 16384;
     private ArrayList<Raw> parsedData = new ArrayList<>();
-    private int id;
-    private byte[] data;
+    private final int id;
+    private final byte[] data;
 
     public Parser(int id, byte[] data) {
         this.id = id;
@@ -30,20 +31,26 @@ public class Parser {
     }
 
     private void parse() {
-        parseMotorId();
-        parseValues();
+        motorId = parseMotorId();
+
+        try {
+            parseValues();
+        } catch (Exception e) {
+            System.err.println("Cannot parse");
+            printByteArray(System.err, data);
+            System.err.println(e.toString());
+        }
     }
 
-    private void parseMotorId() {
-        /* todo uncomment for release for(int i = 0; i < 4; i++) {
+    private int parseMotorId() {
+        for (int i = 0; i < 4; i++) {
             if(id == index_diff_1[i] || id == index_diff_2[i]) {
                 return i;
             }
 
         }
 
-        return 0;*/
-        motorId = new Random().nextInt(4);
+        return 0;
     }
 
     public int getMotorId() {

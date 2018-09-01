@@ -43,6 +43,7 @@ public class Hal {
         }
     }
 
+    // todo use
     public void close() {
         kvaser.close();
     }
@@ -59,6 +60,8 @@ public class Hal {
 
     private void update(CanMessage[] messages) {
         for (CanMessage message : messages) {
+            System.out.println("Parsing");
+            System.out.println(message.toString());
             Raw[] data = new Parser(message).getParsedData();
             update(data);
         }
