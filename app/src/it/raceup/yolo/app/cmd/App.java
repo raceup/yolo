@@ -1,5 +1,6 @@
-package it.raceup.yolo.app;
+package it.raceup.yolo.app.cmd;
 
+import it.raceup.yolo.app.YoloApp;
 import it.raceup.yolo.control.Hal;
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
@@ -21,7 +22,7 @@ import static it.raceup.yolo.utils.Utils.getTimeNow;
  * Command line interface for telemetry (yolo-cli). Setups connection with
  * Kvaser and outputs current car data as soon as new data has arrived.
  */
-public class Cmd extends ShellLogger {
+public class App extends ShellLogger implements YoloApp {
     private static final String logFile = System.getProperty("user.dir") +
             "/logs/" + getTimeNow("YYYY-MM-dd_HH-mm-ss") + ".log";
     private CommandLine cmd;
@@ -30,16 +31,16 @@ public class Cmd extends ShellLogger {
     private FileLogger logger;
 
     public static void main(String[] args) {
-        Cmd cmd = new Cmd();
-        cmd.parseArgs(args);
+        App app = new App();
+        app.parseArgs(args);
 
         try {
-            cmd.setup();
-            cmd.start();
+            app.setup();
+            app.start();
         } catch (Exception e) {
-            cmd.log(e);
+            app.log(e);
         } finally {
-            cmd.close();
+            app.close();
         }
     }
 
@@ -87,6 +88,18 @@ public class Cmd extends ShellLogger {
         hal.close();
     }
 
+    public void update() {
+        for (int i = 0; i < hal.numberOfMotors(); i++) {
+            HashMap<Type, Double> info = hal.getInfo(i);
+            for (Type type : info.keySet()) {
+                Double value = info.get(type);
+
+                updateScreen(i, type, value);
+                updateLog(i, type, value);
+            }
+        }
+    }
+
     private Options getCmdOptions() {
         Options options = new Options();
 
@@ -131,18 +144,6 @@ public class Cmd extends ShellLogger {
         options.add(cmd.getOptionValue("can-bitrate"));
         options.add(cmd.getOptionValue("view"));
         return options;
-    }
-
-    private void update() {
-        for (int i = 0; i < hal.numberOfMotors(); i++) {
-            HashMap<Type, Double> info = hal.getInfo(i);
-            for (Type type : info.keySet()) {
-                Double value = info.get(type);
-
-                updateScreen(i, type, value);
-                updateLog(i, type, value);
-            }
-        }
     }
 
     private void updateScreen(int motor, Type type, double value) {
