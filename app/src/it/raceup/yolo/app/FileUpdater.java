@@ -1,31 +1,28 @@
-package it.raceup.yolo.app.cmd;
+package it.raceup.yolo.app;
 
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.logging.FileLogger;
-import it.raceup.yolo.logging.ShellLogger;
-
-import java.util.Observer;
 
 import static it.raceup.yolo.utils.Utils.getTimeNow;
 
 /**
  * Updates file and screen with data
  */
-public abstract class Updater extends ShellLogger implements Observer {
+public abstract class FileUpdater extends Updater {
     private static final String logFile = System.getProperty("user.dir") +
             "/logs/" + getTimeNow("YYYY-MM-dd_HH-mm-ss") + ".log";
     protected FileLogger fileLogger;
 
-    public Updater() {
-        this("UPDATER", logFile);
+    public FileUpdater() {
+        this("FILE UPDATER", logFile);
     }
 
-    public Updater(String tag) {
+    public FileUpdater(String tag) {
         this(tag, logFile);
     }
 
-    public Updater(String tag, String logFile) {
+    public FileUpdater(String tag, String logFile) {
         super(tag);
         setup(logFile);
     }

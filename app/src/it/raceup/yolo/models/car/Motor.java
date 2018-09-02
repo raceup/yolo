@@ -6,6 +6,8 @@ import it.raceup.yolo.models.motor.Flags;
 import it.raceup.yolo.models.motor.SetPoint;
 import it.raceup.yolo.models.motor.Temperature;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static it.raceup.yolo.models.data.Raw.*;
@@ -17,11 +19,13 @@ public class Motor {
     private String tag;
 
     public static String getLineHeader(String separator) {
-        String[] labels = Stream.of(Raw.ALL)
+        List<String> values = Stream.of(Raw.ALL)
                 .map(Type::toString)
-                .toArray(String[]::new);
+                .collect(Collectors.toList());
 
-        return getLine(labels, separator);
+        values.add(0, "Tag");
+
+        return getLine(values.toArray(new String[values.size()]), separator);
     }
 
     public Motor(String tag) {
@@ -65,12 +69,14 @@ public class Motor {
     }
 
     public String getLine(String separator) {
-        String[] values = Stream.of(Raw.ALL)  // todo test
+        List<String> values = Stream.of(Raw.ALL)
                 .map(this::get)
                 .map(x -> Double.toString(x))
-                .toArray(String[]::new);
+                .collect(Collectors.toList());
 
-        return getLine(values, separator);
+        values.add(0, getTag());
+
+        return getLine(values.toArray(new String[values.size()]), separator);
     }
 
 

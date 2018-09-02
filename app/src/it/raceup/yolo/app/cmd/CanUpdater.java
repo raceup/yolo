@@ -1,5 +1,6 @@
 package it.raceup.yolo.app.cmd;
 
+import it.raceup.yolo.app.FileUpdater;
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.data.CanMessage;
@@ -13,7 +14,7 @@ import static it.raceup.yolo.utils.Utils.getLineSeparator;
 /**
  * Updates with CAN data
  */
-public class CanUpdater extends Updater {
+public class CanUpdater extends FileUpdater {
     public CanUpdater() {
         super("CAN UPDATER");
         writeLog(CanMessage.getLineHeader(","));

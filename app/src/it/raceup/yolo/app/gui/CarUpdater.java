@@ -1,4 +1,4 @@
-package it.raceup.yolo.app.cmd;
+package it.raceup.yolo.app.gui;
 
 import it.raceup.yolo.app.FileUpdater;
 import it.raceup.yolo.error.ExceptionType;
@@ -8,11 +8,11 @@ import it.raceup.yolo.models.car.Motor;
 import java.util.Observable;
 
 /**
- * Updates with car data
+ * Updates screen with car data
  */
 public class CarUpdater extends FileUpdater {
     public CarUpdater() {
-        super("CAR UPDATER");
+        super("CAR UPDATER (VIEW)");
         writeLog(Motor.getLineHeader(","));
     }
 
