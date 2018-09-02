@@ -19,11 +19,6 @@ public class App extends ShellLogger implements YoloApp {
     }
 
     @Override
-    public void update() {
-        // todo
-    }
-
-    @Override
     public void close() {
         // todo
     }

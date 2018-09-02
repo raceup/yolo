@@ -10,6 +10,7 @@ import it.raceup.yolo.models.kvaser.Kvaser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Observer;
 
 /**
  * Handles business logic of telemetry. Opens connection with Kvaser and
@@ -24,7 +25,15 @@ public class Hal extends ShellLogger {
 
         this.car = car;
         this.kvaser = kvaser;
-        this.kvaser.addObserver(car);
+        addObserverToKvaser(car);
+    }
+
+    public void addObserverToKvaser(Observer observer) {
+        kvaser.addObserver(observer);
+    }
+
+    public void addObserverToCar(Observer observer) {
+        car.addObserver(observer);
     }
 
     public void setup(String canBitrate) throws YoloException {

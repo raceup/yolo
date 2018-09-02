@@ -8,7 +8,5 @@ public interface YoloApp {
 
     void start();
 
-    void update();
-
     void close();
 }

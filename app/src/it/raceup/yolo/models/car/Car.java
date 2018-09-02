@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-public class Car implements Observer {
+public class Car extends Observable implements Observer {
     public static final String[] DEFAULT_MOTORS = new String[]{
             "Front Left", "Front Right", "Rear Left", "Rear Right"
     };  // 4 motors in car
@@ -28,7 +28,7 @@ public class Car implements Observer {
         }
     }
 
-    public void update(Raw data) {
+    private void update(Raw data) {
         int motor = data.getMotor();
         motors[motor].update(data);
     }
@@ -54,9 +54,15 @@ public class Car implements Observer {
     public void update(Observable observable, Object o) {
         try {
             this.update((ArrayList<CanMessage>) o);
+            triggerObservers();
         } catch (Exception e) {
             new YoloException("cannot update car", e, ExceptionType.KVASER)
                     .print();
         }
+    }
+
+    private void triggerObservers() {
+        setChanged();
+        notifyObservers(motors);
     }
 }

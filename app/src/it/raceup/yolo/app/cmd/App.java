@@ -2,33 +2,21 @@ package it.raceup.yolo.app.cmd;
 
 import it.raceup.yolo.app.YoloApp;
 import it.raceup.yolo.control.Hal;
-import it.raceup.yolo.error.ExceptionType;
-import it.raceup.yolo.error.YoloException;
-import it.raceup.yolo.logging.FileLogger;
 import it.raceup.yolo.logging.ShellLogger;
 import it.raceup.yolo.models.car.Car;
-import it.raceup.yolo.models.data.Type;
 import it.raceup.yolo.models.kvaser.BlackBird;
 import org.apache.commons.cli.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import static it.raceup.yolo.utils.Utils.getTimeNow;
 
 /**
  * Command line interface for telemetry (yolo-cli). Setups connection with
  * Kvaser and outputs current car data as soon as new data has arrived.
  */
 public class App extends ShellLogger implements YoloApp {
-    private static final String logFile = System.getProperty("user.dir") +
-            "/logs/" + getTimeNow("YYYY-MM-dd_HH-mm-ss") + ".log";
     private CommandLine cmd;
     private ArrayList<String> options;
     private Hal hal;
-    private FileLogger logger;
 
     public static void main(String[] args) {
         App app = new App();
@@ -51,6 +39,11 @@ public class App extends ShellLogger implements YoloApp {
     }
 
     public void setup() {
+        setupKvaser();
+        setupUpdater();
+    }
+
+    private void setupKvaser() {
         hal = new Hal(
                 new Car(),
                 new BlackBird(options.get(0))
@@ -62,42 +55,22 @@ public class App extends ShellLogger implements YoloApp {
             log(e);
             System.exit(1);
         }
+    }
 
-        try {
-            FileLogger.create(logFile);
-            logger = new FileLogger(logFile);
-        } catch (Exception e) {
-            new YoloException("cannot create log file", ExceptionType
-                    .UNKNOWN).print();
+    private void setupUpdater() {
+        if (options.get(2).equals("can")) {
+            hal.addObserverToKvaser(new CanUpdater());
+        } else if (options.get(2).equals("car")) {
+            hal.addObserverToCar(new CarUpdater());
         }
     }
 
     public void start() {
         hal.start();
-
-        Timer t = new Timer();
-        t.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                update();
-            }
-        }, 0, 1000);
     }
 
     public void close() {
         hal.close();
-    }
-
-    public void update() {
-        for (int i = 0; i < hal.numberOfMotors(); i++) {
-            HashMap<Type, Double> info = hal.getInfo(i);
-            for (Type type : info.keySet()) {
-                Double value = info.get(type);
-
-                updateScreen(i, type, value);
-                updateLog(i, type, value);
-            }
-        }
     }
 
     private Options getCmdOptions() {
@@ -144,17 +117,5 @@ public class App extends ShellLogger implements YoloApp {
         options.add(cmd.getOptionValue("can-bitrate"));
         options.add(cmd.getOptionValue("view"));
         return options;
-    }
-
-    private void updateScreen(int motor, Type type, double value) {
-        //
-    }
-
-    private void updateLog(int motor, Type type, Double value) {
-        if (logger != null) {
-            String message = Integer.toString(motor) + ": " + value.toString() +
-                    " " + type.toString();
-            logger.log(logger.getMessage(message, true, true));
-        }
     }
 }
