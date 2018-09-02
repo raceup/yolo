@@ -21,16 +21,7 @@ public class Motor {
                 .map(Type::toString)
                 .toArray(String[]::new);
 
-        StringBuilder line = new StringBuilder(getLine(labels, separator));
-
-        int length = line.length();
-        line.append("\n");
-        for (int i = 0; i < length; i++) {
-            line.append("-");
-        }
-        line.append("\n");
-
-        return line.toString();
+        return getLine(labels, separator);
     }
 
     public Motor(String tag) {
@@ -87,8 +78,8 @@ public class Motor {
         StringBuilder out = new StringBuilder();
 
         for (Type type : types) {
-            out.append(String.format("\t\t%-40s: ", type.toString()));
-            out.append(String.format("%-40s: ", get(type)));
+            out.append(String.format("%-20s: ", type.toString()));
+            out.append(String.format("%-8s| ", get(type)));
         }
 
         return out.toString();
@@ -110,13 +101,13 @@ public class Motor {
     public String toString() {
         String out = "Motor " + tag + ":\n";
         out += "\tTEMPERATURES:\n";
-        out += toStringTemperatures() + "\n";
+        out += "\t\t" + toStringTemperatures() + "\n";
 
         out += "\tFLAGS:\n";
-        out += toStringFlags() + "\n";
+        out += "\t\t" + toStringFlags() + "\n";
 
         out += "\tSET POINTS:\n";
-        out += toStringSetPoints() + "\n";
+        out += "\t\t" + toStringSetPoints() + "\n";
 
         return out;
     }

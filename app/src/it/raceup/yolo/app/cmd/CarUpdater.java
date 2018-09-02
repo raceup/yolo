@@ -16,7 +16,11 @@ public class CarUpdater extends Updater {
     }
 
     private void update(Motor motor) {
-        log(motor.toString());  // to std output
+        String message = motor.toString();
+        String[] lines = message.split("\n");
+        for (String line : lines) {
+            log(line);  // to std output
+        }
         writeLog(motor.getLine(","));  // to file
     }
 
