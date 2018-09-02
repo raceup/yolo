@@ -2,7 +2,6 @@ package it.raceup.yolo.app.cmd;
 
 import it.raceup.yolo.app.YoloApp;
 import it.raceup.yolo.control.Hal;
-import it.raceup.yolo.logging.ShellLogger;
 import it.raceup.yolo.models.car.Car;
 import it.raceup.yolo.models.kvaser.BlackBird;
 import org.apache.commons.cli.*;
@@ -13,27 +12,19 @@ import java.util.ArrayList;
  * Command line interface for telemetry (yolo-cli). Setups connection with
  * Kvaser and outputs current car data as soon as new data has arrived.
  */
-public class App extends ShellLogger implements YoloApp {
+public class App extends YoloApp {
     private CommandLine cmd;
     private ArrayList<String> options;
     private Hal hal;
 
-    public App() {
+    public App(String[] args) {
         super("CMD APP");
+        parseArgs(args);
+        build();
     }
 
     public static void main(String[] args) {
-        App app = new App();
-        app.parseArgs(args);
-
-        try {
-            app.setup();
-            app.start();
-        } catch (Exception e) {
-            app.log(e);
-        } finally {
-            app.close();
-        }
+        App app = new App(args);
     }
 
     private void parseArgs(String[] args) {

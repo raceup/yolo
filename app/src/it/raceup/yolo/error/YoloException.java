@@ -3,6 +3,7 @@ package it.raceup.yolo.error;
 public class YoloException extends Exception {
     private String message;
     private ExceptionType type;
+    private static final String errorFormatter = "%-40s";
 
     public YoloException(Exception e) {
         this(e, ExceptionType.UNKNOWN);
@@ -23,7 +24,9 @@ public class YoloException extends Exception {
 
     @Override
     public String toString() {
-        return "(exception of type " + type.toString() + ") -- " + message;
+        return String.format(
+                errorFormatter, "(exception of type " + type.toString() + ")"
+        ) + " -- " + message;
     }
 
     public void print() {

@@ -8,6 +8,9 @@ import static it.raceup.yolo.utils.Utils.getTimeNow;
 public class StreamLogger implements Logger {
     public String TAG;
     private OutputStream writer;
+    private static final String timeFormatter = "%-21s";
+    private static final String errorFormatter = "%-80s";
+    private static final String tagFormatter = "%-45s";
 
     public StreamLogger(String tag, OutputStream writer) {
         TAG = tag;
@@ -15,17 +18,17 @@ public class StreamLogger implements Logger {
     }
 
     public String getLogMessage(String message) {
-        return "{" + TAG + "} " + message;
+        return String.format(tagFormatter, "{" + TAG + "}") + " " + message;
     }
 
     public String getErrorMessage(Exception e) {
-        return e.toString();
+        return String.format(errorFormatter, e.toString()) + " ";
     }
 
     public String getMessage(String message, boolean newLine, boolean withTime) {
         if (withTime) {
-            message = "[" + getTimeNow("YYYY-MM-dd HH:mm:ss") + "] " +
-                    message;
+            message = String.format(timeFormatter, "[" + getTimeNow
+                    ("YYYY-MM-dd HH:mm:ss") + "]") + " " + message;
         }
 
         if (newLine) {

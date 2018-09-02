@@ -1,12 +1,24 @@
 package it.raceup.yolo.app;
 
-/**
- * Interface for all telemetry app using a Kvaser and YOLO framework
- */
-public interface YoloApp {
-    void setup();
+import it.raceup.yolo.logging.ShellLogger;
 
-    void start();
+public abstract class YoloApp extends ShellLogger implements Yolo {
+    public YoloApp(String tag) {
+        super(tag);
+    }
 
-    void close();
+    public YoloApp() {
+        this("YOLO APP");
+    }
+
+    protected final void build() {
+        try {
+            setup();
+            start();
+        } catch (Exception e) {
+            log(e);
+        } finally {
+            close();
+        }
+    }
 }
