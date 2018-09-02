@@ -40,7 +40,7 @@ public class App extends YoloApp {
     private void setupKvaser() {
         hal = new Hal(
                 new Car(),
-                new FakeBlackBird(options.get(0))  // todo BlackBird
+                new FakeBlackBird(options.get(0))  // todo use BlackBird
         );
 
         try {

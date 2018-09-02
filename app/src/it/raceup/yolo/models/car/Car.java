@@ -53,7 +53,7 @@ public class Car extends Observable implements Observer {
     @Override
     public void update(Observable observable, Object o) {
         try {
-            this.update((ArrayList<CanMessage>) o);
+            update((ArrayList<CanMessage>) o);
             triggerObservers();
         } catch (Exception e) {
             new YoloException("cannot update car", e, ExceptionType.KVASER)

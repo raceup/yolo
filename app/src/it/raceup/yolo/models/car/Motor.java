@@ -17,7 +17,7 @@ public class Motor {
     private String tag;
 
     public static String getLineHeader(String separator) {
-        String[] labels = Stream.of(Raw.ALL)  // todo test
+        String[] labels = Stream.of(Raw.ALL)
                 .map(Type::toString)
                 .toArray(String[]::new);
 
@@ -42,11 +42,11 @@ public class Motor {
     // todo oop
     public double get(Type type) {
         if (isTemperature(type)) {
-            temperature.get(type);
+            return temperature.get(type);
         } else if (isFlag(type)) {
-            flags.get(type);
+            return flags.get(type);
         } else if (isSetPoint(type)) {
-            setPoint.get(type);
+            return setPoint.get(type);
         }
 
         return 0;  // todo exception

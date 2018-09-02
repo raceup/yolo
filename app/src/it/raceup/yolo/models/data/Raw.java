@@ -90,7 +90,7 @@ public class Raw {
 
     @Override
     public String toString() {
-        return getType().toString() + " @" + Integer.toString(getMotor()) + ": " +
-                Double.toString(getRaw());
+        return getType().toString() + " @ " + Integer.toString(getMotor()) +
+                ": " + Double.toString(getRaw());
     }
 }
