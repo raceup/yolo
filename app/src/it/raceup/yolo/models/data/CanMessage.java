@@ -57,6 +57,15 @@ public class CanMessage extends Message {
         return data;
     }
 
+    public String getDataAsString() {
+        byte[] data = getData();
+        String[] bytes = new String[data.length];
+        for (int i = 0; i < bytes.length; i++) {  // todo use stream
+            bytes[i] = String.format("%3s", Byte.toString(data[i]));
+        }
+        return Arrays.toString(bytes);
+    }
+
     public static String getLineHeader(String separator) {
         return getLine("Time", "ID",
                 "Flags", "Dlc", "Data", separator);
@@ -79,7 +88,7 @@ public class CanMessage extends Message {
                 Integer.toString(getId()),
                 Integer.toString(getFlags()),
                 Integer.toString(getDlc()),
-                Arrays.toString(getData()),
+                getDataAsString(),
                 separator
         );
     }
@@ -108,16 +117,5 @@ public class CanMessage extends Message {
     @Override
     public String toString() {
         return getDict();
-    }
-
-    public String toCsv() {
-        return getLine(
-                Long.toString(getTime()),
-                Integer.toString(getId()),
-                Integer.toString(getFlags()),
-                Integer.toString(getDlc()),
-                Arrays.toString(getData()),
-                ","
-        );
     }
 }

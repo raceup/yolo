@@ -7,15 +7,17 @@ import org.apache.http.client.utils.URIBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.Arrays;
+import java.util.concurrent.ThreadLocalRandom;
+
 /**
  * Faking a Kvaser Blackbird for debug purposes.
  */
 public class FakeBlackBird extends Kvaser {
     private static final String HTTP_SCHEME = "http";
     private static final int PORT = 8080;
-    private static final String SAMPLE_JSON = "[{'msg':[0,0,0,0,0,0," +
-            "0,0],'flag':2,'dlc':8,'id':393,'time':15876454},{'msg':[0,0,0," +
-            "0,0,0,0,0],'flag':2,'dlc':8,'id':392,'time':15876580}]";
+    private static final String[] IDS = new String[]{"17", "18", "19", "20",
+            "21", "22", "23", "24", "25", "33", "388", "389", "392", "393"};
 
     public FakeBlackBird(String ip) {
         this(HTTP_SCHEME, ip, PORT);
@@ -78,28 +80,14 @@ public class FakeBlackBird extends Kvaser {
         return true;
     }
 
-    private CanMessage[] readCan() {
-        try {
-            JSONArray raw = new JSONArray(SAMPLE_JSON);
-            CanMessage[] messages = new CanMessage[raw.length()];
-            for (int i = 0; i < raw.length(); i++) {
-                JSONObject message = raw.getJSONObject(i);
-                messages[i] = CanMessage.parseJson(message);
-            }
-
-            Thread.sleep(50);
-
-            return messages;
-        } catch (Exception e) {
-            log(
-                    new YoloException(
-                            "cannot read CAN",
-                            e,
-                            ExceptionType.KVASER
-                    )
-            );
-            return new CanMessage[]{};
-        }
+    private static String getRandomMessage() {
+        String message = "{";
+        message += "'msg':" + Arrays.toString(getRandomData(8)) + ",";
+        message += "'flag':" + Integer.toString(getRandomInt(10, 20)) + ",";
+        message += "'dlc':" + Integer.toString(getRandomInt(20, 30)) + ",";
+        message += "'id':" + IDS[getRandomInt(0, IDS.length - 1)] + ",";
+        message += "'time':" + Integer.toString(getRandomInt(30, 40)) + "}";
+        return message;
     }
 
     @Override
@@ -132,6 +120,56 @@ public class FakeBlackBird extends Kvaser {
 
         if (!closeConnection()) {
             log("cannot close connection");
+        }
+    }
+
+    private static String[] getRandomMessages(int number) {
+        String[] messages = new String[number];
+        for (int i = 0; i < number; i++) {
+            messages[i] = getRandomMessage();
+        }
+        return messages;
+    }
+
+    private static String getRandomPacket() {
+        int numberOfMessages = getRandomInt(1, 100);
+        String[] messages = getRandomMessages(numberOfMessages);
+        return "[" + String.join(",", messages) + "]";
+    }
+
+    private static int getRandomInt(int min, int max) {
+        return ThreadLocalRandom.current().nextInt(min, max + 1);
+    }
+
+    private static byte[] getRandomData(int length) {
+        byte[] data = new byte[length];
+        for (int i = 0; i < length; i++) {
+            data[i] = (byte) getRandomInt(0, Byte.MAX_VALUE - 1);
+        }
+        return data;
+    }
+
+    private CanMessage[] readCan() {
+        try {
+            JSONArray raw = new JSONArray(getRandomPacket());
+            CanMessage[] messages = new CanMessage[raw.length()];
+            for (int i = 0; i < raw.length(); i++) {
+                JSONObject message = raw.getJSONObject(i);
+                messages[i] = CanMessage.parseJson(message);
+            }
+
+            Thread.sleep(50);
+
+            return messages;
+        } catch (Exception e) {
+            log(
+                    new YoloException(
+                            "cannot read CAN",
+                            e,
+                            ExceptionType.KVASER
+                    )
+            );
+            return new CanMessage[]{};
         }
     }
 }
