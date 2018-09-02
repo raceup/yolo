@@ -15,7 +15,7 @@ import static it.raceup.yolo.utils.Utils.getTimeNow;
 public abstract class Updater extends ShellLogger implements Observer {
     private static final String logFile = System.getProperty("user.dir") +
             "/logs/" + getTimeNow("YYYY-MM-dd_HH-mm-ss") + ".log";
-    protected FileLogger logger;
+    protected FileLogger fileLogger;
 
     public Updater() {
         this(logFile);
@@ -29,10 +29,16 @@ public abstract class Updater extends ShellLogger implements Observer {
     private void setup(String logFile) {
         try {
             FileLogger.create(logFile);
-            logger = new FileLogger(logFile);
+            fileLogger = new FileLogger(logFile);
         } catch (Exception e) {
             new YoloException("cannot create log file", ExceptionType
                     .UNKNOWN).print();
+        }
+    }
+
+    public void writeLog(String message) {
+        if (fileLogger != null) {
+            fileLogger.log(fileLogger.getMessage(message, true, true));
         }
     }
 }

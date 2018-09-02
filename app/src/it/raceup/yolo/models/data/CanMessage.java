@@ -57,14 +57,60 @@ public class CanMessage extends Message {
         return data;
     }
 
+    public static String getLineHeader() {
+        StringBuilder line = new StringBuilder(getLine("Time", "ID", "Flags", "Dlc", "Data"));
+        int length = line.length();
+        line.append("\n");
+        for (int i = 0; i < length; i++) {
+            line.append("-");
+        }
+        line.append("\n");
+        return line.toString();
+    }
+
+    public static String getLine(String time, String id, String flags,
+                                 String dlc, String data) {
+        String out = String.format("|%-14s|", time);
+        out += String.format("%-15s|", id);
+        out += String.format("%-15s|", flags);
+        out += String.format("%-15s|", dlc);
+        out += String.format("%-15s|", data);
+        return out;
+    }
+
+    public static String getDict(String time, String id, String flags,
+                                 String dlc, String data) {
+        String out = "CanMessage {\n";
+        out += "\tTime: " + time + "\n";
+        out += "\tID: " + id + "\n";
+        out += "\tFlags: " + flags + "\n";
+        out += "\tDlc: " + dlc + "\n";
+        out += "\tData: " + data + "\n}";
+        return out;
+    }
+
+    public String getDict() {
+        return getDict(
+                Long.toString(getTime()),
+                Integer.toString(getId()),
+                Integer.toString(getFlags()),
+                Integer.toString(getDlc()),
+                Arrays.toString(getData())
+        );
+    }
+
+    public String getLine() {
+        return getLine(
+                Long.toString(getTime()),
+                Integer.toString(getId()),
+                Integer.toString(getFlags()),
+                Integer.toString(getDlc()),
+                Arrays.toString(getData())
+        );
+    }
+
     @Override
     public String toString() {
-        String buffer = "CanMessage {\n";
-        buffer += "\ttime: " + getTime() + "\n";
-        buffer += "\tid: " + getId() + "\n";
-        buffer += "\tflag: " + getFlags() + "\n";
-        buffer += "\tdlc: " + getDlc() + "\n";
-        buffer += "\tdata: " + Arrays.toString(getData()) + "\n}";
-        return buffer;
+        return getDict();
     }
 }
