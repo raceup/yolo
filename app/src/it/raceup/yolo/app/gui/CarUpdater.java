@@ -36,7 +36,7 @@ public class CarUpdater extends FileUpdater {
         try {
             this.update((Motor[]) o);
         } catch (Exception e) {
-            new YoloException("cannot update car", e, ExceptionType.KVASER)
+            new YoloException("cannot update car", e, ExceptionType.VIEW)
                     .print();
         }
     }

@@ -11,7 +11,7 @@ public abstract class YoloApp extends ShellLogger implements Yolo {
         this("YOLO APP");
     }
 
-    protected final void build() {
+    public final void open() {
         try {
             setup();
             start();

@@ -20,11 +20,11 @@ public class App extends YoloApp {
     public App(String[] args) {
         super("CMD APP");
         parseArgs(args);
-        build();
     }
 
     public static void main(String[] args) {
         App app = new App(args);
+        app.open();
     }
 
     private void parseArgs(String[] args) {
@@ -38,13 +38,16 @@ public class App extends YoloApp {
     }
 
     private void setupKvaser() {
+        String ip = options.get(0);
+        String bitrate = options.get(1);
+
         hal = new Hal(
                 new Car(),
-                new FakeBlackBird(options.get(0))  // todo use BlackBird
+                new FakeBlackBird(ip)  // todo use BlackBird in production
         );
 
         try {
-            hal.setup(options.get(1));
+            hal.setup(bitrate);
         } catch (Exception e) {
             log(e);
             System.exit(1);
