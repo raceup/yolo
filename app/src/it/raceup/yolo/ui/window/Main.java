@@ -3,7 +3,6 @@ package it.raceup.yolo.ui.window;
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.data.Raw;
-import it.raceup.yolo.models.kvaser.Kvaser;
 import it.raceup.yolo.ui.component.CanMessageSender;
 import it.raceup.yolo.ui.component.MotorInfo;
 import it.raceup.yolo.ui.utils.AboutDialog;
@@ -37,7 +36,7 @@ public class Main extends JFrame {
     private final Motor[] motorWindows = new Motor[DEFAULT_MOTORS.length];
     private final CanMessageSender canPanel;
 
-    public Main(Kvaser kvaser) {
+    public Main() {
         super("YOLO | Race Up Electric Division");
 
         for (int i = 0; i < DEFAULT_MOTORS.length; i++) {
@@ -45,7 +44,7 @@ public class Main extends JFrame {
             motorWindows[i] = new Motor(DEFAULT_MOTORS[i]);
         }
 
-        canPanel = new CanMessageSender(kvaser);
+        canPanel = new CanMessageSender(null);  // todo provide kvaser
         setup();
         setWindowsTogglers();
         open();
@@ -62,6 +61,7 @@ public class Main extends JFrame {
             setLocation(0, 0);  // top left corner
             setResizable(false);
             setVisible(true);
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // close app
         } catch (Exception e) {
             new YoloException(
                     "cannot open view",

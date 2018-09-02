@@ -4,6 +4,9 @@ import it.raceup.yolo.app.FileUpdater;
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.car.Motor;
+import it.raceup.yolo.models.data.Raw;
+import it.raceup.yolo.models.data.Type;
+import it.raceup.yolo.ui.window.Main;
 
 import java.util.Observable;
 
@@ -11,23 +14,21 @@ import java.util.Observable;
  * Updates screen with car data
  */
 public class CarUpdater extends FileUpdater {
-    public CarUpdater() {
+    private Main view;
+
+    public CarUpdater(Main view) {
         super("CAR UPDATER (VIEW)");
+
+        this.view = view;
         writeLog(Motor.getLineHeader(","));
     }
 
-    private void update(Motor motor) {
-        String message = motor.toString();
-        String[] lines = message.split("\n");
-        for (String line : lines) {
-            log(line);  // to std output
-        }
-        writeLog(motor.getLine(","));  // to file
-    }
-
     private void update(Motor[] motors) {
-        for (Motor motor : motors) {
-            update(motor);
+        for (int i = 0; i < motors.length; i++) {
+            for (Type type : Raw.ALL) {
+                double value = motors[i].get(type);  // fetch from model
+                view.update(i, type, value);  // update view
+            }
         }
     }
 

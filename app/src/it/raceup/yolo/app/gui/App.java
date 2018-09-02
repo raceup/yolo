@@ -4,18 +4,22 @@ import it.raceup.yolo.app.KvaserApp;
 import it.raceup.yolo.control.Hal;
 import it.raceup.yolo.models.car.Car;
 import it.raceup.yolo.models.kvaser.FakeBlackBird;
+import it.raceup.yolo.ui.window.Main;
 
 /**
  * UI interface for telemetry (yolo-gui). Opens window for settings and
  * incoming data. Listens for new data and updates screen as soon as possible.
  */
 public class App extends KvaserApp {
+    private Main view;
+
     public App() {
         this("GUI APP");
     }
 
     public App(String tag) {
         super(tag);
+        view = new Main();
     }
 
     public static void main(String[] args) {
@@ -24,7 +28,7 @@ public class App extends KvaserApp {
     }
 
     @Override
-    public void setup() {
+    protected void setupKvaser() {
         String ip = "192.168.1.1";
         String bitrate = "1m";
 
@@ -43,7 +47,12 @@ public class App extends KvaserApp {
     }
 
     @Override
+    protected void setupUpdaters() {
+        hal.addObserverToCar(new CarUpdater(view));
+    }
+
+    @Override
     public void start() {
-        // todo
+        hal.start();  // todo defer start
     }
 }

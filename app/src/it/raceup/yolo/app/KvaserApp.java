@@ -10,7 +10,14 @@ public abstract class KvaserApp extends YoloApp {
     }
 
     @Override
-    public abstract void setup();
+    public void setup() {
+        setupKvaser();
+        setupUpdaters();
+    }
+
+    protected abstract void setupKvaser();
+
+    protected abstract void setupUpdaters();
 
     @Override
     public abstract void start();

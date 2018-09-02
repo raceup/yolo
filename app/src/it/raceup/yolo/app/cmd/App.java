@@ -1,6 +1,6 @@
 package it.raceup.yolo.app.cmd;
 
-import it.raceup.yolo.app.YoloApp;
+import it.raceup.yolo.app.KvaserApp;
 import it.raceup.yolo.control.Hal;
 import it.raceup.yolo.models.car.Car;
 import it.raceup.yolo.models.kvaser.FakeBlackBird;
@@ -12,10 +12,9 @@ import java.util.ArrayList;
  * Command line interface for telemetry (yolo-cli). Setups connection with
  * Kvaser and outputs current car data as soon as new data has arrived.
  */
-public class App extends YoloApp {
+public class App extends KvaserApp {
     private CommandLine cmd;
     private ArrayList<String> options;
-    private Hal hal;
 
     public App(String[] args) {
         super("CMD APP");
@@ -32,12 +31,8 @@ public class App extends YoloApp {
         options = parseCmdOptions();
     }
 
-    public void setup() {
-        setupKvaser();
-        setupUpdater();
-    }
-
-    private void setupKvaser() {
+    @Override
+    protected void setupKvaser() {
         String ip = options.get(0);
         String bitrate = options.get(1);
 
@@ -54,7 +49,8 @@ public class App extends YoloApp {
         }
     }
 
-    private void setupUpdater() {
+    @Override
+    protected void setupUpdaters() {
         if (options.get(2).equals("can")) {
             hal.addObserverToKvaser(new CanUpdater());
         } else if (options.get(2).equals("car")) {

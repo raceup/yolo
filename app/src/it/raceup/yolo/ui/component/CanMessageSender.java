@@ -1,5 +1,7 @@
 package it.raceup.yolo.ui.component;
 
+import it.raceup.yolo.error.ExceptionType;
+import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.kvaser.Kvaser;
 
 import javax.swing.*;
@@ -19,7 +21,6 @@ public class CanMessageSender extends JPanel {
 
     private void setup() {
         setupLayout();
-
         sendButton.addActionListener(e -> sendMessage());
     }
 
@@ -68,8 +69,8 @@ public class CanMessageSender extends JPanel {
         String msgId = editorId.getText();
         String msgContent = editorMessage.getText();
         // todo kvaser.sendMessage(Integer.parseInt(msgId), new byte[]{}, 0);
-        System.err.println("@" + msgId + ": " + msgContent);
-        System.err.println("sendMessage(): NOT IMPLEMENTED");  // todo send
+        new YoloException("sendMessage to " + msgId + " (" + msgContent +
+                ") NOT IMPLEMENTED", ExceptionType.KVASER).print();
     }
 
     private void checkMessage() {
