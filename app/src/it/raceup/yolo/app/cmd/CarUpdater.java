@@ -11,7 +11,8 @@ import java.util.Observable;
  */
 public class CarUpdater extends Updater {
     private void update(Motor motor) {
-        // todo
+        log(motor.toString());  // to std output
+        writeLog(motor.getLine());  // to file
     }
 
     private void update(Motor[] motors) {

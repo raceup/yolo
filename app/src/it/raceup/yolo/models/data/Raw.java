@@ -1,5 +1,6 @@
 package it.raceup.yolo.models.data;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Raw {
@@ -31,6 +32,15 @@ public class Raw {
             Type.TORQUE_CURRENT,
             Type.MAGNETIZING_CURRENT
     };
+    public static final Type[] ALL;
+
+    static {
+        ArrayList<Type> headers = new ArrayList<>();
+        headers.addAll(Arrays.asList(TEMPERATURES));
+        headers.addAll(Arrays.asList(FLAGS));
+        headers.addAll(Arrays.asList(SET_POINTS));
+        ALL = headers.toArray(new Type[headers.size()]);
+    }
 
     public Type type;
     public double raw;

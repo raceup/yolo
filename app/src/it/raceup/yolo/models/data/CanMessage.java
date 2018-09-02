@@ -78,6 +78,16 @@ public class CanMessage extends Message {
         return out;
     }
 
+    public String getLine() {
+        return getLine(
+                Long.toString(getTime()),
+                Integer.toString(getId()),
+                Integer.toString(getFlags()),
+                Integer.toString(getDlc()),
+                Arrays.toString(getData())
+        );
+    }
+
     public static String getDict(String time, String id, String flags,
                                  String dlc, String data) {
         String out = "CanMessage {\n";
@@ -91,16 +101,6 @@ public class CanMessage extends Message {
 
     public String getDict() {
         return getDict(
-                Long.toString(getTime()),
-                Integer.toString(getId()),
-                Integer.toString(getFlags()),
-                Integer.toString(getDlc()),
-                Arrays.toString(getData())
-        );
-    }
-
-    public String getLine() {
-        return getLine(
                 Long.toString(getTime()),
                 Integer.toString(getId()),
                 Integer.toString(getFlags()),
