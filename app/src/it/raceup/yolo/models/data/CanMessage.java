@@ -58,25 +58,18 @@ public class CanMessage extends Message {
     }
 
     public static String getLineHeader(String separator) {
-        StringBuilder line = new StringBuilder(getLine("Time", "ID",
-                "Flags", "Dlc", "Data", separator));
-        int length = line.length();
-        line.append("\n");
-        for (int i = 0; i < length; i++) {
-            line.append("-");
-        }
-        line.append("\n");
-        return line.toString();
+        return getLine("Time", "ID",
+                "Flags", "Dlc", "Data", separator);
     }
 
     public static String getLine(String time, String id, String flags,
                                  String dlc, String data, String separator) {
-        String formatter = "%-15s" + separator;
+        String formatter = "%-8s" + separator;
         String out = String.format(formatter, time);
         out += String.format(formatter, id);
         out += String.format(formatter, flags);
         out += String.format(formatter, dlc);
-        out += String.format(formatter, data);
+        out += String.format("%-40s" + separator, data);
         return out;
     }
 

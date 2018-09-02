@@ -8,18 +8,21 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 import static it.raceup.yolo.models.data.CanMessage.getLineHeader;
+import static it.raceup.yolo.utils.Utils.getLineSeparator;
 
 /**
  * Updates with CAN data
  */
 public class CanUpdater extends Updater {
     public CanUpdater() {
-        super();
+        super("CAN UPDATER");
         writeLog(CanMessage.getLineHeader(","));
     }
 
     private void update(ArrayList<CanMessage> data) {
-        log(getLineHeader("|"));
+        String header = getLineHeader("|");
+        log(header);
+        log(getLineSeparator(header));
 
         for (CanMessage message : data) {
             log(message.getLine("|"));  // to std output

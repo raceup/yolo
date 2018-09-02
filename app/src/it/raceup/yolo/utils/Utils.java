@@ -21,4 +21,13 @@ public class Utils {
     public static int getBit(byte content, int position) {
         return ((content >> position) & 1);
     }
+
+    public static String getLineSeparator(String line) {
+        StringBuilder separator = new StringBuilder("");
+        int length = line.length();
+        for (int i = 0; i < length; i++) {
+            separator.append("-");
+        }
+        return separator.toString();
+    }
 }

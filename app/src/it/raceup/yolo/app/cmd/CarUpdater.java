@@ -11,7 +11,7 @@ import java.util.Observable;
  */
 public class CarUpdater extends Updater {
     public CarUpdater() {
-        super();
+        super("CAR UPDATER");
         writeLog(Motor.getLineHeader(","));
     }
 

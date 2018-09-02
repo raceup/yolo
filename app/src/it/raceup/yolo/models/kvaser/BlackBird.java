@@ -100,7 +100,6 @@ public class BlackBird extends Kvaser {
     private CanMessage[] readCan() {
         try {
             JSONArray raw = restActivity.canRead(Byte.MAX_VALUE);
-            log("read " + raw.length() + " messages");
             CanMessage[] messages = new CanMessage[raw.length()];
             for (int i = 0; i < raw.length(); i++) {
                 JSONObject message = raw.getJSONObject(i);
@@ -108,10 +107,12 @@ public class BlackBird extends Kvaser {
             }
             return messages;
         } catch (Exception e) {
-            new YoloException(
+            log(
+                    new YoloException(
                     "cannot read CAN",
                     ExceptionType.KVASER
-            ).print();
+                    )
+            );
             return new CanMessage[]{};
         }
     }

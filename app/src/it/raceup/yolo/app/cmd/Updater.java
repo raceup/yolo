@@ -18,11 +18,15 @@ public abstract class Updater extends ShellLogger implements Observer {
     protected FileLogger fileLogger;
 
     public Updater() {
-        this(logFile);
+        this("UPDATER", logFile);
     }
 
-    public Updater(String logFile) {
-        super("UPDATER");
+    public Updater(String tag) {
+        this(tag, logFile);
+    }
+
+    public Updater(String tag, String logFile) {
+        super(tag);
         setup(logFile);
     }
 

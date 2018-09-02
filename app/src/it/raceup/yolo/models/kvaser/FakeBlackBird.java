@@ -13,10 +13,9 @@ import org.json.JSONObject;
 public class FakeBlackBird extends Kvaser {
     private static final String HTTP_SCHEME = "http";
     private static final int PORT = 8080;
-    private static final String SAMPLE_JSON = "{'msgs':[{'msg':[0,0,0,0,0,0," +
+    private static final String SAMPLE_JSON = "[{'msg':[0,0,0,0,0,0," +
             "0,0],'flag':2,'dlc':8,'id':393,'time':15876454},{'msg':[0,0,0," +
-            "0,0,0,0,0],'flag':2,'dlc':8,'id':392,'time':15876580}]," +
-            "'stat':0,'ident':8}";
+            "0,0,0,0,0],'flag':2,'dlc':8,'id':392,'time':15876580}]";
 
     public FakeBlackBird(String ip) {
         this(HTTP_SCHEME, ip, PORT);
@@ -82,18 +81,23 @@ public class FakeBlackBird extends Kvaser {
     private CanMessage[] readCan() {
         try {
             JSONArray raw = new JSONArray(SAMPLE_JSON);
-            log("read " + raw.length() + " messages");
             CanMessage[] messages = new CanMessage[raw.length()];
             for (int i = 0; i < raw.length(); i++) {
                 JSONObject message = raw.getJSONObject(i);
                 messages[i] = CanMessage.parseJson(message);
             }
+
+            Thread.sleep(50);
+
             return messages;
         } catch (Exception e) {
-            new YoloException(
-                    "cannot read CAN",
-                    ExceptionType.KVASER
-            ).print();
+            log(
+                    new YoloException(
+                            "cannot read CAN",
+                            e,
+                            ExceptionType.KVASER
+                    )
+            );
             return new CanMessage[]{};
         }
     }
