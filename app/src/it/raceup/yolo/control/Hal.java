@@ -2,72 +2,55 @@ package it.raceup.yolo.control;
 
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
+import it.raceup.yolo.logging.ShellLogger;
 import it.raceup.yolo.models.car.Car;
 import it.raceup.yolo.models.data.CanMessage;
-import it.raceup.yolo.models.data.Parser;
-import it.raceup.yolo.models.data.Raw;
 import it.raceup.yolo.models.data.Type;
 import it.raceup.yolo.models.kvaser.Kvaser;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Handles business logic of telemetry. Opens connection with Kvaser and
  * remains listening for incoming data. When there is new data, updates car data.
  */
-public class Hal {
+public class Hal extends ShellLogger {
     private Car car;
     private Kvaser kvaser;
 
     public Hal(Car car, Kvaser kvaser) {
+        super("HAL");
+
         this.car = car;
         this.kvaser = kvaser;
+        this.kvaser.addObserver(car);
     }
 
-    public void setup(int canBitrate) throws YoloException {
+    public void setup(String canBitrate) throws YoloException {
         if (kvaser.setup(canBitrate)) {
-            Timer t = new Timer();
-            t.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    CanMessage[] messages = kvaser.read();
-                    update(messages);
-                }
-            }, 0, 100);
+            log("can create correctly");
         } else {
             throw new YoloException("Cannot start Kvaser connection",
                     ExceptionType.KVASER);
         }
     }
 
-    // todo use
+    public void start() {
+        Thread thread = new Thread(kvaser);
+        thread.start();
+    }
+
     public void close() {
         kvaser.close();
     }
 
-    private void update(Raw data) {
-        car.update(data);
-    }
-
-    private void update(Raw[] data) {
-        for (Raw raw : data) {
-            update(raw);
-        }
-    }
-
-    private void update(CanMessage[] messages) {
-        for (CanMessage message : messages) {
-            System.out.println("Parsing");
-            System.out.println(message.toString());
-            Raw[] data = new Parser(message).getParsedData();
-            update(data);
-        }
-    }
-
     public double get(Type type, int motor) {
         return car.get(type, motor);
+    }
+
+    public ArrayList<CanMessage> getRaw() {
+        return kvaser.getData();
     }
 
     public HashMap<Type, Double> getInfo(int motor) {

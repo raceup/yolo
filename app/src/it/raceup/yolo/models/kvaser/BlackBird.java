@@ -8,42 +8,45 @@ import org.apache.http.client.utils.URIBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class RemoteKvaser extends Kvaser {
-    public static final String HTTP_SCHEME = "http";
-    public static final int PORT = 8080;
-    private String url;
+/**
+ * Kvaser Blackbird device interface
+ */
+public class BlackBird extends Kvaser {
+    private static final String HTTP_SCHEME = "http";
+    private static final int PORT = 8080;
     private RestActivity restActivity;
 
-    public RemoteKvaser(String ip) {
+    public BlackBird(String ip) {
         this(HTTP_SCHEME, ip, PORT);
     }
 
-    public RemoteKvaser(String scheme, String host, int port) {
+    public BlackBird(String scheme, String host, int port) {
         super("REMOTE KVASER @" + getUrl(scheme, host, port));
-        url = getUrl(scheme, host, port);
-        restActivity = new RestActivity(url);
+        restActivity = new RestActivity(getUrl(scheme, host, port));
     }
 
     @Override
-    public boolean setup(int canBitrate) {
+    public boolean setup(String canBitrate) {
         if (openConnection()) {
             log("connected!");
         } else {
-            log("can't connect");
+            log(new YoloException("cannot open connection", ExceptionType
+                    .CANLIB));
             return false;
         }
 
-        if (setupCan(0, 8, 4, canBitrate)) {
+        int bitrate = getCanlibVersionOfBitrate(canBitrate);
+        if (setupCan(0, 8, 4, bitrate)) {
             log("can is up");
         } else {
-            logError("can't open CAN");
+            log(new YoloException("cannot open can", ExceptionType.CANLIB));
             return false;
         }
 
         if (onBus()) {
             log("on bus");
         } else {
-            logError("can't on bus");
+            log(new YoloException("cannot on bus", ExceptionType.CANLIB));
             return false;
         }
 
@@ -66,19 +69,20 @@ public class RemoteKvaser extends Kvaser {
                              int freq) {
         boolean isOk = restActivity.canOpenChannel(channel, flags);
         if (!isOk) {
-            logError("can't open channel");
+            log(new YoloException("cannot open channel", ExceptionType.CANLIB));
             return false;
         }
 
         isOk = restActivity.canSetBusOutputControl(driverType);
         if (!isOk) {
-            logError("can't set bus output control");
+            log(new YoloException("cannot set bus output control", ExceptionType.CANLIB));
             return false;
         }
 
         isOk = restActivity.canSetBusParams(freq);
         if (!isOk) {
-            logError("can't set bus params");
+            log(new YoloException("cannot set bus params", ExceptionType
+                    .CANLIB));
             return false;
         }
 

@@ -13,7 +13,15 @@ public class StreamLogger implements Logger {
         this.writer = writer;
     }
 
-    public void log(String message, boolean newLine, boolean withTime) {
+    public String getLogMessage(String message) {
+        return "{" + TAG + "} " + message;
+    }
+
+    public String getErrorMessage(Exception e) {
+        return "! Error ! " + e.toString();
+    }
+
+    public String getMessage(String message, boolean newLine, boolean withTime) {
         if (withTime) {
             message = "[" + getTimeNow("YYYY-MM-dd_HH-mm-ss") + "] " +
                     message;
@@ -23,21 +31,20 @@ public class StreamLogger implements Logger {
             message = "\n" + message;
         }
 
-        log(message);
+        return message;
     }
 
     @Override
     public void log(String message) {
-        log(writer, "{" + TAG + "} " + message);
+        logToStream(writer, getLogMessage(message));
     }
 
     @Override
-    public void logError(String message) {
-        log("! Error ! " + message, true, false);
+    public void log(Exception e) {
+        log(getMessage(getErrorMessage(e), true, false));
     }
 
-    @Override
-    public void log(OutputStream out, String message) {
+    private void logToStream(OutputStream out, String message) {
         try {
             out.write(message.getBytes(StandardCharsets.UTF_8));
         } catch (Exception e) {

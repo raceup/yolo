@@ -9,7 +9,7 @@ public class FileLogger extends StreamLogger {
         super(new FileOutputStream(filename));
     }
 
-    private static boolean setup(String filename) {
+    public static boolean create(String filename) {
         return new File(filename)
                 .getParentFile()
                 .mkdirs();
