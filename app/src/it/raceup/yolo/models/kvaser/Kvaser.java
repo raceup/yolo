@@ -6,7 +6,7 @@ import it.raceup.yolo.models.data.CanMessage;
 
 import java.io.OutputStream;
 
-public abstract class Kvaser extends ObservableKvaser implements Logger {
+public abstract class Kvaser extends RawKvaser implements Logger {
     private final ShellLogger logger;
 
     public Kvaser() {

@@ -4,7 +4,7 @@ import it.raceup.yolo.models.data.CanMessage;
 
 import java.util.Observable;
 
-public abstract class ObservableKvaser extends Observable {
+public abstract class RawKvaser extends Observable {
     private CanMessage[] data;
 
     public void setData(CanMessage[] data) {
