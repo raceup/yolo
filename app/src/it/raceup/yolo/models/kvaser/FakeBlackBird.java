@@ -2,27 +2,36 @@ package it.raceup.yolo.models.kvaser;
 
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
-import it.raceup.yolo.models.canlib.RestActivity;
 import it.raceup.yolo.models.data.CanMessage;
 import org.apache.http.client.utils.URIBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
- * Kvaser Blackbird device interface
+ * Faking a Kvaser Blackbird for debug purposes.
  */
-public class BlackBird extends Kvaser {
+public class FakeBlackBird extends Kvaser {
     private static final String HTTP_SCHEME = "http";
     private static final int PORT = 8080;
-    private RestActivity restActivity;
+    private static final String SAMPLE_JSON = "{'msgs':[{'msg':[0,0,0,0,0,0," +
+            "0,0],'flag':2,'dlc':8,'id':393,'time':15876454},{'msg':[0,0,0," +
+            "0,0,0,0,0],'flag':2,'dlc':8,'id':392,'time':15876580}]," +
+            "'stat':0,'ident':8}";
 
-    public BlackBird(String ip) {
+    public FakeBlackBird(String ip) {
         this(HTTP_SCHEME, ip, PORT);
     }
 
-    public BlackBird(String scheme, String host, int port) {
-        super("BLACKBIRD @ " + getUrl(scheme, host, port));
-        restActivity = new RestActivity(getUrl(scheme, host, port));
+    public FakeBlackBird(String scheme, String host, int port) {
+        super("FAKE BLACKBIRD @ " + getUrl(scheme, host, port));
+    }
+
+    private static String getUrl(String scheme, String host, int port) {
+        URIBuilder uriBuilder = new URIBuilder();
+        uriBuilder.setScheme(scheme);
+        uriBuilder.setHost(host);
+        uriBuilder.setPort(port);
+        return uriBuilder.toString();
     }
 
     @Override
@@ -53,53 +62,26 @@ public class BlackBird extends Kvaser {
         return true;
     }
 
-    private static String getUrl(String scheme, String host, int port) {
-        URIBuilder uriBuilder = new URIBuilder();
-        uriBuilder.setScheme(scheme);
-        uriBuilder.setHost(host);
-        uriBuilder.setPort(port);
-        return uriBuilder.toString();
-    }
-
     private boolean openConnection() {
-        return restActivity.canInitializeLibrary();
+        return true;
     }
 
     private boolean setupCan(int channel, int flags, int driverType,
                              int freq) {
-        boolean isOk = restActivity.canOpenChannel(channel, flags);
-        if (!isOk) {
-            log(new YoloException("cannot open channel", ExceptionType.CANLIB));
-            return false;
-        }
-
-        isOk = restActivity.canSetBusOutputControl(driverType);
-        if (!isOk) {
-            log(new YoloException("cannot set bus output control", ExceptionType.CANLIB));
-            return false;
-        }
-
-        isOk = restActivity.canSetBusParams(freq);
-        if (!isOk) {
-            log(new YoloException("cannot set bus params", ExceptionType
-                    .CANLIB));
-            return false;
-        }
-
         return true;
     }
 
     private boolean onBus() {
-        return restActivity.canBusOn();
+        return true;
     }
 
     private boolean offBus() {
-        return restActivity.canBusOff();
+        return true;
     }
 
     private CanMessage[] readCan() {
         try {
-            JSONArray raw = restActivity.canRead(Byte.MAX_VALUE);
+            JSONArray raw = new JSONArray(SAMPLE_JSON);
             log("read " + raw.length() + " messages");
             CanMessage[] messages = new CanMessage[raw.length()];
             for (int i = 0; i < raw.length(); i++) {
@@ -122,20 +104,20 @@ public class BlackBird extends Kvaser {
     }
 
     private boolean writeCan(int id, int flag, byte[] msg, int dlc) {
-        return restActivity.canWrite(id, flag, msg, dlc);
+        return false;
     }
 
     @Override
     public boolean write(int id, byte[] data, int flags) {
-        return writeCan(id, flags, data, 4);  // todo check dlc
+        return writeCan(id, flags, data, 4);
     }
 
     private boolean closeCan() {
-        return offBus() && restActivity.canClose();
+        return true;
     }
 
     private boolean closeConnection() {
-        return restActivity.canUnloadLibrary();
+        return true;
     }
 
     @Override

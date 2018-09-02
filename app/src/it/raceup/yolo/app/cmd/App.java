@@ -3,7 +3,7 @@ package it.raceup.yolo.app.cmd;
 import it.raceup.yolo.app.YoloApp;
 import it.raceup.yolo.control.Hal;
 import it.raceup.yolo.models.car.Car;
-import it.raceup.yolo.models.kvaser.BlackBird;
+import it.raceup.yolo.models.kvaser.FakeBlackBird;
 import org.apache.commons.cli.*;
 
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class App extends YoloApp {
     private void setupKvaser() {
         hal = new Hal(
                 new Car(),
-                new BlackBird(options.get(0))
+                new FakeBlackBird(options.get(0))  // todo BlackBird
         );
 
         try {
