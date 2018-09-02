@@ -1,7 +1,6 @@
 package it.raceup.yolo.logging;
 
 public class ShellLogger implements Logger {
-    protected static String TAG = "STREAM LOGGER";
     private StreamLogger out;
     private StreamLogger err;
 
@@ -10,9 +9,8 @@ public class ShellLogger implements Logger {
     }
 
     public ShellLogger(String tag) {
-        TAG = tag;
-        out = new StreamLogger(System.out);
-        err = new StreamLogger(System.err);
+        out = new StreamLogger(tag, System.out);
+        err = new StreamLogger(tag, System.err);
     }
 
     @Override

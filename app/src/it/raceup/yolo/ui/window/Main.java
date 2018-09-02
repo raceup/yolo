@@ -12,7 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-import static it.raceup.yolo.models.car.Car.MOTOR_TAGS;
+import static it.raceup.yolo.models.car.Car.DEFAULT_MOTORS;
 
 public class Main extends JFrame {
     private static final String THIS_PACKAGE = "com.raceup.ed.bms.BmsGui";
@@ -32,16 +32,17 @@ public class Main extends JFrame {
             appIcon = null;
         }
     }
-    private final MotorInfo[] motorPanels = new MotorInfo[MOTOR_TAGS.length];
-    private final Motor[] motorWindows = new Motor[MOTOR_TAGS.length];
+
+    private final MotorInfo[] motorPanels = new MotorInfo[DEFAULT_MOTORS.length];
+    private final Motor[] motorWindows = new Motor[DEFAULT_MOTORS.length];
     private final CanMessageSender canPanel;
 
     public Main(Kvaser kvaser) {
         super("YOLO | Race Up Electric Division");
 
-        for (int i = 0; i < MOTOR_TAGS.length; i++) {
-            motorPanels[i] = new MotorInfo(MOTOR_TAGS[i]);
-            motorWindows[i] = new Motor(MOTOR_TAGS[i]);
+        for (int i = 0; i < DEFAULT_MOTORS.length; i++) {
+            motorPanels[i] = new MotorInfo(DEFAULT_MOTORS[i]);
+            motorWindows[i] = new Motor(DEFAULT_MOTORS[i]);
         }
 
         canPanel = new CanMessageSender(kvaser);

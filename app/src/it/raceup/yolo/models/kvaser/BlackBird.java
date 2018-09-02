@@ -21,7 +21,7 @@ public class BlackBird extends Kvaser {
     }
 
     public BlackBird(String scheme, String host, int port) {
-        super("REMOTE KVASER @" + getUrl(scheme, host, port));
+        super("REMOTE KVASER @ " + getUrl(scheme, host, port));
         restActivity = new RestActivity(getUrl(scheme, host, port));
     }
 

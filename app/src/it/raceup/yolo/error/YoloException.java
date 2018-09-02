@@ -13,7 +13,7 @@ public class YoloException extends Exception {
     }
 
     public YoloException(String message, Exception e, ExceptionType type) {
-        this(message + "\n" + e.toString(), type);
+        this(message + "\n\t" + e.toString(), type);
     }
 
     public YoloException(String message, ExceptionType type) {
@@ -23,7 +23,7 @@ public class YoloException extends Exception {
 
     @Override
     public String toString() {
-        return "[" + type.toString() + "]: " + message;
+        return "(exception of type " + type.toString() + ") -- " + message;
     }
 
     public void print() {

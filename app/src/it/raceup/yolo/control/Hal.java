@@ -40,7 +40,7 @@ public class Hal extends ShellLogger {
         if (kvaser.setup(canBitrate)) {
             log("can create correctly");
         } else {
-            throw new YoloException("Cannot start Kvaser connection",
+            throw new YoloException("cannot start Kvaser connection",
                     ExceptionType.KVASER);
         }
     }

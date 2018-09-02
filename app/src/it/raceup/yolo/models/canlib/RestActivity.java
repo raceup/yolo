@@ -80,7 +80,7 @@ public class RestActivity extends ShellLogger {
     }
 
     public RestActivity(String url, String session) {
-        TAG = "REST ACTIVITY";
+        super("REST ACTIVITY");
 
         this.baseUrl = url;
         this.url = getUrl(url, session);

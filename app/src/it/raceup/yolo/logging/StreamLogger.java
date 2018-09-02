@@ -6,10 +6,11 @@ import java.nio.charset.StandardCharsets;
 import static it.raceup.yolo.utils.Utils.getTimeNow;
 
 public class StreamLogger implements Logger {
-    protected static String TAG = "STREAM LOGGER";
+    public String TAG;
     private OutputStream writer;
 
-    public StreamLogger(OutputStream writer) {
+    public StreamLogger(String tag, OutputStream writer) {
+        TAG = tag;
         this.writer = writer;
     }
 
@@ -18,17 +19,17 @@ public class StreamLogger implements Logger {
     }
 
     public String getErrorMessage(Exception e) {
-        return "! Error ! " + e.toString();
+        return e.toString();
     }
 
     public String getMessage(String message, boolean newLine, boolean withTime) {
         if (withTime) {
-            message = "[" + getTimeNow("YYYY-MM-dd_HH-mm-ss") + "] " +
+            message = "[" + getTimeNow("YYYY-MM-dd HH:mm:ss") + "] " +
                     message;
         }
 
         if (newLine) {
-            message = "\n" + message;
+            message += "\n";
         }
 
         return message;
@@ -41,7 +42,7 @@ public class StreamLogger implements Logger {
 
     @Override
     public void log(Exception e) {
-        log(getMessage(getErrorMessage(e), true, false));
+        log(getMessage(getErrorMessage(e), true, true));
     }
 
     private void logToStream(OutputStream out, String message) {

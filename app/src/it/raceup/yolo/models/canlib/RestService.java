@@ -24,7 +24,7 @@ public class RestService extends ShellLogger {
     private ArrayList<ParcelableNameValuePair> params;
 
     public RestService(String baseUrl, String type, int ident) {
-        TAG = "REST SERVICE";
+        super("REST SERVICE");
         this.url = getUrl(baseUrl, type, ident);
         params = new ArrayList<>();
     }
@@ -79,11 +79,11 @@ public class RestService extends ShellLogger {
             scanner.close();
             return json;
         } catch (Exception e) {
-            new YoloException(
-                    "cannot GET",
-                    e,
-                    ExceptionType.KVASER
-            ).print();
+            log(
+                    new YoloException(
+                            "cannot GET", e, ExceptionType.KVASER
+                    )
+            );
             return null;
         }
     }

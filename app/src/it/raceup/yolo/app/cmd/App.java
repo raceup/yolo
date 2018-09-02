@@ -18,6 +18,10 @@ public class App extends ShellLogger implements YoloApp {
     private ArrayList<String> options;
     private Hal hal;
 
+    public App() {
+        super("CMD APP");
+    }
+
     public static void main(String[] args) {
         App app = new App();
         app.parseArgs(args);
@@ -32,10 +36,9 @@ public class App extends ShellLogger implements YoloApp {
         }
     }
 
-    public void parseArgs(String[] args) {
+    private void parseArgs(String[] args) {
         cmd = getCmdParser(args);
         options = parseCmdOptions();
-        System.out.println(options.get(0));
     }
 
     public void setup() {
@@ -88,8 +91,8 @@ public class App extends ShellLogger implements YoloApp {
 
         Option view = new Option("view", "view", true, "Update screen " +
                 "with CAN messages, car model. Possible options are  [can, car]");
-        ip.setRequired(true);
-        options.addOption(ip);
+        view.setRequired(true);
+        options.addOption(view);
 
         return options;
     }
@@ -103,8 +106,7 @@ public class App extends ShellLogger implements YoloApp {
         try {
             cmd = parser.parse(options, args);
         } catch (ParseException e) {
-            log(e);
-            formatter.printHelp("utility-name", options);
+            formatter.printHelp("yolo", options);
             System.exit(1);
         }
 

@@ -38,7 +38,7 @@ public class Parser {
         try {
             parseValues();
         } catch (Exception e) {
-            new YoloException("Cannot parse " + Arrays.toString(data), e,
+            new YoloException("cannot parse " + Arrays.toString(data), e,
                     ExceptionType.KVASER).print();
         }
     }
