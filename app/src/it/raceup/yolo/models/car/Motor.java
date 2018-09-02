@@ -16,12 +16,12 @@ public class Motor {
     private Temperature temperature = new Temperature();
     private String tag;
 
-    public static String getLineHeader() {
+    public static String getLineHeader(String separator) {
         String[] labels = Stream.of(Raw.ALL)  // todo test
                 .map(Type::toString)
                 .toArray(String[]::new);
 
-        StringBuilder line = new StringBuilder(getLine(labels));
+        StringBuilder line = new StringBuilder(getLine(labels, separator));
 
         int length = line.length();
         line.append("\n");
@@ -61,10 +61,10 @@ public class Motor {
         return 0;  // todo exception
     }
 
-    public static String getLine(String[] types) {
+    public static String getLine(String[] types, String separator) {
         StringBuilder out = new StringBuilder();
         for (String type : types) {
-            out.append(String.format("|%-22s|", type));
+            out.append(String.format("%-22s" + separator, type));
         }
         return out.toString();
     }
@@ -73,13 +73,13 @@ public class Motor {
         return tag;
     }
 
-    public String getLine() {
+    public String getLine(String separator) {
         String[] values = Stream.of(Raw.ALL)  // todo test
                 .map(this::get)
                 .map(x -> Double.toString(x))
                 .toArray(String[]::new);
 
-        return getLine(values);
+        return getLine(values, separator);
     }
 
 

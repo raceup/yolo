@@ -10,9 +10,14 @@ import java.util.Observable;
  * Updates with car data
  */
 public class CarUpdater extends Updater {
+    public CarUpdater() {
+        super();
+        writeLog(Motor.getLineHeader(","));
+    }
+
     private void update(Motor motor) {
         log(motor.toString());  // to std output
-        writeLog(motor.getLine());  // to file
+        writeLog(motor.getLine(","));  // to file
     }
 
     private void update(Motor[] motors) {

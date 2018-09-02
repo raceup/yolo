@@ -13,14 +13,17 @@ import static it.raceup.yolo.models.data.CanMessage.getLineHeader;
  * Updates with CAN data
  */
 public class CanUpdater extends Updater {
+    public CanUpdater() {
+        super();
+        writeLog(CanMessage.getLineHeader(","));
+    }
+
     private void update(ArrayList<CanMessage> data) {
-        log(getLineHeader());
+        log(getLineHeader("|"));
 
         for (CanMessage message : data) {
-            String line = message.getLine();
-
-            log(line);  // to std output
-            writeLog(line);  // to file
+            log(message.getLine("|"));  // to std output
+            writeLog(message.getLine(","));  // to file
         }
     }
 

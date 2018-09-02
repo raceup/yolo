@@ -57,8 +57,9 @@ public class CanMessage extends Message {
         return data;
     }
 
-    public static String getLineHeader() {
-        StringBuilder line = new StringBuilder(getLine("Time", "ID", "Flags", "Dlc", "Data"));
+    public static String getLineHeader(String separator) {
+        StringBuilder line = new StringBuilder(getLine("Time", "ID",
+                "Flags", "Dlc", "Data", separator));
         int length = line.length();
         line.append("\n");
         for (int i = 0; i < length; i++) {
@@ -69,22 +70,24 @@ public class CanMessage extends Message {
     }
 
     public static String getLine(String time, String id, String flags,
-                                 String dlc, String data) {
-        String out = String.format("|%-14s|", time);
-        out += String.format("%-15s|", id);
-        out += String.format("%-15s|", flags);
-        out += String.format("%-15s|", dlc);
-        out += String.format("%-15s|", data);
+                                 String dlc, String data, String separator) {
+        String formatter = "%-15s" + separator;
+        String out = String.format(formatter, time);
+        out += String.format(formatter, id);
+        out += String.format(formatter, flags);
+        out += String.format(formatter, dlc);
+        out += String.format(formatter, data);
         return out;
     }
 
-    public String getLine() {
+    public String getLine(String separator) {
         return getLine(
                 Long.toString(getTime()),
                 Integer.toString(getId()),
                 Integer.toString(getFlags()),
                 Integer.toString(getDlc()),
-                Arrays.toString(getData())
+                Arrays.toString(getData()),
+                separator
         );
     }
 
@@ -112,5 +115,16 @@ public class CanMessage extends Message {
     @Override
     public String toString() {
         return getDict();
+    }
+
+    public String toCsv() {
+        return getLine(
+                Long.toString(getTime()),
+                Integer.toString(getId()),
+                Integer.toString(getFlags()),
+                Integer.toString(getDlc()),
+                Arrays.toString(getData()),
+                ","
+        );
     }
 }
