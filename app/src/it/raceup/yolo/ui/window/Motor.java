@@ -1,7 +1,9 @@
 package it.raceup.yolo.ui.window;
 
 import it.raceup.yolo.models.data.Raw;
-import it.raceup.yolo.ui.component.table.MultipleAlignTable;
+import it.raceup.yolo.ui.component.table.FlagsTable;
+import it.raceup.yolo.ui.component.table.SetPointTable;
+import it.raceup.yolo.ui.component.table.TemperatureTable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,7 +47,7 @@ public class Motor extends JFrame {
             data[row][0] = FLAGS[row];
             data[row][1] = DNF;
         }
-        flags = new MultipleAlignTable(data, columns);
+        flags = new FlagsTable(data, columns);
         flags.setEnabled(false);  // non-editable cells
 
         data = new Object[SET_POINTS.length][columns.length];
@@ -53,7 +55,7 @@ public class Motor extends JFrame {
             data[row][0] = SET_POINTS[row];
             data[row][1] = DNF;
         }
-        sp = new MultipleAlignTable(data, columns);
+        sp = new SetPointTable(data, columns);
         sp.setEnabled(false);  // non-editable cells
 
         data = new Object[TEMPERATURES.length][columns.length];
@@ -61,7 +63,7 @@ public class Motor extends JFrame {
             data[row][0] = TEMPERATURES[row];
             data[row][1] = DNF;
         }
-        temperature = new MultipleAlignTable(data, columns);
+        temperature = new TemperatureTable(data, columns);
         temperature.setEnabled(false);  // non-editable cells
     }
 
@@ -94,7 +96,7 @@ public class Motor extends JFrame {
         Dimension d = table.getPreferredSize();
         tableContainer.setPreferredSize(
                 new Dimension(
-                        (int) (d.width * 1.8),
+                        (int) (d.width * 1.9),
                         table.getRowHeight() * table.getRowCount() + 22
                 )
         );

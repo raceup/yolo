@@ -21,4 +21,18 @@ public class ColorTable extends MultipleObjectTable {
     public ColorTable(Object[][] data, String[] headers) {
         super(data, headers);
     }
+
+    @Override
+    public void setValueAt(Object o, int row, int column) {
+        if (o instanceof Boolean) {
+            boolean value = (Boolean) o;
+            if (value) {
+                setValueAt(greenIcon, row, column);
+            } else {
+                setValueAt(redIcon, row, column);
+            }
+        } else {
+            super.setValueAt(o, row, column);
+        }
+    }
 }

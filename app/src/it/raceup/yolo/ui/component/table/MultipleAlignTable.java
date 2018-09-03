@@ -36,5 +36,5 @@ public abstract class MultipleAlignTable extends JTable {
     }
 
     @Override
-    public abstract TableCellRenderer getCellRenderer(int arg0, int arg1);
+    public abstract TableCellRenderer getCellRenderer(int row, int column);
 }

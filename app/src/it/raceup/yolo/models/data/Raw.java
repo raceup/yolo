@@ -82,8 +82,9 @@ public class Raw {
                     && type != Type.MAGNETIZING_CURRENT;
         }
 
-        return isSetPoint(type) && (type == Type.INVERTER_ON || type == Type
-                .DC_ON || type == Type.SP_ENABLE || type == Type.SP_ERROR_RESET);
+        return isSetPoint(type) && (type == Type.SP_INVERTER_ON || type == Type
+                .SP_DC_ON || type == Type.SP_ENABLE || type == Type
+                .SP_ERROR_RESET);
     }
 
     public boolean isTemperature() {
