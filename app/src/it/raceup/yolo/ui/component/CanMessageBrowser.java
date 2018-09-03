@@ -60,7 +60,7 @@ public class CanMessageBrowser extends JPanel {
         panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         panel.add(new JLabel("Showing last " + MESSAGES_TO_SHOW
-                + " messages received"));
+                + " messages received. Most recent are on top"));
 
         return panel;
     }
@@ -87,6 +87,20 @@ public class CanMessageBrowser extends JPanel {
         add(getLastUpdatePanel());
     }
 
+    private void shiftBuffer() {
+        for (int row = MESSAGES_TO_SHOW - 1; row > 0; row--) {
+            for (int column = 0; column < TABLE_HEADERS.length; column++) {
+                Object value = table.getValueAt(row - 1, column);
+                table.setValueAt(value, row, column);
+            }
+        }
+    }
+
+    private void addNewMessage(CanMessage message) {
+        shiftBuffer();
+        update(0, message);
+    }
+
 
     private void update(int row, CanMessage message) {
         table.setValueAt(getAsString(message.getId()), row, 0);
@@ -105,10 +119,15 @@ public class CanMessageBrowser extends JPanel {
 
     public void update(ArrayList<CanMessage> messages) {
         lastUpdate = getTimeNow();
-        // todo remove oldest
-        for (CanMessage message : messages) {
-            update(0, message);
+
+        shiftBuffer();
+
+        // todo reverse list ?? check time
+        int maxRow = Math.min(messages.size(), MESSAGES_TO_SHOW);
+        for (int row = 0; row < maxRow; row++) {
+            update(row, messages.get(row));
         }
+
         lastUpdateLabel.setText("Last update: " + lastUpdate);
     }
 }

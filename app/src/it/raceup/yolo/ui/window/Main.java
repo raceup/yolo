@@ -31,7 +31,7 @@ public class Main extends JFrame {
     }
 
     public Main() {
-        super("YOLO | Race Up Electric Division");
+        super("YOLO: telemetry by Race UP ED");
 
         motorPanels = new MotorsPanel();
         canMessagesPanel = new CanMessagesPanel();
