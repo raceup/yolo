@@ -3,6 +3,7 @@ package it.raceup.yolo.ui.component;
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.kvaser.message.FromKvaserMessage;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,16 +28,14 @@ public class CanMessageSender extends JPanel implements Observer {
     private void setupLayout() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        JPanel up = getUpPanel();
-        JPanel down = getDownPanel();
+        add(Box.createRigidArea(new Dimension(0, 10)));
+        add(getHeadPanel());
 
         add(Box.createRigidArea(new Dimension(0, 10)));
-        add(new JLabel("Send CAN message"));
+        add(getEditorPanel());
+
         add(Box.createRigidArea(new Dimension(0, 10)));
-        add(up);
-        add(Box.createRigidArea(new Dimension(0, 10)));
-        add(down);
-        add(Box.createRigidArea(new Dimension(0, 230)));
+        add(getSendPanel());
     }
 
     private JPanel getCanEditPanel(String editField, JTextField editor) {
@@ -49,32 +48,65 @@ public class CanMessageSender extends JPanel implements Observer {
         return panel;
     }
 
-    private JPanel getUpPanel() {
+    private JPanel getHeadPanel() {
         JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-        panel.add(getCanEditPanel("ID (HEX)", editorId));
-        panel.add(Box.createRigidArea(new Dimension(10, 0)));
-        panel.add(getCanEditPanel("Message (DEC)", editorMessage));
+        panel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        panel.add(new JLabel("Send CAN messages to Kvaser"));
+
         return panel;
     }
 
-    private JPanel getDownPanel() {
+    private JPanel getEditorPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+        panel.add(getCanEditPanel("ID (dec)", editorId));
+        panel.add(Box.createRigidArea(new Dimension(10, 0)));
+        panel.add(getCanEditPanel("Message (dec)", editorMessage));
+        return panel;
+    }
+
+    private JPanel getSendPanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+        panel.add(statusLabel);
+        panel.add(Box.createRigidArea(new Dimension(10, 0)));
         panel.add(sendButton);
         return panel;
     }
 
     private void sendMessage() {
-        String msgId = editorId.getText();
-        String msgContent = editorMessage.getText();
-        // todo kvaser.sendMessage(Integer.parseInt(msgId), new byte[]{}, 0);
-        new YoloException("sendMessage to " + msgId + " (" + msgContent +
-                ") NOT IMPLEMENTED", ExceptionType.KVASER).print();
+        setNotClickable();
+        statusLabel.setText("Sending...");
+
+        try {
+            // String msgId = editorId.getText();
+            // String msgContent = editorMessage.getText();
+            // todo kvaser.sendMessage(Integer.parseInt(msgId), new byte[]{}, 0);
+            throw new NotImplementedException();
+        } catch (Exception e) {
+            updateStatus(false);
+            new YoloException(e, ExceptionType.VIEW).print();
+        } finally {
+            setClickable();
+        }
     }
 
     private void updateStatus(boolean success) {
-        // todo
+        setClickable();  // message sent and acknowledged -> can send another
+        if (success) {
+            statusLabel.setText("Message sent");
+        } else {
+            statusLabel.setText("Cannot send message");
+        }
+    }
+
+    private void setClickable() {
+        sendButton.setEnabled(true);
+    }
+
+    private void setNotClickable() {
+        sendButton.setEnabled(false);
     }
 
     @Override

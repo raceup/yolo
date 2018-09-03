@@ -27,8 +27,8 @@ public class StreamLogger implements Logger {
 
     public String getMessage(String message, boolean newLine, boolean withTime) {
         if (withTime) {
-            message = String.format(timeFormatter, "[" + getTimeNow
-                    ("YYYY-MM-dd HH:mm:ss") + "]") + " " + message;
+            message = String.format(timeFormatter, "[" + getTimeNow() + "]")
+                    + " " + message;
         }
 
         if (newLine) {

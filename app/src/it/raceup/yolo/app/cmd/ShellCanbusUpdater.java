@@ -21,12 +21,12 @@ public class ShellCanbusUpdater extends FileUpdater {
         writeLog(CanMessage.getLineHeader(","));
     }
 
-    private void update(ArrayList<CanMessage> data) {
+    private void update(ArrayList<CanMessage> messages) {
         String header = getLineHeader("|");
         log(header);
         log(getLineSeparator(header));
 
-        for (CanMessage message : data) {
+        for (CanMessage message : messages) {
             log(message.getLine("|"));  // to std output
             writeLog(message.getLine(","));  // to file
         }

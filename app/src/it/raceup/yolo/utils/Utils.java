@@ -6,6 +6,12 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Utils {
+    private static final String PRETTY_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+    public static String getTimeNow() {
+        return getTimeNow(PRETTY_DATE_FORMAT);
+    }
+
     public static String getTimeNow(String format) {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat(format);
@@ -14,7 +20,7 @@ public class Utils {
 
     public static String convertTime(long time) {
         Date date = new Date(time);
-        Format format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Format format = new SimpleDateFormat(PRETTY_DATE_FORMAT);
         return format.format(date);
     }
 

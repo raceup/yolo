@@ -3,6 +3,7 @@ package it.raceup.yolo.ui.window;
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.data.Raw;
+import it.raceup.yolo.ui.component.CanMessageBrowser;
 import it.raceup.yolo.ui.component.CanMessageSender;
 import it.raceup.yolo.ui.component.MotorInfo;
 import it.raceup.yolo.ui.utils.AboutDialog;
@@ -34,7 +35,8 @@ public class Main extends JFrame {
 
     private final MotorInfo[] motorPanels = new MotorInfo[DEFAULT_MOTORS.length];
     private final Motor[] motorWindows = new Motor[DEFAULT_MOTORS.length];
-    private final CanMessageSender canPanel;
+    private final CanMessageSender canMessageSender;
+    private final CanMessageBrowser canMessageBrowser;
 
     public Main() {
         super("YOLO | Race Up Electric Division");
@@ -44,7 +46,9 @@ public class Main extends JFrame {
             motorWindows[i] = new Motor(DEFAULT_MOTORS[i]);
         }
 
-        canPanel = new CanMessageSender();  // todo connect to kvaser
+        canMessageSender = new CanMessageSender();  // todo connect to kvaser
+        canMessageBrowser = new CanMessageBrowser();  // todo connect to kvaser
+
         setup();
         setWindowsTogglers();
         open();
@@ -82,9 +86,6 @@ public class Main extends JFrame {
     }
 
     private void setupLayout() {
-        getContentPane().setLayout(
-                new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS)
-        );  // add components horizontally
         getRootPane().setBorder(
                 BorderFactory.createEmptyBorder(
                         10, 10, 10, 10
@@ -92,9 +93,11 @@ public class Main extends JFrame {
         );  // border
 
         setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
+
         add(getMotorsPanel());
         add(Box.createRigidArea(new Dimension(10, 0)));
-        add(canPanel);
+        add(getCanMessageSender());
+
         setJMenuBar(createMenuBar());
     }
 
@@ -117,6 +120,17 @@ public class Main extends JFrame {
         panel.add(up);
         panel.add(Box.createRigidArea(new Dimension(0, 10)));
         panel.add(down);
+
+        return panel;
+    }
+
+    private JPanel getCanMessageSender() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        panel.add(canMessageSender);
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));
+        panel.add(canMessageBrowser);
 
         return panel;
     }
