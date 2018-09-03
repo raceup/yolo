@@ -12,6 +12,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import static it.raceup.yolo.models.data.Base.DNF;
+import static it.raceup.yolo.models.data.Base.getAsString;
 import static it.raceup.yolo.utils.Utils.getTimeNow;
 
 /**
@@ -44,7 +45,7 @@ public class CanMessageBrowser extends JPanel implements Observer {
             }
         }
 
-        table = new JTable(data, TABLE_HEADERS);
+        table = new JRightTable(data, TABLE_HEADERS);
         for (int column = 0; column < 4; column++) {
             table.getColumn(TABLE_HEADERS[column]).setPreferredWidth(20);
         }
@@ -52,7 +53,7 @@ public class CanMessageBrowser extends JPanel implements Observer {
 
         table.setEnabled(false);  // non-editable cells
 
-        table.setPreferredScrollableViewportSize(new Dimension(512, 512));
+        table.setPreferredScrollableViewportSize(new Dimension(400, 200));
         table.setFillsViewportHeight(true);
 
         tableContainer = new JScrollPane(table);
@@ -91,13 +92,19 @@ public class CanMessageBrowser extends JPanel implements Observer {
     }
 
 
-    private void update(CanMessage message) {
-        // todo
+    private void update(int row, CanMessage message) {
+        table.setValueAt(getAsString(message.getId()), row, 0);
+        table.setValueAt(getAsString(message.getTime()), row, 1);
+        table.setValueAt(getAsString(message.getFlags()), row, 2);
+        table.setValueAt(getAsString(message.getDlc()), row, 3);
+        table.setValueAt(message.getDataAsString(), row, 4);
     }
 
     private void update(ArrayList<CanMessage> messages) {
+
+
         for (CanMessage message : messages) {
-            update(message);
+            // update(message);
         }
         lastUpdateLabel.setText("Last update: " + lastUpdate);
     }

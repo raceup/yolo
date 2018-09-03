@@ -8,6 +8,8 @@ import java.awt.*;
 import java.util.Arrays;
 
 import static it.raceup.yolo.models.data.Base.DNF;
+import static it.raceup.yolo.models.data.Base.getAsString;
+import static it.raceup.yolo.models.data.Raw.isBoolean;
 import static it.raceup.yolo.models.data.Type.*;
 
 public class MotorInfo extends JPanel {
@@ -67,7 +69,7 @@ public class MotorInfo extends JPanel {
             data[row][1] = DNF;
         }
 
-        JTable table = new JTable(data, columns);
+        JTable table = new JRightTable(data, columns);
         table.setEnabled(false);  // non-editable cells
         return table;
     }
@@ -76,7 +78,11 @@ public class MotorInfo extends JPanel {
         if (Arrays.asList(LABELS).contains(type)) {
             int tableRow = Arrays.asList(LABELS).indexOf(type);
             if (tableRow >= 0) {
-                String value = Double.toString(data);
+                String value = getAsString(data);
+                if (isBoolean(type)) {
+                    value = getAsString(data.intValue());
+                }
+
                 table.setValueAt(value, tableRow, 1);
             }
         }

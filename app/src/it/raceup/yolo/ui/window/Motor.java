@@ -1,12 +1,14 @@
 package it.raceup.yolo.ui.window;
 
 import it.raceup.yolo.models.data.Raw;
+import it.raceup.yolo.ui.component.JRightTable;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
 
 import static it.raceup.yolo.models.data.Base.DNF;
+import static it.raceup.yolo.models.data.Base.getAsString;
 import static it.raceup.yolo.models.data.Raw.*;
 
 public class Motor extends JFrame {
@@ -43,7 +45,7 @@ public class Motor extends JFrame {
             data[row][0] = FLAGS[row];
             data[row][1] = DNF;
         }
-        flags = new JTable(data, columns);
+        flags = new JRightTable(data, columns);
         flags.setEnabled(false);  // non-editable cells
 
         data = new Object[SET_POINTS.length][columns.length];
@@ -51,7 +53,7 @@ public class Motor extends JFrame {
             data[row][0] = SET_POINTS[row];
             data[row][1] = DNF;
         }
-        sp = new JTable(data, columns);
+        sp = new JRightTable(data, columns);
         sp.setEnabled(false);  // non-editable cells
 
         data = new Object[TEMPERATURES.length][columns.length];
@@ -59,7 +61,7 @@ public class Motor extends JFrame {
             data[row][0] = TEMPERATURES[row];
             data[row][1] = DNF;
         }
-        temperature = new JTable(data, columns);
+        temperature = new JRightTable(data, columns);
         temperature.setEnabled(false);  // non-editable cells
     }
 
@@ -106,7 +108,11 @@ public class Motor extends JFrame {
     }
 
     public void update(it.raceup.yolo.models.data.Type type, Double data) {
-        String value = Double.toString(data);
+        String value = getAsString(data);
+        if (isBoolean(type)) {
+            value = getAsString(data.intValue());
+        }
+
         if (isTemperature(type)) {
             int tableRow = Arrays.asList(TEMPERATURES).indexOf(type);
             temperature.setValueAt(value, tableRow, 1);

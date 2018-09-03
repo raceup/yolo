@@ -76,6 +76,16 @@ public class Raw {
         return Arrays.asList(FLAGS).contains(type);
     }
 
+    public static boolean isBoolean(Type type) {
+        if (isFlag(type)) {
+            return type != Type.ACTUAL_VELOCITY && type != Type.TORQUE_CURRENT
+                    && type != Type.MAGNETIZING_CURRENT;
+        }
+
+        return isSetPoint(type) && (type == Type.INVERTER_ON || type == Type
+                .DC_ON || type == Type.SP_ENABLE || type == Type.SP_ERROR_RESET);
+    }
+
     public boolean isTemperature() {
         return isTemperature(getType());
     }
@@ -86,6 +96,10 @@ public class Raw {
 
     public boolean isFlag() {
         return isFlag(getType());
+    }
+
+    public boolean isBoolean() {
+        return isBoolean(getType());
     }
 
     @Override
