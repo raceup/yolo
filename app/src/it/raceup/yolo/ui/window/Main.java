@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
 import static it.raceup.yolo.models.car.Car.DEFAULT_MOTORS;
 
 public class Main extends JFrame {
-    private static final String THIS_PACKAGE = "com.raceup.ed.bms.BmsGui";
+    private static final String THIS_PACKAGE = "it.raceup.yolo.ui.window";
     private static final String ICON_PATH = "/res/images/logo.png";
     private static Image appIcon = null;
 

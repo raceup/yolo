@@ -2,6 +2,7 @@ package it.raceup.yolo.ui.component;
 
 import it.raceup.yolo.models.data.Raw;
 import it.raceup.yolo.models.data.Type;
+import it.raceup.yolo.ui.component.table.JRightTable;
 
 import javax.swing.*;
 import java.awt.*;

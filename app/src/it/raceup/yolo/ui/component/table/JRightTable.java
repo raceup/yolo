@@ -1,4 +1,4 @@
-package it.raceup.yolo.ui.component;
+package it.raceup.yolo.ui.component.table;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
