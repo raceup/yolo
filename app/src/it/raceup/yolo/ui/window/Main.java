@@ -61,7 +61,7 @@ public class Main extends JFrame {
     private void open() {
         try {
             pack();
-            setSize(900, 500);
+            setSize(1024, 512);
             setLocation(0, 0);  // top left corner
             setResizable(false);
             setVisible(true);

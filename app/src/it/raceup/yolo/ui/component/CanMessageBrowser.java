@@ -19,14 +19,13 @@ import static it.raceup.yolo.utils.Utils.getTimeNow;
  */
 public class CanMessageBrowser extends JPanel implements Observer {
     private final int MESSAGES_TO_SHOW = 64;
-    private final JLabel headLabel = new JLabel("Last " + MESSAGES_TO_SHOW
-            + " messages received");
-    private final String[] TABLE_HEADERS = new String[]{"ID", "flags",
+    private final String[] TABLE_HEADERS = new String[]{"ID", "time", "flags",
             "dlc", "data"};
     private String lastUpdate = getTimeNow();
     private final JLabel lastUpdateLabel = new JLabel("Last update: " +
             lastUpdate);
-    private JTable table;
+    private JTable table;  // newest messages upfront, oldest at the bottom
+    private JScrollPane tableContainer;
 
     public CanMessageBrowser() {
         setup();
@@ -46,20 +45,49 @@ public class CanMessageBrowser extends JPanel implements Observer {
         }
 
         table = new JTable(data, TABLE_HEADERS);
+        for (int column = 0; column < 4; column++) {
+            table.getColumn(TABLE_HEADERS[column]).setPreferredWidth(20);
+        }
+        table.getColumn("data").setPreferredWidth(100);
+
         table.setEnabled(false);  // non-editable cells
+
+        table.setPreferredScrollableViewportSize(new Dimension(512, 512));
+        table.setFillsViewportHeight(true);
+
+        tableContainer = new JScrollPane(table);
+    }
+
+    private JPanel getHeadPanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        panel.add(new JLabel("Showing last " + MESSAGES_TO_SHOW
+                + " messages received"));
+
+        return panel;
+    }
+
+    private JPanel getLastUpdatePanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        panel.add(lastUpdateLabel);
+
+        return panel;
     }
 
     private void setupLayout() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         add(Box.createRigidArea(new Dimension(0, 10)));
-        add(lastUpdateLabel);
+        add(getHeadPanel());
 
         add(Box.createRigidArea(new Dimension(0, 10)));
-        add(table);
+        add(tableContainer);
 
         add(Box.createRigidArea(new Dimension(0, 10)));
-        add(lastUpdateLabel);
+        add(getLastUpdatePanel());
     }
 
 
