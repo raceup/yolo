@@ -2,7 +2,7 @@ package it.raceup.yolo.ui.component;
 
 import it.raceup.yolo.models.data.Raw;
 import it.raceup.yolo.models.data.Type;
-import it.raceup.yolo.ui.component.table.RightAlignTable;
+import it.raceup.yolo.ui.component.table.MultipleAlignTable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -70,7 +70,7 @@ public class MotorInfo extends JPanel {
             data[row][1] = DNF;
         }
 
-        JTable table = new RightAlignTable(data, columns);
+        JTable table = new MultipleAlignTable(data, columns);
         table.setEnabled(false);  // non-editable cells
         return table;
     }
