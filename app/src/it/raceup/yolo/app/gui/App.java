@@ -27,10 +27,15 @@ public class App extends KvaserApp {
         app.open();
     }
 
+    private String[] getLaunchSettings() {
+        return new String[]{"192.168.1.1", "1m"};
+    }
+
     @Override
     protected void setupKvaser() {
-        String ip = "192.168.1.1";
-        String bitrate = "1m";
+        String[] settings = getLaunchSettings();
+        String ip = settings[0];
+        String bitrate = settings[1];
 
         // todo defer construction of blackbird
         hal = new Hal(

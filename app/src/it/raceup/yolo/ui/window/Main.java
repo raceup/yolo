@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Main extends JFrame {
+    public static final String TITLE = "YOLO: telemetry by Race UP ED";
     private static final String THIS_PACKAGE = "it.raceup.yolo.ui.window";
     private static final String ICON_PATH = "/res/images/logo.png";
     private static Image appIcon = null;
@@ -31,7 +32,7 @@ public class Main extends JFrame {
     }
 
     public Main() {
-        super("YOLO: telemetry by Race UP ED");
+        super(TITLE);
 
         motorPanels = new MotorsPanel();
         canMessagesPanel = new CanMessagesPanel();
