@@ -10,8 +10,8 @@ import java.util.Observable;
 /**
  * Updates with car data
  */
-public class CarUpdater extends FileUpdater {
-    public CarUpdater() {
+public class ShellCarUpdater extends FileUpdater {
+    public ShellCarUpdater() {
         super("CAR UPDATER");
         writeLog(Motor.getLineHeader(","));
     }

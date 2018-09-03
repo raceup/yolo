@@ -5,9 +5,12 @@ import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.logging.Logger;
 import it.raceup.yolo.logging.ShellLogger;
 import it.raceup.yolo.models.data.CanMessage;
+import it.raceup.yolo.models.kvaser.message.CanCommand;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
 import static core.Canlib.*;
 
@@ -15,7 +18,8 @@ import static core.Canlib.*;
  * Common interface for Kvaser devices
  */
 // todo docs
-public abstract class Kvaser extends RawKvaser implements Logger, Runnable {
+public abstract class Kvaser extends RawKvaser implements Logger, Runnable,
+        Observer {
     private static final Map<String, Integer> CAN_BITRATE_TO_CANLIB_VERSION =
             new HashMap<>();
 
@@ -70,6 +74,14 @@ public abstract class Kvaser extends RawKvaser implements Logger, Runnable {
 
     public abstract boolean write(int id, byte[] data, int flags);
 
+    public boolean write(CanCommand command) {
+        return write(
+                command.getId(),
+                command.getData(),
+                command.getFlag()
+        );
+    }
+
     public abstract void close();
 
     public void log(String message) {
@@ -78,5 +90,15 @@ public abstract class Kvaser extends RawKvaser implements Logger, Runnable {
 
     public void log(Exception e) {
         logger.log(e);
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        try {
+            write((CanCommand) o);
+        } catch (Exception e) {
+            new YoloException("cannot update kvaser", e, ExceptionType.KVASER)
+                    .print();
+        }
     }
 }

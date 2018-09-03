@@ -52,9 +52,9 @@ public class App extends KvaserApp {
     @Override
     protected void setupUpdaters() {
         if (options.get(2).equals("can")) {
-            hal.addObserverToKvaser(new CanUpdater());
+            hal.addObserverToKvaser(new ShellCanbusUpdater());
         } else if (options.get(2).equals("car")) {
-            hal.addObserverToCar(new CarUpdater());
+            hal.addObserverToCar(new ShellCarUpdater());
         }
     }
 

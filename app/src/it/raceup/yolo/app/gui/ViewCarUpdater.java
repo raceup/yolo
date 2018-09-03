@@ -13,10 +13,10 @@ import java.util.Observable;
 /**
  * Updates screen with car data
  */
-public class CarUpdater extends FileUpdater {
+public class ViewCarUpdater extends FileUpdater {
     private Main view;
 
-    public CarUpdater(Main view) {
+    public ViewCarUpdater(Main view) {
         super("CAR UPDATER (VIEW)");
 
         this.view = view;
