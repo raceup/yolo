@@ -48,7 +48,8 @@ public class App extends KvaserApp {
 
     @Override
     protected void setupUpdaters() {
-        hal.addObserverToCar(new ViewCarUpdater(view));
+        hal.addObserverToCar(view.getMotorPanels());
+        hal.addObserverToKvaser(view.getCanMessagesPanel());
     }
 
     @Override

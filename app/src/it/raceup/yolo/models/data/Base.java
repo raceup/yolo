@@ -12,4 +12,8 @@ public class Base {
     public static String getAsString(double value) {
         return String.format(DECIMAL_FORMAT_3, value);
     }
+
+    public static String forceIntAsString(double value) {
+        return getAsString((int) value);
+    }
 }

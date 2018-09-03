@@ -1,28 +1,23 @@
 package it.raceup.yolo.ui.component;
 
-import it.raceup.yolo.error.ExceptionType;
-import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.data.CanMessage;
-import it.raceup.yolo.models.kvaser.message.FromKvaserMessage;
 import it.raceup.yolo.ui.component.table.CanMessageTable;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 
-import static it.raceup.yolo.models.data.Base.DNF;
-import static it.raceup.yolo.models.data.Base.getAsString;
+import static it.raceup.yolo.models.data.Base.*;
 import static it.raceup.yolo.utils.Utils.getTimeNow;
 
 /**
  * Table to show latest CAN messages
  */
-public class CanMessageBrowser extends JPanel implements Observer {
+public class CanMessageBrowser extends JPanel {
     private final int MESSAGES_TO_SHOW = 64;
     private final String[] TABLE_HEADERS = new String[]{"ID", "time", "flags",
-            "dlc", "data"};
+            "dlc", "byte 1", "byte 2", "byte 3", "byte 4", "byte 5", "byte " +
+            "6", "byte 7", "byte 8"};
     private String lastUpdate = getTimeNow();
     private final JLabel lastUpdateLabel = new JLabel("Last update: " +
             lastUpdate);
@@ -47,14 +42,14 @@ public class CanMessageBrowser extends JPanel implements Observer {
         }
 
         table = new CanMessageTable(data, TABLE_HEADERS);
-        for (int column = 0; column < 4; column++) {
-            table.getColumn(TABLE_HEADERS[column]).setPreferredWidth(20);
+        for (String TABLE_HEADER : TABLE_HEADERS) {
+            table.getColumn(TABLE_HEADER).setPreferredWidth(20);
         }
-        table.getColumn("data").setPreferredWidth(100);
+        table.getColumn("time").setPreferredWidth(60);
 
         table.setEnabled(false);  // non-editable cells
 
-        table.setPreferredScrollableViewportSize(new Dimension(400, 200));
+        table.setPreferredScrollableViewportSize(new Dimension(500, 200));
         table.setFillsViewportHeight(true);
 
         tableContainer = new JScrollPane(table);
@@ -95,33 +90,25 @@ public class CanMessageBrowser extends JPanel implements Observer {
 
     private void update(int row, CanMessage message) {
         table.setValueAt(getAsString(message.getId()), row, 0);
-        table.setValueAt(getAsString(message.getTime()), row, 1);
+        table.setValueAt(forceIntAsString(message.getTime()), row, 1);
         table.setValueAt(getAsString(message.getFlags()), row, 2);
         table.setValueAt(getAsString(message.getDlc()), row, 3);
-        table.setValueAt(message.getDataAsString(), row, 4);
+        table.setValueAt(message.getData()[0], row, 4);
+        table.setValueAt(message.getData()[1], row, 5);
+        table.setValueAt(message.getData()[2], row, 6);
+        table.setValueAt(message.getData()[3], row, 7);
+        table.setValueAt(message.getData()[4], row, 8);
+        table.setValueAt(message.getData()[5], row, 9);
+        table.setValueAt(message.getData()[6], row, 10);
+        table.setValueAt(message.getData()[7], row, 11);
     }
 
-    private void update(ArrayList<CanMessage> messages) {
-
-
+    public void update(ArrayList<CanMessage> messages) {
+        lastUpdate = getTimeNow();
+        // todo remove oldest
         for (CanMessage message : messages) {
-            // update(message);
+            update(0, message);
         }
         lastUpdateLabel.setText("Last update: " + lastUpdate);
-    }
-
-    @Override
-    public void update(Observable observable, Object o) {
-        try {
-            lastUpdate = getTimeNow();
-            FromKvaserMessage message = new FromKvaserMessage(o);
-            ArrayList<CanMessage> messages = message.getAsCanMessages();
-            if (messages != null) {
-                update(messages);
-            }
-        } catch (Exception e) {
-            new YoloException("cannot update message browser", e, ExceptionType
-                    .VIEW).print();
-        }
     }
 }

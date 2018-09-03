@@ -12,7 +12,7 @@ import java.util.Observable;
  */
 public class ShellCarUpdater extends FileUpdater {
     public ShellCarUpdater() {
-        super("CAR UPDATER");
+        super("MOTORS");
         writeLog(Motor.getLineHeader(","));
     }
 

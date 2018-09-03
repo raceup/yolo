@@ -87,7 +87,8 @@ public class FakeBlackBird extends Kvaser {
         message += "'flag':" + Integer.toString(getRandomInt(10, 20)) + ",";
         message += "'dlc':" + Integer.toString(getRandomInt(20, 30)) + ",";
         message += "'id':" + IDS[getRandomInt(0, IDS.length - 1)] + ",";
-        message += "'time':" + Integer.toString(getRandomInt(30, 40)) + "}";
+        message += "'time':" +
+                Integer.toString(getRandomInt(10000000, 100000000)) + "}";
         return message;
     }
 

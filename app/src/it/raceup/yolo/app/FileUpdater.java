@@ -10,20 +10,16 @@ import static it.raceup.yolo.utils.Utils.getTimeNow;
  * Updates file and screen with data
  */
 public abstract class FileUpdater extends Updater {
-    private static final String logFile = System.getProperty("user.dir") +
-            "/logs/" + getTimeNow("YYYY-MM-dd_HH-mm-ss") + ".log";
+    private final String logFile;
     protected FileLogger fileLogger;
 
     public FileUpdater() {
-        this("FILE UPDATER", logFile);
+        this("FILE UPDATER");
     }
 
     public FileUpdater(String tag) {
-        this(tag, logFile);
-    }
-
-    public FileUpdater(String tag, String logFile) {
         super(tag);
+        logFile = System.getProperty("user.dir") + "/logs/" + tag + "_" + getTimeNow("YYYY-MM-dd_HH-mm-ss") + ".log";
         setup(logFile);
     }
 

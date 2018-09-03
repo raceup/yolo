@@ -17,7 +17,7 @@ import static it.raceup.yolo.utils.Utils.getLineSeparator;
  */
 public class ShellCanbusUpdater extends FileUpdater {
     public ShellCanbusUpdater() {
-        super("CAN UPDATER");
+        super("CANBUS");
         writeLog(CanMessage.getLineHeader(","));
     }
 
