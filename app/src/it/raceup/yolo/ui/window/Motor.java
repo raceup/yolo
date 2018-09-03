@@ -110,20 +110,26 @@ public class Motor extends JFrame {
     }
 
     public void update(it.raceup.yolo.models.data.Type type, Double data) {
-        String value = getAsString(data);
-        if (isBoolean(type)) {
-            value = getAsString(data.intValue());
-        }
+        JTable table = null;
+        int tableRow = -1;
 
         if (isTemperature(type)) {
-            int tableRow = Arrays.asList(TEMPERATURES).indexOf(type);
-            temperature.setValueAt(value, tableRow, 1);
+            tableRow = Arrays.asList(TEMPERATURES).indexOf(type);
+            table = temperature;
         } else if (isSetPoint(type)) {
-            int tableRow = Arrays.asList(SET_POINTS).indexOf(type);
-            sp.setValueAt(value, tableRow, 1);
+            tableRow = Arrays.asList(SET_POINTS).indexOf(type);
+            table = sp;
         } else if (isFlag(type)) {
-            int tableRow = Arrays.asList(FLAGS).indexOf(type);
-            flags.setValueAt(value, tableRow, 1);
+            tableRow = Arrays.asList(FLAGS).indexOf(type);
+            table = flags;
+        }
+
+        if (tableRow >= 0) {
+            if (isBoolean(type)) {
+                table.setValueAt(data.intValue() == 1, tableRow, 1);
+            } else {
+                table.setValueAt(getAsString(data), tableRow, 1);
+            }
         }
     }
 }
