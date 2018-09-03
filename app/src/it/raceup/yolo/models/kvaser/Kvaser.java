@@ -5,7 +5,7 @@ import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.logging.Logger;
 import it.raceup.yolo.logging.ShellLogger;
 import it.raceup.yolo.models.data.CanMessage;
-import it.raceup.yolo.models.kvaser.message.CanCommand;
+import it.raceup.yolo.models.kvaser.message.ToKvaserMessage;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -74,7 +74,7 @@ public abstract class Kvaser extends RawKvaser implements Logger, Runnable,
 
     public abstract boolean write(int id, byte[] data, int flags);
 
-    public boolean write(CanCommand command) {
+    public boolean write(ToKvaserMessage command) {
         return write(
                 command.getId(),
                 command.getData(),
@@ -95,7 +95,8 @@ public abstract class Kvaser extends RawKvaser implements Logger, Runnable,
     @Override
     public void update(Observable observable, Object o) {
         try {
-            write((CanCommand) o);
+            boolean success = write((ToKvaserMessage) o);
+            triggerObservers(success);
         } catch (Exception e) {
             new YoloException("cannot update kvaser", e, ExceptionType.KVASER)
                     .print();

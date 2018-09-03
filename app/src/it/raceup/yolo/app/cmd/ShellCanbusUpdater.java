@@ -4,6 +4,7 @@ import it.raceup.yolo.app.FileUpdater;
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.data.CanMessage;
+import it.raceup.yolo.models.kvaser.message.FromKvaserMessage;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -34,7 +35,11 @@ public class ShellCanbusUpdater extends FileUpdater {
     @Override
     public void update(Observable observable, Object o) {
         try {
-            this.update((ArrayList<CanMessage>) o);
+            FromKvaserMessage message = new FromKvaserMessage(o);
+            ArrayList<CanMessage> messages = message.getAsCanMessages();
+            if (messages != null) {
+                update(messages);
+            }
         } catch (Exception e) {
             new YoloException("cannot update car", e, ExceptionType.KVASER)
                     .print();

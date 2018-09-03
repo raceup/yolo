@@ -3,12 +3,12 @@ package it.raceup.yolo.models.kvaser.message;
 /**
  * Command to send via CAN
  */
-public class CanCommand {
+public class ToKvaserMessage {
     private final int id;
     private final String message;
     private final int flag;
 
-    public CanCommand(int id, int message, int flag) {
+    public ToKvaserMessage(int id, int message, int flag) {
         this(
                 id,
                 Integer.toHexString(message),
@@ -16,7 +16,7 @@ public class CanCommand {
         );
     }
 
-    public CanCommand(int id, String message, int flag) {
+    public ToKvaserMessage(int id, String message, int flag) {
         this.id = id;
         this.message = message;
         this.flag = flag;
