@@ -2,7 +2,7 @@ package it.raceup.yolo.ui.component.table;
 
 import javax.swing.table.TableCellRenderer;
 
-public class SetPointTable extends MultipleAlignTable {
+public class SetPointTable extends MultiAlignTable {
     public SetPointTable(Object[][] data, String[] headers) {
         super(data, headers);
     }

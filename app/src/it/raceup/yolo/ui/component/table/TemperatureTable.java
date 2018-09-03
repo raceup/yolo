@@ -2,7 +2,7 @@ package it.raceup.yolo.ui.component.table;
 
 import javax.swing.table.TableCellRenderer;
 
-public class TemperatureTable extends MultipleAlignTable {
+public class TemperatureTable extends MultiAlignTable {
     public TemperatureTable(Object[][] data, String[] headers) {
         super(data, headers);
     }

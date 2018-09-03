@@ -2,7 +2,7 @@ package it.raceup.yolo.ui.component.table;
 
 import javax.swing.table.TableCellRenderer;
 
-public class FlagsTable extends MultipleAlignTable {
+public class FlagsTable extends MultiAlignTable {
     public FlagsTable(Object[][] data, String[] headers) {
         super(data, headers);
     }

@@ -79,12 +79,11 @@ public class MotorInfo extends JPanel {
         if (Arrays.asList(LABELS).contains(type)) {
             int tableRow = Arrays.asList(LABELS).indexOf(type);
             if (tableRow >= 0) {
-                String value = getAsString(data);
                 if (isBoolean(type)) {
-                    value = getAsString(data.intValue());
+                    table.setValueAt(data.intValue() == 1, tableRow, 1);
+                } else {
+                    table.setValueAt(getAsString(data), tableRow, 1);
                 }
-
-                table.setValueAt(value, tableRow, 1);
             }
         }
     }

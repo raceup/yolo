@@ -4,10 +4,10 @@ import javax.swing.*;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-public class MultipleObjectTable extends JTable {
+public class MultiObjectTable extends JTable {
     private Class editingClass;
 
-    public MultipleObjectTable(Object[][] data, String[] headers) {
+    public MultiObjectTable(Object[][] data, String[] headers) {
         super(data, headers);
     }
 

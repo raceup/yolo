@@ -2,7 +2,7 @@ package it.raceup.yolo.ui.component.table;
 
 import javax.swing.table.TableCellRenderer;
 
-public class CanMessageTable extends MultipleAlignTable {
+public class CanMessageTable extends MultiAlignTable {
     public CanMessageTable(Object[][] data, String[] headers) {
         super(data, headers);
     }
