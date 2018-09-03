@@ -4,7 +4,7 @@ import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.data.CanMessage;
 import it.raceup.yolo.models.kvaser.message.FromKvaserMessage;
-import it.raceup.yolo.ui.component.table.JRightTable;
+import it.raceup.yolo.ui.component.table.RightAlignTable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -46,7 +46,7 @@ public class CanMessageBrowser extends JPanel implements Observer {
             }
         }
 
-        table = new JRightTable(data, TABLE_HEADERS);
+        table = new RightAlignTable(data, TABLE_HEADERS);
         for (int column = 0; column < 4; column++) {
             table.getColumn(TABLE_HEADERS[column]).setPreferredWidth(20);
         }

@@ -4,14 +4,14 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
-public class JRightTable extends JTable {
+public class RightAlignTable extends JTable {
     private DefaultTableCellRenderer renderRight = new DefaultTableCellRenderer();
 
     {
         renderRight.setHorizontalAlignment(SwingConstants.RIGHT);
     }
 
-    public JRightTable(Object[][] data, String[] headers) {
+    public RightAlignTable(Object[][] data, String[] headers) {
         super(data, headers);
     }
 

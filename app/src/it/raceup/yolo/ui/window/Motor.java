@@ -1,7 +1,7 @@
 package it.raceup.yolo.ui.window;
 
 import it.raceup.yolo.models.data.Raw;
-import it.raceup.yolo.ui.component.table.JRightTable;
+import it.raceup.yolo.ui.component.table.RightAlignTable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,7 +45,7 @@ public class Motor extends JFrame {
             data[row][0] = FLAGS[row];
             data[row][1] = DNF;
         }
-        flags = new JRightTable(data, columns);
+        flags = new RightAlignTable(data, columns);
         flags.setEnabled(false);  // non-editable cells
 
         data = new Object[SET_POINTS.length][columns.length];
@@ -53,7 +53,7 @@ public class Motor extends JFrame {
             data[row][0] = SET_POINTS[row];
             data[row][1] = DNF;
         }
-        sp = new JRightTable(data, columns);
+        sp = new RightAlignTable(data, columns);
         sp.setEnabled(false);  // non-editable cells
 
         data = new Object[TEMPERATURES.length][columns.length];
@@ -61,7 +61,7 @@ public class Motor extends JFrame {
             data[row][0] = TEMPERATURES[row];
             data[row][1] = DNF;
         }
-        temperature = new JRightTable(data, columns);
+        temperature = new RightAlignTable(data, columns);
         temperature.setEnabled(false);  // non-editable cells
     }
 

@@ -3,7 +3,7 @@ package it.raceup.yolo.ui.component.table;
 import javax.swing.*;
 import java.awt.*;
 
-public class JColorTable extends JTable {
+public class ColorTable extends JTable {
     private static final String THIS_PACKAGE = "it.raceup.yolo.ui.component" +
             ".table";
     private static final String BASE_PATH = "/res/images/circle/small/";
