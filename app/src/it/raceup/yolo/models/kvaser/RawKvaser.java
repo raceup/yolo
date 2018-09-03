@@ -1,7 +1,6 @@
 package it.raceup.yolo.models.kvaser;
 
 import it.raceup.yolo.models.data.CanMessage;
-import it.raceup.yolo.models.kvaser.message.FromKvaserMessage;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -35,8 +34,7 @@ public abstract class RawKvaser extends Observable {
 
     protected final void triggerObservers(Object o) {
         setChanged();
-        FromKvaserMessage message = new FromKvaserMessage(o);
-        notifyObservers(message);
+        notifyObservers(o);
     }
 
     public ArrayList<CanMessage> getData() {

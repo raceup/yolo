@@ -2,21 +2,21 @@ package it.raceup.yolo.ui.component;
 
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
-import it.raceup.yolo.models.kvaser.Kvaser;
+import it.raceup.yolo.models.kvaser.message.FromKvaserMessage;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Observable;
+import java.util.Observer;
 
-public class CanMessageSender extends JPanel {
+public class CanMessageSender extends JPanel implements Observer {
     private final JTextField editorId = new JTextField();
     private final JTextField editorMessage = new JTextField();
-    private final JButton sendButton = new JButton("SEND");
-    private String currentId, currentMessage;
-    private final Kvaser kvaser;
+    private final JButton sendButton = new JButton("Send");
+    private final JLabel statusLabel = new JLabel("Waiting for user input");
 
-    public CanMessageSender(Kvaser kvaser) {
+    public CanMessageSender() {
         setup();
-        this.kvaser = kvaser;
     }
 
     private void setup() {
@@ -73,8 +73,21 @@ public class CanMessageSender extends JPanel {
                 ") NOT IMPLEMENTED", ExceptionType.KVASER).print();
     }
 
-    private void checkMessage() {
-        currentId = editorId.getText();
-        currentMessage = editorMessage.getText();  // todo add error check
+    private void updateStatus(boolean success) {
+        // todo
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        try {
+            FromKvaserMessage message = new FromKvaserMessage(o);
+            Boolean success = message.getAsBoolean();
+            if (success != null) {
+                updateStatus(success);
+            }
+        } catch (Exception e) {
+            new YoloException("cannot update car", e, ExceptionType.KVASER)
+                    .print();
+        }
     }
 }

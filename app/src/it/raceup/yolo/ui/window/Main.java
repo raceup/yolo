@@ -44,7 +44,7 @@ public class Main extends JFrame {
             motorWindows[i] = new Motor(DEFAULT_MOTORS[i]);
         }
 
-        canPanel = new CanMessageSender(null);  // todo provide kvaser
+        canPanel = new CanMessageSender();  // todo connect to kvaser
         setup();
         setWindowsTogglers();
         open();

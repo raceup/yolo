@@ -28,11 +28,11 @@ public class FromKvaserMessage {
         return null;
     }
 
-    public boolean getAsBoolean() {
+    public Boolean getAsBoolean() {
         if (data instanceof Boolean) {
             return (Boolean) data;
         }
 
-        return false;
+        return null;
     }
 }
