@@ -14,4 +14,4 @@
 
   - IronWorks version (check console in dev tools):
   - Platform:
-  - Browser name and version (check browser about or help section):
+  - Java version (check `java -version`):
