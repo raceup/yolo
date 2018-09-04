@@ -10,14 +10,14 @@ import java.awt.*;
 
 import static it.raceup.yolo.utils.Os.setNativeLookAndFeelOrFail;
 
-public class Main extends JFrame {
-    private static final String TITLE = "YOLO: telemetry by Race UP ED";
+public class MainFrame extends JFrame {
+    private static final String TITLE = "YOLO: motors";
     private static final String ICON_PATH = "/res/images/logo.png";
     private final MotorsPanel motorPanels;
     private final CanMessagesFrame canMessagesFrame;
     private Image appIcon;
 
-    public Main() {
+    public MainFrame() {
         super(TITLE);
 
         motorPanels = new MotorsPanel();
@@ -40,6 +40,7 @@ public class Main extends JFrame {
             setNativeLookAndFeelOrFail();
             setVisible(true);
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // close app
+            canMessagesFrame.open();
         } catch (Exception e) {
             new YoloException(
                     "cannot open view",

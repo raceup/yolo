@@ -13,10 +13,10 @@ import static it.raceup.yolo.models.data.Base.DNF;
 import static it.raceup.yolo.models.data.Base.getAsString;
 import static it.raceup.yolo.models.data.Raw.*;
 
-public class Motor extends JFrame {
+public class MotorFrame extends JFrame {
     private JTable flags, sp, temperature;
 
-    public Motor(final String title) {
+    public MotorFrame(final String title) {
         super(title);
         setup();
     }

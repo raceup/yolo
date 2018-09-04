@@ -49,7 +49,7 @@ public enum Type {
         } else if (this == MAGNETIZING_CURRENT) {
             return "Magnetizing Current";
         } else if (this == TEMPERATURE_MOTOR) {
-            return "Temperature Motor";
+            return "Temperature MotorFrame";
         } else if (this == TEMPERATURE_INVERTER) {
             return "Temperature Inverter";
         } else if (this == TEMPERATURE_IGBT) {

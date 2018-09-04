@@ -105,7 +105,7 @@ public class Motor {
 
     @Override
     public String toString() {
-        String out = "Motor " + tag + ":\n";
+        String out = "MotorFrame " + tag + ":\n";
         out += "\tTEMPERATURES:\n";
         out += "\t\t" + toStringTemperatures() + "\n";
 

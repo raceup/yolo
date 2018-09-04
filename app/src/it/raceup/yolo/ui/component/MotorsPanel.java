@@ -4,7 +4,7 @@ import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.data.Raw;
 import it.raceup.yolo.models.data.Type;
-import it.raceup.yolo.ui.window.Motor;
+import it.raceup.yolo.ui.window.MotorFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,12 +16,12 @@ import static it.raceup.yolo.models.car.Car.DEFAULT_MOTORS;
 
 public class MotorsPanel extends JPanel implements Observer {
     private final MotorInfo[] motorPanels = new MotorInfo[DEFAULT_MOTORS.length];
-    private final Motor[] motorWindows = new Motor[DEFAULT_MOTORS.length];
+    private final MotorFrame[] motorFrameWindows = new MotorFrame[DEFAULT_MOTORS.length];
 
     public MotorsPanel() {
         for (int i = 0; i < DEFAULT_MOTORS.length; i++) {
             motorPanels[i] = new MotorInfo(DEFAULT_MOTORS[i]);
-            motorWindows[i] = new Motor(DEFAULT_MOTORS[i]);
+            motorFrameWindows[i] = new MotorFrame(DEFAULT_MOTORS[i]);
         }
 
         setup();
@@ -60,10 +60,10 @@ public class MotorsPanel extends JPanel implements Observer {
 
     private ActionListener getCheckAction(int motor) {
         return actionEvent -> {
-            if (motorWindows[motor].isVisible()) {
-                motorWindows[motor].close();
+            if (motorFrameWindows[motor].isVisible()) {
+                motorFrameWindows[motor].close();
             } else {
-                motorWindows[motor].open();
+                motorFrameWindows[motor].open();
             }
         };
     }
@@ -81,7 +81,7 @@ public class MotorsPanel extends JPanel implements Observer {
         }
 
         try {
-            motorWindows[motor].update(type, data);
+            motorFrameWindows[motor].update(type, data);
         } catch (Exception e) {
             System.err.println("update(Raw data): CANNOT UPDATE MOTOR WINDOW");
         }

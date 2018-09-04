@@ -6,7 +6,7 @@ import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.car.Car;
 import it.raceup.yolo.models.kvaser.FakeBlackBird;
-import it.raceup.yolo.ui.window.Main;
+import it.raceup.yolo.ui.window.MainFrame;
 
 import static it.raceup.yolo.app.gui.SettingsPanel.getSettings;
 
@@ -15,7 +15,7 @@ import static it.raceup.yolo.app.gui.SettingsPanel.getSettings;
  * incoming data. Listens for new data and updates screen as soon as possible.
  */
 public class App extends KvaserApp {
-    private final Main view;
+    private final MainFrame view;
 
     public App() {
         this("GUI APP");
@@ -23,7 +23,7 @@ public class App extends KvaserApp {
 
     public App(String tag) {
         super(tag);
-        view = new Main();
+        view = new MainFrame();
     }
 
     public static void main(String[] args) {
