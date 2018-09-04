@@ -14,7 +14,7 @@ import static it.raceup.yolo.utils.Os.setNativeLookAndFeelOrFail;
 public class Main extends JFrame {
     private static final String TITLE = "YOLO: telemetry by Race UP ED";
     private static final String ICON_PATH = "/res/images/logo.png";
-    private Image appIcon = null;
+    private Image appIcon;
     private final MotorsPanel motorPanels;
     private final CanMessagesPanel canMessagesPanel;
 
@@ -134,7 +134,8 @@ public class Main extends JFrame {
 
     private void loadIcon() {
         try {
-            appIcon = Toolkit.getDefaultToolkit().getImage(getClass().getResource(ICON_PATH)
+            appIcon = Toolkit.getDefaultToolkit().getImage(
+                    getClass().getResource(ICON_PATH)
             );
         } catch (Exception e) {
             new YoloException(
