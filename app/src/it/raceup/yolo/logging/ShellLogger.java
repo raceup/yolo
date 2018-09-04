@@ -1,8 +1,8 @@
 package it.raceup.yolo.logging;
 
 public class ShellLogger implements Logger {
-    private StreamLogger out;
-    private StreamLogger err;
+    private final StreamLogger out;
+    private final StreamLogger err;
 
     public ShellLogger() {
         this("SHELL LOGGER");

@@ -52,18 +52,6 @@ public class Raw {
         this.motor = motor;
     }
 
-    public Type getType() {
-        return type;
-    }
-
-    public double getRaw() {
-        return raw;
-    }
-
-    public int getMotor() {
-        return motor;
-    }
-
     public static boolean isTemperature(Type type) {
         return Arrays.asList(TEMPERATURES).contains(type);
     }
@@ -85,6 +73,18 @@ public class Raw {
         return isSetPoint(type) && (type == Type.SP_INVERTER_ON || type == Type
                 .SP_DC_ON || type == Type.SP_ENABLE || type == Type
                 .SP_ERROR_RESET);
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public double getRaw() {
+        return raw;
+    }
+
+    public int getMotor() {
+        return motor;
     }
 
     public boolean isTemperature() {

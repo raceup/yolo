@@ -13,10 +13,14 @@ import java.util.stream.Stream;
 import static it.raceup.yolo.models.data.Raw.*;
 
 public class Motor {
-    private Flags flags = new Flags();
-    private SetPoint setPoint = new SetPoint();
-    private Temperature temperature = new Temperature();
-    private String tag;
+    private final Flags flags = new Flags();
+    private final SetPoint setPoint = new SetPoint();
+    private final Temperature temperature = new Temperature();
+    private final String tag;
+
+    public Motor(String tag) {
+        this.tag = tag;
+    }
 
     public static String getLineHeader(String separator) {
         List<String> values = Stream.of(Raw.ALL)
@@ -28,8 +32,12 @@ public class Motor {
         return getLine(values.toArray(new String[values.size()]), separator);
     }
 
-    public Motor(String tag) {
-        this.tag = tag;
+    public static String getLine(String[] types, String separator) {
+        StringBuilder out = new StringBuilder();
+        for (String type : types) {
+            out.append(String.format("%-22s" + separator, type));
+        }
+        return out.toString();
     }
 
     // todo oop
@@ -54,14 +62,6 @@ public class Motor {
         }
 
         return 0;  // todo better exception or DNF
-    }
-
-    public static String getLine(String[] types, String separator) {
-        StringBuilder out = new StringBuilder();
-        for (String type : types) {
-            out.append(String.format("%-22s" + separator, type));
-        }
-        return out.toString();
     }
 
     public String getTag() {

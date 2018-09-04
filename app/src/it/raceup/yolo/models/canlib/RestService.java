@@ -20,17 +20,13 @@ public class RestService extends ShellLogger {
     public final static int POST = 2;
     public final static int PUT = 3;
     public final static int DELETE = 4;
-    private String url;
-    private ArrayList<ParcelableNameValuePair> params;
+    private final String url;
+    private final ArrayList<ParcelableNameValuePair> params;
 
     public RestService(String baseUrl, String type, int ident) {
         super("REST SERVICE");
         this.url = getUrl(baseUrl, type, ident);
         params = new ArrayList<>();
-    }
-
-    public void addParam(String name, String value) {
-        params.add(new ParcelableNameValuePair(name, value));
     }
 
     private static String getUrl(String baseUrl, String type, int ident) {
@@ -42,6 +38,10 @@ public class RestService extends ShellLogger {
         } catch (Exception e) {
             return baseUrl;
         }
+    }
+
+    public void addParam(String name, String value) {
+        params.add(new ParcelableNameValuePair(name, value));
     }
 
     private URL getFullUrl() {

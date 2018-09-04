@@ -14,7 +14,7 @@ import org.json.JSONObject;
 public class BlackBird extends Kvaser {
     private static final String HTTP_SCHEME = "http";
     private static final int PORT = 8080;
-    private RestActivity restActivity;
+    private final RestActivity restActivity;
 
     public BlackBird(String ip) {
         this(HTTP_SCHEME, ip, PORT);
@@ -23,6 +23,14 @@ public class BlackBird extends Kvaser {
     public BlackBird(String scheme, String host, int port) {
         super("BLACKBIRD @ " + getUrl(scheme, host, port));
         restActivity = new RestActivity(getUrl(scheme, host, port));
+    }
+
+    public static String getUrl(String scheme, String host, int port) {
+        URIBuilder uriBuilder = new URIBuilder();
+        uriBuilder.setScheme(scheme);
+        uriBuilder.setHost(host);
+        uriBuilder.setPort(port);
+        return uriBuilder.toString();
     }
 
     @Override
@@ -51,14 +59,6 @@ public class BlackBird extends Kvaser {
         }
 
         return true;
-    }
-
-    private static String getUrl(String scheme, String host, int port) {
-        URIBuilder uriBuilder = new URIBuilder();
-        uriBuilder.setScheme(scheme);
-        uriBuilder.setHost(host);
-        uriBuilder.setPort(port);
-        return uriBuilder.toString();
     }
 
     private boolean openConnection() {
@@ -109,8 +109,8 @@ public class BlackBird extends Kvaser {
         } catch (Exception e) {
             log(
                     new YoloException(
-                    "cannot read CAN",
-                    ExceptionType.KVASER
+                            "cannot read CAN",
+                            ExceptionType.KVASER
                     )
             );
             return new CanMessage[]{};

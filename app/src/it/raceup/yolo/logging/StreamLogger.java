@@ -6,11 +6,11 @@ import java.nio.charset.StandardCharsets;
 import static it.raceup.yolo.utils.Misc.getTimeNow;
 
 public class StreamLogger implements Logger {
-    public String TAG;
-    private OutputStream writer;
     private static final String timeFormatter = "%-21s";
     private static final String errorFormatter = "%-80s";
     private static final String tagFormatter = "%-45s";
+    public final String TAG;
+    private final OutputStream writer;
 
     public StreamLogger(String tag, OutputStream writer) {
         TAG = tag;
@@ -52,6 +52,7 @@ public class StreamLogger implements Logger {
         try {
             out.write(message.getBytes(StandardCharsets.UTF_8));
         } catch (Exception e) {
+            System.err.println(getErrorMessage(e));
         }
     }
 }

@@ -15,16 +15,16 @@ public class Parser {
     private static final int index_diff_2[] = new int[]{
             0x285, 0x286, 0x289, 0x28A
     };
-    private int motorId;
     private static final double TORQUE_CURRENT = 107.2 / 16384;
-    private ArrayList<Raw> parsedData = new ArrayList<>();
     private final int id;
     private final byte[] data;
+    private final ArrayList<Raw> parsedData = new ArrayList<>();
+    private int motorId;
 
     public Parser(int id, byte[] data) {
         this.id = id;
         this.data = data;
-        
+
         parse();
     }
 
@@ -45,7 +45,7 @@ public class Parser {
 
     private int parseMotorId() {
         for (int i = 0; i < 4; i++) {
-            if(id == index_diff_1[i] || id == index_diff_2[i]) {
+            if (id == index_diff_1[i] || id == index_diff_2[i]) {
                 return i;
             }
 

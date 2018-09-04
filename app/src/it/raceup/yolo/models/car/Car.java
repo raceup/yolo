@@ -16,7 +16,7 @@ public class Car extends Observable implements Observer {
     public static final String[] DEFAULT_MOTORS = new String[]{
             "Front Left", "Front Right", "Rear Left", "Rear Right"
     };  // 4 motors in car
-    private Motor[] motors;
+    private final Motor[] motors;
 
     public Car() {
         this(DEFAULT_MOTORS);

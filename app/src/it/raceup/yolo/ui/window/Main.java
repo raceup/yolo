@@ -14,9 +14,9 @@ import static it.raceup.yolo.utils.Os.setNativeLookAndFeelOrFail;
 public class Main extends JFrame {
     private static final String TITLE = "YOLO: telemetry by Race UP ED";
     private static final String ICON_PATH = "/res/images/logo.png";
-    private Image appIcon;
     private final MotorsPanel motorPanels;
     private final CanMessagesPanel canMessagesPanel;
+    private Image appIcon;
 
     public Main() {
         super(TITLE);

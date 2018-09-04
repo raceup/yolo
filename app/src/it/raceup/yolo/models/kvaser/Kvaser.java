@@ -34,6 +34,7 @@ public abstract class Kvaser extends RawKvaser implements Logger, Runnable,
         CAN_BITRATE_TO_CANLIB_VERSION.put("500k", canBITRATE_500K);
         CAN_BITRATE_TO_CANLIB_VERSION.put("1m", canBITRATE_1M);
     }
+
     private final ShellLogger logger;
 
     public Kvaser() {

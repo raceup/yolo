@@ -14,8 +14,6 @@ import static it.raceup.yolo.models.data.Raw.isBoolean;
 import static it.raceup.yolo.models.data.Type.*;
 
 public class MotorInfo extends JPanel {
-    private JTable table = getMotorTable();
-    public JButton viewButton;
     public static final it.raceup.yolo.models.data.Type[] LABELS =
             new it.raceup.yolo.models.data.Type[]{
                     SYSTEM_READY,
@@ -27,6 +25,8 @@ public class MotorInfo extends JPanel {
                     TEMPERATURE_MOTOR,
                     TEMPERATURE_INVERTER,
             };
+    public final JButton viewButton;
+    private final JTable table = getMotorTable();
 
     public MotorInfo(String tag) {
         viewButton = new JButton(tag);

@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 
 public class CanMessage extends Message {
-    private int dlc;
+    private final int dlc;
 
     public CanMessage(int id, byte[] data, int length, int flags, long time,
                       int dlc) {
@@ -36,6 +36,33 @@ public class CanMessage extends Message {
                 message.getInt("time"),
                 message.getInt("dlc")
         );
+    }
+
+    public static String getLineHeader(String separator) {
+        return getLine("Time", "ID",
+                "Flags", "Dlc", "Data", separator);
+    }
+
+    public static String getLine(String time, String id, String flags,
+                                 String dlc, String data, String separator) {
+        String formatter = "%-8s" + separator;
+        String out = String.format(formatter, time);
+        out += String.format(formatter, id);
+        out += String.format(formatter, flags);
+        out += String.format(formatter, dlc);
+        out += String.format("%-40s" + separator, data);
+        return out;
+    }
+
+    public static String getDict(String time, String id, String flags,
+                                 String dlc, String data) {
+        String out = "CanMessage {\n";
+        out += "\tTime: " + time + "\n";
+        out += "\tID: " + id + "\n";
+        out += "\tFlags: " + flags + "\n";
+        out += "\tDlc: " + dlc + "\n";
+        out += "\tData: " + data + "\n}";
+        return out;
     }
 
     public int getId() {
@@ -72,22 +99,6 @@ public class CanMessage extends Message {
         return Arrays.toString(bytes);
     }
 
-    public static String getLineHeader(String separator) {
-        return getLine("Time", "ID",
-                "Flags", "Dlc", "Data", separator);
-    }
-
-    public static String getLine(String time, String id, String flags,
-                                 String dlc, String data, String separator) {
-        String formatter = "%-8s" + separator;
-        String out = String.format(formatter, time);
-        out += String.format(formatter, id);
-        out += String.format(formatter, flags);
-        out += String.format(formatter, dlc);
-        out += String.format("%-40s" + separator, data);
-        return out;
-    }
-
     public String getLine(String separator) {
         return getLine(
                 Long.toString(getTime()),
@@ -97,17 +108,6 @@ public class CanMessage extends Message {
                 getDataAsString(),
                 separator
         );
-    }
-
-    public static String getDict(String time, String id, String flags,
-                                 String dlc, String data) {
-        String out = "CanMessage {\n";
-        out += "\tTime: " + time + "\n";
-        out += "\tID: " + id + "\n";
-        out += "\tFlags: " + flags + "\n";
-        out += "\tDlc: " + dlc + "\n";
-        out += "\tData: " + data + "\n}";
-        return out;
     }
 
     public String getDict() {

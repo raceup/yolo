@@ -6,12 +6,12 @@ import java.awt.*;
 public class SettingsPanel extends JPanel {
     private static final String[] BITRATES = {"10k", "50k", "62k",
             "83k", "100k", "125k", "250k", "500k", "1m"};
-    private JTextField ipEditor;
-    private JComboBox bitrateChooser;
+    private final JTextField ipEditor;
+    private final JComboBox<String> bitrateChooser;
 
     public SettingsPanel() {
         ipEditor = new JTextField("192.168.1.10");
-        bitrateChooser = new JComboBox(BITRATES);
+        bitrateChooser = new JComboBox<>(BITRATES);
         bitrateChooser.setSelectedIndex(BITRATES.length - 1);
 
         setup();

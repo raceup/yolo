@@ -7,7 +7,7 @@ import java.util.Observable;
 
 public abstract class RawKvaser extends Observable {
     private int bufferSize = 32;
-    private ArrayList<CanMessage> data = new ArrayList<>();
+    private final ArrayList<CanMessage> data = new ArrayList<>();
 
     public RawKvaser(int bufferSize) {
         this.bufferSize = bufferSize;

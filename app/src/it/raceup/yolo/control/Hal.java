@@ -17,8 +17,8 @@ import java.util.Observer;
  * remains listening for incoming data. When there is new data, updates car data.
  */
 public class Hal extends ShellLogger {
-    private Car car;
-    private Kvaser kvaser;
+    private final Car car;
+    private final Kvaser kvaser;
 
     public Hal(Car car, Kvaser kvaser) {
         super("HAL");
@@ -67,6 +67,7 @@ public class Hal extends ShellLogger {
             try {
                 value = get(type, motor);
             } catch (Exception e) {
+                log(e);
             }
             info.put(type, value);
         }

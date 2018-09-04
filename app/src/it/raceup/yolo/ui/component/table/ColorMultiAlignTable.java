@@ -39,11 +39,5 @@ public abstract class ColorMultiAlignTable extends ColorTable {
             System.err.println("cannot align");
             return renderer;
         }
-
-    }
-
-    @Override
-    public TableCellRenderer getCellRenderer(int row, int column) {
-        return super.getCellRenderer(row, column);  // allows different types
     }
 }

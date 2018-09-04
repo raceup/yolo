@@ -1,9 +1,9 @@
 package it.raceup.yolo.error;
 
 public class YoloException extends Exception {
-    private String message;
-    private ExceptionType type;
     private static final String errorFormatter = "%-30s";
+    private final String message;
+    private final ExceptionType type;
 
     public YoloException(Exception e) {
         this(e, ExceptionType.UNKNOWN);

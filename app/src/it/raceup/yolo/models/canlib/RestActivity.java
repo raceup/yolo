@@ -65,19 +65,8 @@ public class RestActivity extends ShellLogger {
     private RestService restServiceCanAddFilter;
     private RestService restServiceCanClearFilters;
     private String url;
-    private String baseUrl;
-    private String session;
+    private final String baseUrl;
     private int hnd = CAN_ERROR;
-
-    private static String getUrl(String baseUrl, String session) {
-        try {
-            URIBuilder uriBuilder = new URIBuilder(baseUrl);
-            uriBuilder.setPath(session);
-            return uriBuilder.toString();
-        } catch (Exception e) {
-            return baseUrl;
-        }
-    }
 
     public RestActivity(String url, String session) {
         super("REST ACTIVITY");
@@ -89,6 +78,16 @@ public class RestActivity extends ShellLogger {
 
     public RestActivity(String url) {
         this(url, null);
+    }
+
+    private static String getUrl(String baseUrl, String session) {
+        try {
+            URIBuilder uriBuilder = new URIBuilder(baseUrl);
+            uriBuilder.setPath(session);
+            return uriBuilder.toString();
+        } catch (Exception e) {
+            return baseUrl;
+        }
     }
 
     ///////////////////////////////////////////////////////////// rest services
@@ -389,7 +388,6 @@ public class RestActivity extends ShellLogger {
 
     public void setSession(String session) {
         this.url = getUrl(this.baseUrl, session);
-        this.session = session;
         createServices();  // reload services with session id
     }
 
