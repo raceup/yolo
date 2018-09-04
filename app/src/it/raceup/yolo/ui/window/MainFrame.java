@@ -11,10 +11,11 @@ import java.awt.*;
 import static it.raceup.yolo.utils.Os.setNativeLookAndFeelOrFail;
 
 public class MainFrame extends JFrame {
-    private static final String TITLE = "YOLO: motors";
+    private static final String TITLE = "YOLO: AMK and inverters";
     private static final String ICON_PATH = "/res/images/logo.png";
     private final MotorsPanel motorPanels;
     private final CanMessagesFrame canMessagesFrame;
+    private final BatteryFrame batteryFrame;
     private Image appIcon;
 
     public MainFrame() {
@@ -22,6 +23,7 @@ public class MainFrame extends JFrame {
 
         motorPanels = new MotorsPanel();
         canMessagesFrame = new CanMessagesFrame();
+        batteryFrame = new BatteryFrame();
 
         setup();
         open();
@@ -40,7 +42,9 @@ public class MainFrame extends JFrame {
             setNativeLookAndFeelOrFail();
             setVisible(true);
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // close app
-            canMessagesFrame.open();
+
+            canMessagesFrame.open();  // open rest of frames
+            batteryFrame.open();
         } catch (Exception e) {
             new YoloException(
                     "cannot open view",
@@ -128,6 +132,10 @@ public class MainFrame extends JFrame {
 
     public CanMessagesFrame getCanMessagesFrame() {
         return canMessagesFrame;
+    }
+
+    public BatteryFrame getBatteryFrame() {
+        return batteryFrame;
     }
 
     private void loadIcon() {
