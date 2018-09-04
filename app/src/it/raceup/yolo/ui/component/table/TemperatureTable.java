@@ -9,6 +9,10 @@ public class TemperatureTable extends MultiAlignTable {
 
     @Override
     public TableCellRenderer getCellRenderer(int row, int column) {
+        if (column == 0) {
+            return alignLeft();
+        }
+
         return alignRight();
     }
 }

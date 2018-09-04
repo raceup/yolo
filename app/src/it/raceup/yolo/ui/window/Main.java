@@ -2,7 +2,6 @@ package it.raceup.yolo.ui.window;
 
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
-import it.raceup.yolo.ui.component.CanMessagesPanel;
 import it.raceup.yolo.ui.component.MotorsPanel;
 import it.raceup.yolo.ui.utils.AboutDialog;
 
@@ -15,14 +14,14 @@ public class Main extends JFrame {
     private static final String TITLE = "YOLO: telemetry by Race UP ED";
     private static final String ICON_PATH = "/res/images/logo.png";
     private final MotorsPanel motorPanels;
-    private final CanMessagesPanel canMessagesPanel;
+    private final CanMessagesFrame canMessagesFrame;
     private Image appIcon;
 
     public Main() {
         super(TITLE);
 
         motorPanels = new MotorsPanel();
-        canMessagesPanel = new CanMessagesPanel();
+        canMessagesFrame = new CanMessagesFrame();
 
         setup();
         open();
@@ -35,7 +34,7 @@ public class Main extends JFrame {
     private void open() {
         try {
             pack();
-            setSize(1300, 500);
+            setSize(600, 500);
             setLocation(0, 0);  // top left corner
             setResizable(false);
             setNativeLookAndFeelOrFail();
@@ -71,8 +70,6 @@ public class Main extends JFrame {
         setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
 
         add(motorPanels);
-        add(Box.createRigidArea(new Dimension(10, 0)));
-        add(canMessagesPanel);
 
         setJMenuBar(createMenuBar());
     }
@@ -128,8 +125,8 @@ public class Main extends JFrame {
         return motorPanels;
     }
 
-    public CanMessagesPanel getCanMessagesPanel() {
-        return canMessagesPanel;
+    public CanMessagesFrame getCanMessagesFrame() {
+        return canMessagesFrame;
     }
 
     private void loadIcon() {

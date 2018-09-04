@@ -9,6 +9,8 @@
 
 0. You need Java (>=7): go run [download it](https://www.java.com/en/download/).
 0. Next you can compile [the sources](app) or just run the provided [.jar](build/)
+0. Also, you need a [Kvaser device](https://www.kvaser.com) like the [BlackBird](https://www.kvaser
+.com/product/kvaser-blackbird-v2/)
 
 
 ## Usage

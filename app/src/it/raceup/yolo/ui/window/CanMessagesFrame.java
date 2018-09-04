@@ -1,9 +1,11 @@
-package it.raceup.yolo.ui.component;
+package it.raceup.yolo.ui.window;
 
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.data.CanMessage;
 import it.raceup.yolo.models.kvaser.message.FromKvaserMessage;
+import it.raceup.yolo.ui.component.CanMessageBrowser;
+import it.raceup.yolo.ui.component.CanMessageSender;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,11 +13,11 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-public class CanMessagesPanel extends JPanel implements Observer {
+public class CanMessagesFrame extends JPanel implements Observer {
     private final CanMessageSender canMessageSender;
     private final CanMessageBrowser canMessageBrowser;
 
-    public CanMessagesPanel() {
+    public CanMessagesFrame() {
         canMessageSender = new CanMessageSender();  // todo connect to kvaser
         canMessageBrowser = new CanMessageBrowser();  // todo connect to kvaser
 
