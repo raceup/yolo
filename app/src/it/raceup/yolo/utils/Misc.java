@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Utils {
+public class Misc {
     private static final String PRETTY_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     public static String getTimeNow() {

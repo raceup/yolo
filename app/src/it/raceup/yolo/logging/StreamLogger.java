@@ -3,7 +3,7 @@ package it.raceup.yolo.logging;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
-import static it.raceup.yolo.utils.Utils.getTimeNow;
+import static it.raceup.yolo.utils.Misc.getTimeNow;
 
 public class StreamLogger implements Logger {
     public String TAG;

@@ -9,27 +9,14 @@ import it.raceup.yolo.ui.utils.AboutDialog;
 import javax.swing.*;
 import java.awt.*;
 
+import static it.raceup.yolo.utils.Os.setNativeLookAndFeelOrFail;
+
 public class Main extends JFrame {
-    public static final String TITLE = "YOLO: telemetry by Race UP ED";
-    private static final String THIS_PACKAGE = "it.raceup.yolo.ui.window";
+    private static final String TITLE = "YOLO: telemetry by Race UP ED";
     private static final String ICON_PATH = "/res/images/logo.png";
-    private static Image appIcon = null;
+    private Image appIcon = null;
     private final MotorsPanel motorPanels;
     private final CanMessagesPanel canMessagesPanel;
-
-    static {
-        try {
-            appIcon = Toolkit.getDefaultToolkit().getImage(
-                    THIS_PACKAGE.getClass().getResource(ICON_PATH)
-            );
-        } catch (Exception e) {
-            new YoloException(
-                    "cannot set app icon",
-                    ExceptionType.APP
-            ).print();
-            appIcon = null;
-        }
-    }
 
     public Main() {
         super(TITLE);
@@ -51,6 +38,7 @@ public class Main extends JFrame {
             setSize(1300, 500);
             setLocation(0, 0);  // top left corner
             setResizable(false);
+            setNativeLookAndFeelOrFail();
             setVisible(true);
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // close app
         } catch (Exception e) {
@@ -62,6 +50,7 @@ public class Main extends JFrame {
         }
 
         try {
+            loadIcon();
             setIconImage(appIcon);  // set icon
         } catch (Exception e) {
             new YoloException(
@@ -141,5 +130,17 @@ public class Main extends JFrame {
 
     public CanMessagesPanel getCanMessagesPanel() {
         return canMessagesPanel;
+    }
+
+    private void loadIcon() {
+        try {
+            appIcon = Toolkit.getDefaultToolkit().getImage(getClass().getResource(ICON_PATH)
+            );
+        } catch (Exception e) {
+            new YoloException(
+                    "cannot set app icon",
+                    ExceptionType.APP
+            ).print();
+        }
     }
 }

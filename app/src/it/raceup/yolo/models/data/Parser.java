@@ -2,7 +2,7 @@ package it.raceup.yolo.models.data;
 
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
-import it.raceup.yolo.utils.Utils;
+import it.raceup.yolo.utils.Misc;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -69,56 +69,56 @@ public class Parser {
     private void readMotor1() {
         parsedData.add(
                 new Raw(
-                        Utils.getBit(data[1], 0),
+                        Misc.getBit(data[1], 0),
                         getMotorId(),
                         Type.SYSTEM_READY
                 )
         );
         parsedData.add(
                 new Raw(
-                        Utils.getBit(data[1], 1),
+                        Misc.getBit(data[1], 1),
                         getMotorId(),
                         Type.ERROR
                 )
         );
         parsedData.add(
                 new Raw(
-                        Utils.getBit(data[1], 2),
+                        Misc.getBit(data[1], 2),
                         getMotorId(),
                         Type.WARNING
                 )
         );
         parsedData.add(
                 new Raw(
-                        Utils.getBit(data[1], 3),
+                        Misc.getBit(data[1], 3),
                         getMotorId(),
                         Type.QUIT_DC_ON
                 )
         );
         parsedData.add(
                 new Raw(
-                        Utils.getBit(data[1], 4),
+                        Misc.getBit(data[1], 4),
                         getMotorId(),
                         Type.DC_ON
                 )
         );
         parsedData.add(
                 new Raw(
-                        Utils.getBit(data[1], 5),
+                        Misc.getBit(data[1], 5),
                         getMotorId(),
                         Type.QUIT_INVERTER_ON
                 )
         );
         parsedData.add(
                 new Raw(
-                        Utils.getBit(data[1], 6),
+                        Misc.getBit(data[1], 6),
                         getMotorId(),
                         Type.INVERTER_ON
                 )
         );
         parsedData.add(
                 new Raw(
-                        Utils.getBit(data[1], 7),
+                        Misc.getBit(data[1], 7),
                         getMotorId(),
                         Type.DERATING
                 )

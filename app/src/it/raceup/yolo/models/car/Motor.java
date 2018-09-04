@@ -53,7 +53,7 @@ public class Motor {
             return setPoint.get(type);
         }
 
-        return 0;  // todo exception
+        return 0;  // todo better exception or DNF
     }
 
     public static String getLine(String[] types, String separator) {

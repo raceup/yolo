@@ -8,7 +8,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import static it.raceup.yolo.models.data.Base.*;
-import static it.raceup.yolo.utils.Utils.getTimeNow;
+import static it.raceup.yolo.utils.Misc.getTimeNow;
 
 /**
  * Table to show latest CAN messages

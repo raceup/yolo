@@ -13,7 +13,6 @@ public class SettingsPanel extends JPanel {
         ipEditor = new JTextField("192.168.1.10");
         bitrateChooser = new JComboBox(BITRATES);
         bitrateChooser.setSelectedIndex(BITRATES.length - 1);
-        // todo ? bitrateChooser.addActionListener(this);
 
         setup();
     }

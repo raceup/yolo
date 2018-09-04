@@ -4,7 +4,7 @@ import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.logging.FileLogger;
 
-import static it.raceup.yolo.utils.Utils.getTimeNow;
+import static it.raceup.yolo.utils.Misc.getTimeNow;
 
 /**
  * Updates file and screen with data

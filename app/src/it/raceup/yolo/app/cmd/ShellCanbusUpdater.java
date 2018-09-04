@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 import static it.raceup.yolo.models.data.CanMessage.getLineHeader;
-import static it.raceup.yolo.utils.Utils.getLineSeparator;
+import static it.raceup.yolo.utils.Misc.getLineSeparator;
 
 /**
  * Updates with CAN data
