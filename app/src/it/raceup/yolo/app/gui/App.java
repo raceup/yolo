@@ -1,7 +1,9 @@
 package it.raceup.yolo.app.gui;
 
 import it.raceup.yolo.app.KvaserApp;
+import it.raceup.yolo.app.updater.ShellBatteryUpdater;
 import it.raceup.yolo.app.updater.ShellCanUpdater;
+import it.raceup.yolo.app.updater.ShellImuUpdater;
 import it.raceup.yolo.app.updater.ShellMotorsUpdater;
 import it.raceup.yolo.control.Hal;
 import it.raceup.yolo.error.ExceptionType;
@@ -91,11 +93,11 @@ public class App extends KvaserApp {
         }
 
         if (logBattery) {
-            // todo create logger
+            hal.addObserverToKvaser(new ShellBatteryUpdater(false, true));
         }
 
         if (logIMU) {
-            // todo create logger
+            hal.addObserverToKvaser(new ShellImuUpdater(false, true));
         }
     }
 

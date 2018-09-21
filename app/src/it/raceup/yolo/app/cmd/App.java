@@ -1,7 +1,9 @@
 package it.raceup.yolo.app.cmd;
 
 import it.raceup.yolo.app.KvaserApp;
+import it.raceup.yolo.app.updater.ShellBatteryUpdater;
 import it.raceup.yolo.app.updater.ShellCanUpdater;
+import it.raceup.yolo.app.updater.ShellImuUpdater;
 import it.raceup.yolo.app.updater.ShellMotorsUpdater;
 import it.raceup.yolo.control.Hal;
 import it.raceup.yolo.models.car.Motors;
@@ -59,6 +61,15 @@ public class App extends KvaserApp {
             hal.addObserverToKvaser(new ShellCanUpdater(true, log));
         } else if (options.get(2).equals("car")) {
             hal.addObserverToMotors(new ShellMotorsUpdater(true, log));
+        } else if (options.get(2).equals("bms")) {
+            hal.addObserverToMotors(new ShellBatteryUpdater(true, log));
+        } else if (options.get(2).equals("imu")) {
+            hal.addObserverToMotors(new ShellImuUpdater(true, log));
+        } else if (options.get(2).equals("all")) {
+            hal.addObserverToKvaser(new ShellCanUpdater(true, log));
+            hal.addObserverToMotors(new ShellMotorsUpdater(true, log));
+            hal.addObserverToMotors(new ShellBatteryUpdater(true, log));
+            hal.addObserverToMotors(new ShellImuUpdater(true, log));
         }
     }
 
@@ -80,7 +91,7 @@ public class App extends KvaserApp {
         options.addOption(canBitrate);
 
         Option view = new Option("view", "view", true, "Update screen " +
-                "with CAN messages, car model. Possible options are  [can, car]");
+                "with CAN messages, car model. Possible options are  [can, car, bms, imu, all]");
         view.setRequired(true);
         options.addOption(view);
 
