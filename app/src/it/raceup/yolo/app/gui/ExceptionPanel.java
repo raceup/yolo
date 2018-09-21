@@ -1,13 +1,15 @@
 package it.raceup.yolo.app.gui;
 
 import it.raceup.yolo.error.YoloException;
-import it.raceup.yolo.ui.component.label.BoldLabel;
 import it.raceup.yolo.ui.component.label.ItalicLabel;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class ExceptionPanel extends JPanel {
+    private final String DEBUG_MESSAGE = "Waiting for Kvaser to exit...\n" +
+            "If you want to report this bug, please reach out to\n" +
+            "https://github.com/raceup/yolo/issues/";
     private final YoloException exception;
 
     public ExceptionPanel(Exception e) {
@@ -29,32 +31,32 @@ public class ExceptionPanel extends JPanel {
         setupLayout();
 
         add(Box.createRigidArea(new Dimension(0, 10)));
-        add(getTitleLabel());
-        add(Box.createRigidArea(new Dimension(0, 10)));
         add(getTypeLabel());
-        add(Box.createRigidArea(new Dimension(0, 10)));
         add(getSummaryLabel());
         add(Box.createRigidArea(new Dimension(0, 10)));
-        add(getMessageLabel());
+        add(getErrorLabel());
+        add(getDebugLabel());
     }
 
     private void setupLayout() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
 
-    private JLabel getTitleLabel() {
-        return new BoldLabel("title");  // todo
-    }
-
     private JLabel getTypeLabel() {
-        return new ItalicLabel("type");  // todo
+        return new ItalicLabel(this.exception.getType().name());
     }
 
     private JLabel getSummaryLabel() {
-        return new JLabel("summary");  // todo
+        return new JLabel(this.exception.getMessage());
     }
 
-    private JLabel getMessageLabel() {
-        return new JLabel("message");  // todo
+    private JLabel getErrorLabel() {
+        StackTraceElement[] stackTraceElements = this.exception.getStackTrace();
+        StackTraceElement lastElement = stackTraceElements[stackTraceElements.length - 1];
+        return new JLabel(lastElement.toString());
+    }
+
+    private JLabel getDebugLabel() {
+        return new JLabel(DEBUG_MESSAGE);
     }
 }

@@ -17,6 +17,11 @@ public class YoloException extends Exception {
         this(message + "\n\t" + e.toString(), type);
     }
 
+    public YoloException(String message, String summary, ExceptionType type) {
+        this.message = message;
+        this.type = type;
+    }
+
     public YoloException(String message, ExceptionType type) {
         this.message = message;
         this.type = type;
