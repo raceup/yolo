@@ -8,8 +8,8 @@ import it.raceup.yolo.models.car.Car;
 import it.raceup.yolo.models.kvaser.FakeBlackBird;
 import it.raceup.yolo.ui.window.MainFrame;
 
-import static it.raceup.yolo.app.gui.ExceptionPanel.showMessage;
-import static it.raceup.yolo.app.gui.SettingsPanel.getSettings;
+import static it.raceup.yolo.ui.dialog.ExceptionPanel.showMessage;
+import static it.raceup.yolo.ui.dialog.SettingsPanel.getSettings;
 
 /**
  * UI interface for telemetry (yolo-gui). Opens window for settings and
@@ -53,6 +53,11 @@ public class App extends KvaserApp {
         String ip = settings[0];
         String bitrate = settings[1];
 
+        boolean logMotors = Boolean.parseBoolean(settings[2]);
+        boolean logCan = Boolean.parseBoolean(settings[3]);
+        boolean logBattery = Boolean.parseBoolean(settings[4]);
+        boolean logIMU = Boolean.parseBoolean(settings[5]);
+
         hal = new Hal(
                 new Car(),
                 new FakeBlackBird(ip)
@@ -64,12 +69,32 @@ public class App extends KvaserApp {
             log(e);
             showMessage(e);
         }
+
+        setupLogUpdaters(logMotors, logCan, logBattery, logIMU);  // add file loggers
     }
 
     @Override
     protected void setupUpdaters() {
         hal.addObserverToCar(view.getMotorPanels());
         hal.addObserverToKvaser(view.getCanMessagesFrame());
+    }
+
+    private void setupLogUpdaters(boolean logMotors, boolean logCan, boolean logBattery, boolean logIMU) {
+        if (logMotors) {
+            // todo
+        }
+
+        if (logCan) {
+            // todo
+        }
+
+        if (logBattery) {
+            // todo
+        }
+
+        if (logIMU) {
+            // todo
+        }
     }
 
     @Override

@@ -1,4 +1,4 @@
-package it.raceup.yolo.app.gui;
+package it.raceup.yolo.ui.dialog;
 
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.ui.component.label.ItalicLabel;
