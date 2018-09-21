@@ -91,11 +91,11 @@ public class App extends KvaserApp {
         }
 
         if (logBattery) {
-            log("adding log to battery.............");
+            // todo create logger
         }
 
         if (logIMU) {
-            log("adding log to imu.............");
+            // todo create logger
         }
     }
 

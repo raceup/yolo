@@ -2,50 +2,33 @@ package it.raceup.yolo.app.updater;
 
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
-import it.raceup.yolo.logging.updaters.CSVUpdater;
 import it.raceup.yolo.logging.updaters.FileUpdater;
 import it.raceup.yolo.models.car.Motor;
 
 import java.util.Observable;
 
-import static it.raceup.yolo.utils.Misc.getTimeNow;
-
 /**
  * Updates with car data
  */
-public class ShellMotorsUpdater extends CSVUpdater {
+public class ShellMotorsUpdater extends ShellCsvUpdater {
     public static final String DEFAULT_FOLDER = FileUpdater.DEFAULT_FOLDER + "/motors/";
     private static final String[] COLUMNS = new String[]{};  // todo
-    private final boolean logToFile;
-    private final boolean logToShell;
 
     public ShellMotorsUpdater(boolean logToShell, boolean logToFile) {
-        super("MOTORS", COLUMNS);
-
-        this.logToShell = logToShell;
-        this.logToFile = logToFile;
-
-        setup();
-    }
-
-    private void setup() {
-        if (this.logToFile) {
-            String logFile = DEFAULT_FOLDER + getTimeNow("YYYY-MM-dd_HH-mm-ss") + ".csv";
-            setup(logFile);
-        }
+        super("MOTORS", COLUMNS, DEFAULT_FOLDER, logToShell, logToFile);
     }
 
     private void update(Motor motor) {
         String message = motor.toString();
 
-        if (this.logToShell) {
+        if (this.isLogToShell()) {
             String[] lines = message.split("\n");
             for (String line : lines) {
                 log(line);  // to std output
             }
         }
 
-        if (this.logToFile) {
+        if (this.isLogToFile()) {
             // todo writeLog();  // to file
         }
     }

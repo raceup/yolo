@@ -2,7 +2,6 @@ package it.raceup.yolo.app.updater;
 
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
-import it.raceup.yolo.logging.updaters.CSVUpdater;
 import it.raceup.yolo.logging.updaters.FileUpdater;
 import it.raceup.yolo.models.data.CanMessage;
 import it.raceup.yolo.models.kvaser.message.FromKvaserMessage;
@@ -12,50 +11,35 @@ import java.util.Observable;
 
 import static it.raceup.yolo.models.data.CanMessage.getLineHeader;
 import static it.raceup.yolo.utils.Misc.getLineSeparator;
-import static it.raceup.yolo.utils.Misc.getTimeNow;
 
 /**
  * Updates with CAN data
  */
-public class ShellCanUpdater extends CSVUpdater {
+public class ShellCanUpdater extends ShellCsvUpdater {
     public static final String DEFAULT_FOLDER = FileUpdater.DEFAULT_FOLDER + "/can/";
     private static final String[] COLUMNS = new String[]{
             "Time", "ID", "Flags", "Dlc", "byte 1", "byte 2", "byte 3", "byte 4", "byte 5", "byte 6", "byte 7", "byte 8"
     };
     private final String SEPARATOR = "|";
-    private final boolean logToFile;
-    private final boolean logToShell;
 
     public ShellCanUpdater(boolean logToShell, boolean logToFile) {
-        super("CAN", COLUMNS);
-
-        this.logToShell = logToShell;
-        this.logToFile = logToFile;
-
-        setup();
-    }
-
-    private void setup() {
-        if (this.logToFile) {
-            String logFile = DEFAULT_FOLDER + getTimeNow("YYYY-MM-dd_HH-mm-ss") + ".csv";
-            setup(logFile);
-        }
+        super("CAN", COLUMNS, DEFAULT_FOLDER, logToShell, logToFile);
     }
 
     private void update(ArrayList<CanMessage> messages) {
-        if (this.logToShell) {
+        if (this.isLogToShell()) {
             String header = getLineHeader(SEPARATOR);
             log(getLineSeparator(header));  // log to shell
         }
 
         for (CanMessage message : messages) {
-            if (this.logToShell) {
+            if (this.isLogToShell()) {
                 log(message.getLine(SEPARATOR));  // to std output
             }
 
             String[] columns = getColumns(message);
 
-            if (this.logToFile) {
+            if (this.isLogToFile()) {
                 writeLog(columns);  // to file
             }
         }
