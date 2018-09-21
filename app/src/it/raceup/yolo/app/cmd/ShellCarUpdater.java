@@ -2,18 +2,34 @@ package it.raceup.yolo.app.cmd;
 
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
+import it.raceup.yolo.logging.updaters.CSVUpdater;
 import it.raceup.yolo.logging.updaters.FileUpdater;
 import it.raceup.yolo.models.car.Motor;
 
 import java.util.Observable;
 
+import static it.raceup.yolo.utils.Misc.getTimeNow;
+
 /**
  * Updates with car data
  */
-public class ShellCarUpdater extends FileUpdater {
-    public ShellCarUpdater() {
-        super("MOTORS");
-        writeLog(Motor.getLineHeader(","));
+public class ShellCarUpdater extends CSVUpdater {
+    public static final String DEFAULT_FOLDER = FileUpdater.DEFAULT_FOLDER + "/car/";
+    private static final String[] COLUMNS = new String[]{};  // todo
+    private final boolean logToFile;
+
+    public ShellCarUpdater(boolean logToFile) {
+        super("MOTORS", COLUMNS);
+        this.logToFile = logToFile;
+
+        setup();
+    }
+
+    private void setup() {
+        if (this.logToFile) {
+            String logFile = DEFAULT_FOLDER + getTimeNow("YYYY-MM-dd_HH-mm-ss") + ".csv";
+            setup(logFile);
+        }
     }
 
     private void update(Motor motor) {
@@ -22,7 +38,10 @@ public class ShellCarUpdater extends FileUpdater {
         for (String line : lines) {
             log(line);  // to std output
         }
-        writeLog(motor.getLine(","));  // to file
+
+        if (this.logToFile) {
+            // todo writeLog();  // to file
+        }
     }
 
     private void update(Motor[] motors) {

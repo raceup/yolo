@@ -12,6 +12,7 @@ import java.util.Observable;
 
 import static it.raceup.yolo.models.data.CanMessage.getLineHeader;
 import static it.raceup.yolo.utils.Misc.getLineSeparator;
+import static it.raceup.yolo.utils.Misc.getTimeNow;
 
 /**
  * Updates with CAN data
@@ -22,21 +23,34 @@ public class ShellCanbusUpdater extends CSVUpdater {
             "Time", "ID", "Flags", "Dlc", "byte 1", "byte 2", "byte 3", "byte 4", "byte 5", "byte 6", "byte 7", "byte 8"
     };
     private final String SEPARATOR = "|";
+    private final boolean logToFile;
 
-    public ShellCanbusUpdater() {
-        super(DEFAULT_FOLDER, "CAN", COLUMNS);
+    public ShellCanbusUpdater(boolean logToFile) {
+        super("CAN", COLUMNS);
+        this.logToFile = logToFile;
+
+        setup();
+    }
+
+    private void setup() {
+        if (this.logToFile) {
+            String logFile = DEFAULT_FOLDER + getTimeNow("YYYY-MM-dd_HH-mm-ss") + ".csv";
+            setup(logFile);
+        }
     }
 
     private void update(ArrayList<CanMessage> messages) {
         String header = getLineHeader(SEPARATOR);
-
         log(getLineSeparator(header));  // log to shell
 
         for (CanMessage message : messages) {
             log(message.getLine(SEPARATOR));  // to std output
 
             String[] columns = getColumns(message);
-            writeLog(columns);  // to file
+
+            if (this.logToFile) {
+                writeLog(columns);  // to file
+            }
         }
     }
 

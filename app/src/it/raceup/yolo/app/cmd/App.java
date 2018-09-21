@@ -51,10 +51,12 @@ public class App extends KvaserApp {
 
     @Override
     protected void setupUpdaters() {
+        boolean log = Boolean.parseBoolean(options.get(3));
+
         if (options.get(2).equals("can")) {
-            hal.addObserverToKvaser(new ShellCanbusUpdater());
+            hal.addObserverToKvaser(new ShellCanbusUpdater(log));
         } else if (options.get(2).equals("car")) {
-            hal.addObserverToCar(new ShellCarUpdater());
+            hal.addObserverToCar(new ShellCarUpdater(log));
         }
     }
 
@@ -80,6 +82,10 @@ public class App extends KvaserApp {
         view.setRequired(true);
         options.addOption(view);
 
+        Option logToFile = new Option("log", "log-to-file", false, "Do you want .csv logs?");
+        logToFile.setRequired(false);
+        options.addOption(logToFile);
+
         return options;
     }
 
@@ -101,9 +107,12 @@ public class App extends KvaserApp {
 
     private ArrayList<String> parseCmdOptions() {
         ArrayList<String> options = new ArrayList<>();
+
         options.add(cmd.getOptionValue("ip-kvaser"));
         options.add(cmd.getOptionValue("can-bitrate"));
         options.add(cmd.getOptionValue("view"));
+        options.add(Boolean.toString(cmd.hasOption("log-to-file")));
+
         return options;
     }
 }
