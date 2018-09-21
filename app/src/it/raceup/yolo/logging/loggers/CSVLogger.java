@@ -6,9 +6,11 @@ import java.util.stream.Stream;
 public class CSVLogger extends FileLogger {
     private String[] columns;
 
-    public CSVLogger(String[] columns) throws FileNotFoundException {
-        super("CSV LOGGER");
+    public CSVLogger(String filename, String[] columns) throws FileNotFoundException {
+        super("CSV LOGGER", filename);
         this.columns = columns;
+
+        log(this.columns);  // log header
     }
 
     public void log(Object[] row) {
@@ -18,6 +20,10 @@ public class CSVLogger extends FileLogger {
 
     @Override
     public String getLogMessage(String message) {
+        if (message.endsWith("\n")) {
+            return message;
+        }
+
         return message + "\n";
     }
 

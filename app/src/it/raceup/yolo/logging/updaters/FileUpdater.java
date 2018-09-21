@@ -11,7 +11,7 @@ import static it.raceup.yolo.utils.Misc.getTimeNow;
  */
 public abstract class FileUpdater extends Updater {
     public static final String DEFAULT_FOLDER = System.getProperty("user.dir") + "/logs/";
-    protected FileLogger fileLogger;
+    private FileLogger fileLogger;
 
     public FileUpdater() {
         this("FILE UPDATER");
