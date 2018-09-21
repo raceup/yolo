@@ -1,6 +1,6 @@
 package it.raceup.yolo.app;
 
-import it.raceup.yolo.logging.ShellLogger;
+import it.raceup.yolo.logging.loggers.ShellLogger;
 
 public abstract class YoloApp extends ShellLogger implements Yolo {
     public YoloApp(String tag) {

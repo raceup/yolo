@@ -1,4 +1,4 @@
-package it.raceup.yolo.logging;
+package it.raceup.yolo.logging.loggers;
 
 public class ShellLogger implements Logger {
     private final StreamLogger out;

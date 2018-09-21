@@ -1,6 +1,6 @@
-package it.raceup.yolo.app;
+package it.raceup.yolo.logging.updaters;
 
-import it.raceup.yolo.logging.ShellLogger;
+import it.raceup.yolo.logging.loggers.ShellLogger;
 
 import java.util.Observer;
 
@@ -12,5 +12,4 @@ public abstract class Updater extends ShellLogger implements Observer {
     public Updater() {
         this("UPDATER");
     }
-
 }

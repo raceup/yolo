@@ -1,4 +1,4 @@
-package it.raceup.yolo.logging;
+package it.raceup.yolo.logging.loggers;
 
 import java.io.File;
 import java.io.FileNotFoundException;

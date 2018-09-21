@@ -1,4 +1,4 @@
-package it.raceup.yolo.logging;
+package it.raceup.yolo.logging.loggers;
 
 import java.io.FileNotFoundException;
 import java.util.stream.Stream;
@@ -6,10 +6,8 @@ import java.util.stream.Stream;
 public class CSVLogger extends FileLogger {
     private String[] columns;
 
-    public CSVLogger(String filename, String[] columns) throws
-            FileNotFoundException {
+    public CSVLogger(String[] columns) throws FileNotFoundException {
         super("CSV LOGGER");
-
         this.columns = columns;
     }
 
@@ -34,6 +32,6 @@ public class CSVLogger extends FileLogger {
 
     @Override
     public void log(Exception e) {
-        // todo find wat to log
+        // todo find wath to log in this case
     }
 }

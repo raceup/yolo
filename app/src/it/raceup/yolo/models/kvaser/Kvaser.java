@@ -2,8 +2,8 @@ package it.raceup.yolo.models.kvaser;
 
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
-import it.raceup.yolo.logging.Logger;
-import it.raceup.yolo.logging.ShellLogger;
+import it.raceup.yolo.logging.loggers.Logger;
+import it.raceup.yolo.logging.loggers.ShellLogger;
 import it.raceup.yolo.models.data.CanMessage;
 import it.raceup.yolo.models.kvaser.message.ToKvaserMessage;
 

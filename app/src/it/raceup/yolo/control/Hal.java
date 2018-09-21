@@ -2,7 +2,7 @@ package it.raceup.yolo.control;
 
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
-import it.raceup.yolo.logging.ShellLogger;
+import it.raceup.yolo.logging.loggers.ShellLogger;
 import it.raceup.yolo.models.car.Car;
 import it.raceup.yolo.models.data.CanMessage;
 import it.raceup.yolo.models.data.Type;

@@ -1,8 +1,8 @@
 package it.raceup.yolo.app.cmd;
 
-import it.raceup.yolo.app.FileUpdater;
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
+import it.raceup.yolo.logging.updaters.FileUpdater;
 import it.raceup.yolo.models.data.CanMessage;
 import it.raceup.yolo.models.kvaser.message.FromKvaserMessage;
 
@@ -16,8 +16,10 @@ import static it.raceup.yolo.utils.Misc.getLineSeparator;
  * Updates with CAN data
  */
 public class ShellCanbusUpdater extends FileUpdater {
+    public static final String DEFAULT_FOLDER = FileUpdater.DEFAULT_FOLDER + "/can/";
+
     public ShellCanbusUpdater() {
-        super("CANBUS");
+        super(DEFAULT_FOLDER, "CAN");
         writeLog(CanMessage.getLineHeader(","));
     }
 

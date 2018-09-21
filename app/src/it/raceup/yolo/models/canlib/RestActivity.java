@@ -1,6 +1,6 @@
 package it.raceup.yolo.models.canlib;
 
-import it.raceup.yolo.logging.ShellLogger;
+import it.raceup.yolo.logging.loggers.ShellLogger;
 import org.apache.http.client.utils.URIBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;

@@ -1,4 +1,4 @@
-package it.raceup.yolo.logging;
+package it.raceup.yolo.logging.loggers;
 
 public interface Logger {
     void log(String message);

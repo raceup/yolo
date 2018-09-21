@@ -3,7 +3,7 @@ package it.raceup.yolo.app.cmd;
 import it.raceup.yolo.app.KvaserApp;
 import it.raceup.yolo.control.Hal;
 import it.raceup.yolo.models.car.Car;
-import it.raceup.yolo.models.kvaser.BlackBird;
+import it.raceup.yolo.models.kvaser.FakeBlackBird;
 import org.apache.commons.cli.*;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class App extends KvaserApp {
 
         hal = new Hal(
                 new Car(),
-                new BlackBird(ip)
+                new FakeBlackBird(ip)
         );
 
         try {

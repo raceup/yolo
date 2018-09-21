@@ -49,7 +49,7 @@ public class CanMessage extends Message {
         out += String.format(formatter, id);
         out += String.format(formatter, flags);
         out += String.format(formatter, dlc);
-        out += String.format("%-40s" + separator, data);
+        out += String.format("%-48s" + separator, data);
         return out;
     }
 

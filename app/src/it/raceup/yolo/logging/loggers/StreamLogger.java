@@ -1,4 +1,4 @@
-package it.raceup.yolo.logging;
+package it.raceup.yolo.logging.loggers;
 
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;

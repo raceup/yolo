@@ -1,8 +1,8 @@
 package it.raceup.yolo.app.cmd;
 
-import it.raceup.yolo.app.FileUpdater;
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
+import it.raceup.yolo.logging.updaters.FileUpdater;
 import it.raceup.yolo.models.car.Motor;
 
 import java.util.Observable;
