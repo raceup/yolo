@@ -2,11 +2,11 @@ package it.raceup.yolo.ui.component.label;
 
 import java.awt.*;
 
-public class BoldLabel extends FontLabel {
-    public BoldLabel(String text) {
+public class ItalicLabel extends FontLabel {
+    public ItalicLabel(String text) {
         super(text, new Font(
                 DEFAULT_FONT.getName(),
-                Font.BOLD,
+                Font.ITALIC,
                 DEFAULT_FONT.getSize()
         ));
     }

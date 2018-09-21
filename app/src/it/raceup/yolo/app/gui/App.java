@@ -8,6 +8,7 @@ import it.raceup.yolo.models.car.Car;
 import it.raceup.yolo.models.kvaser.BlackBird;
 import it.raceup.yolo.ui.window.MainFrame;
 
+import static it.raceup.yolo.app.gui.ExceptionPanel.showMessage;
 import static it.raceup.yolo.app.gui.SettingsPanel.getSettings;
 
 /**
@@ -31,8 +32,7 @@ public class App extends KvaserApp {
             App app = new App();
             app.open();
         } catch (Exception e) {
-            ExceptionDialog dialog = new ExceptionDialog(e);
-            dialog.open();
+            showMessage(e);
         }
     }
 
@@ -62,7 +62,7 @@ public class App extends KvaserApp {
             hal.setup(bitrate);
         } catch (Exception e) {
             log(e);
-            System.exit(1);
+            showMessage(e);
         }
     }
 
