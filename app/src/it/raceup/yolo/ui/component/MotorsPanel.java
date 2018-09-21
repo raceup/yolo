@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
-import static it.raceup.yolo.models.car.Car.DEFAULT_MOTORS;
+import static it.raceup.yolo.models.car.Motors.DEFAULT_MOTORS;
 
 public class MotorsPanel extends JPanel implements Observer {
     private final MotorInfo[] motorPanels = new MotorInfo[DEFAULT_MOTORS.length];

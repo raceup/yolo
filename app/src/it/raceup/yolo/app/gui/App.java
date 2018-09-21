@@ -1,10 +1,12 @@
 package it.raceup.yolo.app.gui;
 
 import it.raceup.yolo.app.KvaserApp;
+import it.raceup.yolo.app.updater.ShellCanUpdater;
+import it.raceup.yolo.app.updater.ShellMotorsUpdater;
 import it.raceup.yolo.control.Hal;
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
-import it.raceup.yolo.models.car.Car;
+import it.raceup.yolo.models.car.Motors;
 import it.raceup.yolo.models.kvaser.FakeBlackBird;
 import it.raceup.yolo.ui.window.MainFrame;
 
@@ -59,7 +61,7 @@ public class App extends KvaserApp {
         boolean logIMU = Boolean.parseBoolean(settings[5]);
 
         hal = new Hal(
-                new Car(),
+                new Motors(),
                 new FakeBlackBird(ip)
         );
 
@@ -75,25 +77,25 @@ public class App extends KvaserApp {
 
     @Override
     protected void setupUpdaters() {
-        hal.addObserverToCar(view.getMotorPanels());
+        hal.addObserverToMotors(view.getMotorPanels());
         hal.addObserverToKvaser(view.getCanMessagesFrame());
     }
 
     private void setupLogUpdaters(boolean logMotors, boolean logCan, boolean logBattery, boolean logIMU) {
         if (logMotors) {
-            // todo
+            hal.addObserverToMotors(new ShellMotorsUpdater(false, true));
         }
 
         if (logCan) {
-            // todo
+            hal.addObserverToKvaser(new ShellCanUpdater(false, true));
         }
 
         if (logBattery) {
-            // todo
+            log("adding log to battery.............");
         }
 
         if (logIMU) {
-            // todo
+            log("adding log to imu.............");
         }
     }
 

@@ -22,8 +22,8 @@ usage: yolo
                                 [10k, 50k, 62k, 83k, 100k, 125k, 250k,
                                 500k, 1m]
  -ip,--ip-kvaser <arg>          IP of Blackbird
- -view,--view <arg>             Update screen with CAN messages, car
-                                model. Possible options are  [can, car]
+ -view,--view <arg>             Update screen with CAN messages, motors
+                                model. Possible options are  [can, motors]
 ```
 - double click the [gui program](build/gui/yolo.jar) and follow the
 instructions

@@ -3,7 +3,7 @@ package it.raceup.yolo.control;
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.logging.loggers.ShellLogger;
-import it.raceup.yolo.models.car.Car;
+import it.raceup.yolo.models.car.Motors;
 import it.raceup.yolo.models.data.CanMessage;
 import it.raceup.yolo.models.data.Type;
 import it.raceup.yolo.models.kvaser.Kvaser;
@@ -14,26 +14,26 @@ import java.util.Observer;
 
 /**
  * Handles business logic of telemetry. Opens connection with Kvaser and
- * remains listening for incoming data. When there is new data, updates car data.
+ * remains listening for incoming data. When there is new data, updates motors data.
  */
 public class Hal extends ShellLogger {
-    private final Car car;
+    private final Motors motors;
     private final Kvaser kvaser;
 
-    public Hal(Car car, Kvaser kvaser) {
+    public Hal(Motors motors, Kvaser kvaser) {
         super("HAL");
 
-        this.car = car;
+        this.motors = motors;
         this.kvaser = kvaser;
-        addObserverToKvaser(car);
+        addObserverToKvaser(motors);
     }
 
     public void addObserverToKvaser(Observer observer) {
         kvaser.addObserver(observer);
     }
 
-    public void addObserverToCar(Observer observer) {
-        car.addObserver(observer);
+    public void addObserverToMotors(Observer observer) {
+        motors.addObserver(observer);
     }
 
     public void setup(String canBitrate) throws YoloException {
@@ -54,7 +54,7 @@ public class Hal extends ShellLogger {
     }
 
     public double get(Type type, int motor) {
-        return car.get(type, motor);
+        return motors.get(type, motor);
     }
 
     public ArrayList<CanMessage> getRaw() {
@@ -76,6 +76,6 @@ public class Hal extends ShellLogger {
     }
 
     public int numberOfMotors() {
-        return car.numberOfMotors();
+        return motors.numberOfMotors();
     }
 }

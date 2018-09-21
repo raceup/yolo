@@ -1,8 +1,10 @@
 package it.raceup.yolo.app.cmd;
 
 import it.raceup.yolo.app.KvaserApp;
+import it.raceup.yolo.app.updater.ShellCanUpdater;
+import it.raceup.yolo.app.updater.ShellMotorsUpdater;
 import it.raceup.yolo.control.Hal;
-import it.raceup.yolo.models.car.Car;
+import it.raceup.yolo.models.car.Motors;
 import it.raceup.yolo.models.kvaser.FakeBlackBird;
 import org.apache.commons.cli.*;
 
@@ -37,7 +39,7 @@ public class App extends KvaserApp {
         String bitrate = options.get(1);
 
         hal = new Hal(
-                new Car(),
+                new Motors(),
                 new FakeBlackBird(ip)
         );
 
@@ -54,9 +56,9 @@ public class App extends KvaserApp {
         boolean log = Boolean.parseBoolean(options.get(3));
 
         if (options.get(2).equals("can")) {
-            hal.addObserverToKvaser(new ShellCanbusUpdater(log));
+            hal.addObserverToKvaser(new ShellCanUpdater(true, log));
         } else if (options.get(2).equals("car")) {
-            hal.addObserverToCar(new ShellCarUpdater(log));
+            hal.addObserverToMotors(new ShellMotorsUpdater(true, log));
         }
     }
 

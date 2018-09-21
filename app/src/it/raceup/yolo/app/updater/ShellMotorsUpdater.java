@@ -1,4 +1,4 @@
-package it.raceup.yolo.app.cmd;
+package it.raceup.yolo.app.updater;
 
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
@@ -13,13 +13,16 @@ import static it.raceup.yolo.utils.Misc.getTimeNow;
 /**
  * Updates with car data
  */
-public class ShellCarUpdater extends CSVUpdater {
-    public static final String DEFAULT_FOLDER = FileUpdater.DEFAULT_FOLDER + "/car/";
+public class ShellMotorsUpdater extends CSVUpdater {
+    public static final String DEFAULT_FOLDER = FileUpdater.DEFAULT_FOLDER + "/motors/";
     private static final String[] COLUMNS = new String[]{};  // todo
     private final boolean logToFile;
+    private final boolean logToShell;
 
-    public ShellCarUpdater(boolean logToFile) {
+    public ShellMotorsUpdater(boolean logToShell, boolean logToFile) {
         super("MOTORS", COLUMNS);
+
+        this.logToShell = logToShell;
         this.logToFile = logToFile;
 
         setup();
@@ -34,9 +37,12 @@ public class ShellCarUpdater extends CSVUpdater {
 
     private void update(Motor motor) {
         String message = motor.toString();
-        String[] lines = message.split("\n");
-        for (String line : lines) {
-            log(line);  // to std output
+
+        if (this.logToShell) {
+            String[] lines = message.split("\n");
+            for (String line : lines) {
+                log(line);  // to std output
+            }
         }
 
         if (this.logToFile) {

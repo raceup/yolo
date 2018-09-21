@@ -12,17 +12,17 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-public class Car extends Observable implements Observer {
+public class Motors extends Observable implements Observer {
     public static final String[] DEFAULT_MOTORS = new String[]{
             "Front Left", "Front Right", "Rear Left", "Rear Right"
     };  // 4 motors in car
     private final Motor[] motors;
 
-    public Car() {
+    public Motors() {
         this(DEFAULT_MOTORS);
     }
 
-    public Car(String[] motorLabels) {
+    public Motors(String[] motorLabels) {
         motors = new Motor[motorLabels.length];
         for (int i = 0; i < motors.length; i++) {
             motors[i] = new Motor(motorLabels[i]);  // initialize all motors
