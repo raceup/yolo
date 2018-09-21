@@ -62,10 +62,6 @@ public class App extends KvaserApp {
         hal.start();
     }
 
-    public void close() {
-        hal.close();
-    }
-
     private Options getCmdOptions() {
         Options options = new Options();
 

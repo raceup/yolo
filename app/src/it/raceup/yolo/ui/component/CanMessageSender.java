@@ -60,9 +60,11 @@ public class CanMessageSender extends JPanel implements Observer {
     private JPanel getEditorPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+        panel.add(Box.createRigidArea(new Dimension(10, 0)));
         panel.add(getCanEditPanel("ID (dec)", editorId));
         panel.add(Box.createRigidArea(new Dimension(10, 0)));
         panel.add(getCanEditPanel("Message (dec)", editorMessage));
+        panel.add(Box.createRigidArea(new Dimension(10, 0)));
         return panel;
     }
 
@@ -80,9 +82,10 @@ public class CanMessageSender extends JPanel implements Observer {
         statusLabel.setText("Sending...");
 
         try {
-            // String msgId = editorId.getText();
-            // String msgContent = editorMessage.getText();
-            // todo kvaser.sendMessage(Integer.parseInt(msgId), new byte[]{}, 0);
+            String msgId = editorId.getText();
+            String msgContent = editorMessage.getText();
+            // todo kvaser.sendMessage(Integer.parseInt(msgId), new byte[]{},
+            // 0);
             throw new NotImplementedException();
         } catch (Exception e) {
             updateStatus(false);

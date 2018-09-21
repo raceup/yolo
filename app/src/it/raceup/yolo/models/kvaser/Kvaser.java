@@ -17,7 +17,7 @@ import static core.Canlib.*;
 /**
  * Common interface for Kvaser devices
  */
-// todo docs
+
 public abstract class Kvaser extends RawKvaser implements Logger, Runnable,
         Observer {
     private static final Map<String, Integer> CAN_BITRATE_TO_CANLIB_VERSION =

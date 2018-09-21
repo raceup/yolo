@@ -5,7 +5,7 @@ import it.raceup.yolo.control.Hal;
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.car.Car;
-import it.raceup.yolo.models.kvaser.FakeBlackBird;
+import it.raceup.yolo.models.kvaser.BlackBird;
 import it.raceup.yolo.ui.window.MainFrame;
 
 import static it.raceup.yolo.app.gui.SettingsPanel.getSettings;
@@ -27,8 +27,13 @@ public class App extends KvaserApp {
     }
 
     public static void main(String[] args) {
-        App app = new App();
-        app.open();
+        try {
+            App app = new App();
+            app.open();
+        } catch (Exception e) {
+            ExceptionDialog dialog = new ExceptionDialog(e);
+            dialog.open();
+        }
     }
 
     private String[] getLaunchSettings() {
@@ -50,7 +55,7 @@ public class App extends KvaserApp {
 
         hal = new Hal(
                 new Car(),
-                new FakeBlackBird(ip)
+                new BlackBird(ip)
         );
 
         try {

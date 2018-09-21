@@ -32,4 +32,21 @@ public class YoloException extends Exception {
     public void print() {
         System.err.println(toString());
     }
+
+    public static YoloException parse(Exception e) {
+        if (e instanceof YoloException) {
+            return (YoloException) e;
+        }
+
+        return new YoloException(e);
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
+    }
+
+    public ExceptionType getType() {
+        return type;
+    }
 }

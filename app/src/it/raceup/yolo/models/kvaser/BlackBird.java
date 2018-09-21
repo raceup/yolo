@@ -94,6 +94,7 @@ public class BlackBird extends Kvaser {
     }
 
     private boolean offBus() {
+        log("off bus");
         return restActivity.canBusOff();
     }
 

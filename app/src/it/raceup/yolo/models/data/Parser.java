@@ -48,7 +48,6 @@ public class Parser {
             if (id == index_diff_1[i] || id == index_diff_2[i]) {
                 return i;
             }
-
         }
 
         return 0;

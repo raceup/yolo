@@ -69,8 +69,6 @@ public class RestService extends ShellLogger {
     public JSONObject get() {
         try {
             URL requestUrl = getFullUrl();
-            log("GET " + requestUrl.toString());
-
             URLConnection connection = requestUrl.openConnection();
             connection.setDoOutput(true);
             Scanner scanner = new Scanner(requestUrl.openStream());

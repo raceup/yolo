@@ -6,7 +6,12 @@ import java.io.FileOutputStream;
 
 public class FileLogger extends StreamLogger {
     public FileLogger(String filename) throws FileNotFoundException {
-        super("FILE LOGGER", new FileOutputStream(filename));
+        this("FILE LOGGER", filename);
+    }
+
+    public FileLogger(String tag, String filename) throws
+            FileNotFoundException {
+        super(tag, new FileOutputStream(filename));
     }
 
     public static boolean create(String filename) {

@@ -14,6 +14,19 @@ public abstract class KvaserApp extends YoloApp {
         super(tag);
 
         logVersion();
+        addCloseListener();
+    }
+
+    private void addCloseListener() {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                Thread.sleep(10);
+                log("shutting down");
+                close();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }));  // listen for SIGINT
     }
 
     @Override

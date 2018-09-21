@@ -49,6 +49,7 @@ public class Hal extends ShellLogger {
     }
 
     public void close() {
+        log("closing");
         kvaser.close();
     }
 

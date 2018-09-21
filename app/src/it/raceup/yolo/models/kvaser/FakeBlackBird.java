@@ -78,7 +78,7 @@ public class FakeBlackBird extends Kvaser {
     }
 
     private boolean writeCan(int id, int flag, byte[] msg, int dlc) {
-        return false;
+        return true;
     }
 
     @Override

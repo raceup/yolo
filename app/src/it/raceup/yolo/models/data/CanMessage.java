@@ -5,7 +5,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.Arrays;
-import java.util.stream.Stream;
 
 public class CanMessage extends Message {
     private final int dlc;
@@ -87,14 +86,14 @@ public class CanMessage extends Message {
 
     public String getDataAsString() {
         byte[] data = getData();
-        String[] values = Stream.of(data)
-                .map(Object::toString)
-                .map(x -> String.format("%3s", x))
-                .toArray(String[]::new);
+//        String[] values = Stream.of(data)
+//                .map(Object::toString)
+//                .map(x -> String.format("%4s", x))
+//                .toArray(String[]::new);
 
         String[] bytes = new String[data.length];
         for (int i = 0; i < bytes.length; i++) {  // todo use stream
-            bytes[i] = String.format("%3s", Byte.toString(data[i]));
+            bytes[i] = String.format("%4s", Byte.toString(data[i]));
         }
         return Arrays.toString(bytes);
     }

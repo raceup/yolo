@@ -17,7 +17,6 @@ public abstract class YoloApp extends ShellLogger implements Yolo {
             start();
         } catch (Exception e) {
             log(e);
-        } finally {
             close();
         }
     }

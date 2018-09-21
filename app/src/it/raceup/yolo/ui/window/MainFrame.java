@@ -16,6 +16,7 @@ public class MainFrame extends JFrame {
     private final MotorsPanel motorPanels;
     private final CanMessagesFrame canMessagesFrame;
     private final BatteryFrame batteryFrame;
+    private final CarFrame carFrame;
     private Image appIcon;
 
     public MainFrame() {
@@ -24,6 +25,7 @@ public class MainFrame extends JFrame {
         motorPanels = new MotorsPanel();
         canMessagesFrame = new CanMessagesFrame();
         batteryFrame = new BatteryFrame();
+        carFrame = new CarFrame();
 
         setup();
         open();
@@ -42,9 +44,7 @@ public class MainFrame extends JFrame {
             setNativeLookAndFeelOrFail();
             setVisible(true);
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // close app
-
-            canMessagesFrame.open();  // open rest of frames
-            batteryFrame.open();
+            openFrames();  // open rest of frames
         } catch (Exception e) {
             new YoloException(
                     "cannot open view",
@@ -63,6 +63,12 @@ public class MainFrame extends JFrame {
                     ExceptionType.APP
             ).print();
         }
+    }
+
+    private void openFrames() {
+        canMessagesFrame.open();
+        batteryFrame.open();
+        carFrame.open();
     }
 
     private void setupLayout() {
