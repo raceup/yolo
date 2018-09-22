@@ -1,14 +1,11 @@
 package it.raceup.yolo.ui.dialog;
 
-import it.raceup.yolo.Data;
 import it.raceup.yolo.ui.utils.AboutDialog;
-import it.raceup.yolo.utils.Misc;
 
 import javax.swing.*;
 import java.awt.*;
 
-import static it.raceup.yolo.Data.BITRATES;
-import static it.raceup.yolo.Data.INTRO_PATH;
+import static it.raceup.yolo.Data.*;
 
 public class SettingsPanel extends JPanel {
     private final JTextField ipEditor;
@@ -109,14 +106,10 @@ public class SettingsPanel extends JPanel {
     }
 
     private void showHelpDialog() {
-        String title = "Help";
-        String content = Data.ERROR_FETCHING_HELP;
-
-        try {
-            content = Misc.getFileContent(INTRO_PATH);
-        } catch (Exception e) {
-        }
-
-        new AboutDialog(null, content, title).setVisible(true);
+        new AboutDialog(
+                HELP_TITLE,
+                getHelpContent(),
+                JOptionPane.WARNING_MESSAGE
+        ).show();
     }
 }

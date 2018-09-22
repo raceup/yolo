@@ -5,16 +5,18 @@ import javax.swing.*;
 /**
  * A simple about dialog with given content and title
  */
-public class AboutDialog extends JDialog {
-    public AboutDialog(JFrame parent, String content, String title) {
-        super(parent, title, true);
-        add(new JLabel(content));
+public class AboutDialog {
+    private final String title;
+    private final String content;
+    private final int type;
 
-        getRootPane().setBorder(BorderFactory.createEmptyBorder(20, 20, 20,
-                20));  // border
-        pack();  // set size based on content
-        setLocationRelativeTo(null);  // center in screen
+    public AboutDialog(String title, String content, int type) {
+        this.title = title;
+        this.content = content;
+        this.type = type;
+    }
 
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);  // destroy
+    public void show() {
+        JOptionPane.showMessageDialog(null, this.content, this.title, this.type);
     }
 }

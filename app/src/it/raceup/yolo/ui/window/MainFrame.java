@@ -116,11 +116,11 @@ public class MainFrame extends JFrame {
     }
 
     private void showAboutDialog() {
-        new AboutDialog(this, getAboutContent(), ABOUT_TITLE).setVisible(true);
+        new AboutDialog(ABOUT_TITLE, getAboutContent(), JOptionPane.INFORMATION_MESSAGE).show();
     }
 
     private void showHelpDialog() {
-        new AboutDialog(this, getHelpContent(), HELP_TITLE).setVisible(true);
+        new AboutDialog(HELP_TITLE, getHelpContent(), JOptionPane.WARNING_MESSAGE).show();
     }
 
     public void close() {

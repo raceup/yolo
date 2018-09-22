@@ -70,7 +70,7 @@ public class Data {
     }
 
     // images
-    private final Image getImage(String path) {
+    private Image getImage(String path) {
         return Toolkit.getDefaultToolkit().getImage(
                 getClass().getResource(path)
         );
