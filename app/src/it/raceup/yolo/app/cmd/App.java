@@ -7,6 +7,7 @@ import it.raceup.yolo.app.updater.ShellImuUpdater;
 import it.raceup.yolo.app.updater.ShellMotorsUpdater;
 import it.raceup.yolo.control.Hal;
 import it.raceup.yolo.models.car.Motors;
+import it.raceup.yolo.models.kvaser.BlackBird;
 import it.raceup.yolo.models.kvaser.FakeBlackBird;
 import org.apache.commons.cli.*;
 
@@ -42,7 +43,7 @@ public class App extends KvaserApp {
 
         hal = new Hal(
                 new Motors(),
-                new FakeBlackBird(ip)
+                new BlackBird(ip)
         );
 
         try {

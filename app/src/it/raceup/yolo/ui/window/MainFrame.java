@@ -67,8 +67,8 @@ public class MainFrame extends JFrame {
 
     private void openFrames() {
         canMessagesFrame.open();
-        batteryFrame.open();
-        carFrame.open();
+        // todo show this frame batteryFrame.open();
+        // todo show this frame carFrame.open();
     }
 
     private void setupLayout() {
