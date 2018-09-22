@@ -1,11 +1,16 @@
 package it.raceup.yolo.ui.dialog;
 
+import it.raceup.yolo.Data;
+import it.raceup.yolo.ui.utils.AboutDialog;
+import it.raceup.yolo.utils.Misc;
+
 import javax.swing.*;
 import java.awt.*;
 
+import static it.raceup.yolo.Data.BITRATES;
+import static it.raceup.yolo.Data.INTRO_PATH;
+
 public class SettingsPanel extends JPanel {
-    private static final String[] BITRATES = {"10k", "50k", "62k",
-            "83k", "100k", "125k", "250k", "500k", "1m"};
     private final JTextField ipEditor;
     private final JComboBox<String> bitrateChooser;
     private final JCheckBox checkboxMotorsLog = new JCheckBox("Motors");
@@ -101,5 +106,17 @@ public class SettingsPanel extends JPanel {
                 Boolean.toString(checkboxBatteryLog.isSelected()),
                 Boolean.toString(checkboxIMULog.isSelected())
         };
+    }
+
+    private void showHelpDialog() {
+        String title = "Help";
+        String content = Data.ERROR_FETCHING_HELP;
+
+        try {
+            content = Misc.getFileContent(INTRO_PATH);
+        } catch (Exception e) {
+        }
+
+        new AboutDialog(null, content, title).setVisible(true);
     }
 }

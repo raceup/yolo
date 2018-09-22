@@ -13,15 +13,15 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import static it.raceup.yolo.Data.CAN_WINDOW_TITLE;
 import static it.raceup.yolo.utils.Os.setNativeLookAndFeelOrFail;
 
 public class CanMessagesFrame extends JFrame implements Observer {
-    private static final String TITLE = "YOLO: CAN bus";
     private final CanMessageSender canMessageSender;
     private final CanMessageBrowser canMessageBrowser;
 
     public CanMessagesFrame() {
-        super(TITLE);
+        super(CAN_WINDOW_TITLE);
 
         canMessageSender = new CanMessageSender();
         canMessageBrowser = new CanMessageBrowser();

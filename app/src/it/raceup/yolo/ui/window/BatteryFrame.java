@@ -8,13 +8,12 @@ import javax.swing.*;
 import java.util.Observable;
 import java.util.Observer;
 
+import static it.raceup.yolo.Data.BATTERY_WINDOW_TITLE;
 import static it.raceup.yolo.utils.Os.setNativeLookAndFeelOrFail;
 
 public class BatteryFrame extends JFrame implements Observer {
-    private static final String TITLE = "YOLO: BMS and battery";
-
     public BatteryFrame() {
-        super(TITLE);
+        super(BATTERY_WINDOW_TITLE);
 
         setup();
     }

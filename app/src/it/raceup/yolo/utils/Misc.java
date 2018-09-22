@@ -1,13 +1,18 @@
 package it.raceup.yolo.utils;
 
+import java.awt.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Misc {
-    private static final String PRETTY_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+import static it.raceup.yolo.Data.PRETTY_DATE_FORMAT;
 
+public class Misc {
     public static String getTimeNow() {
         return getTimeNow(PRETTY_DATE_FORMAT);
     }
@@ -35,5 +40,19 @@ public class Misc {
             separator.append("-");
         }
         return separator.toString();
+    }
+
+    public static String getFileContent(String filePath) throws IOException {
+        InputStream in = Toolkit.getDefaultToolkit().getClass().getResourceAsStream(filePath);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+        StringBuilder builder = new StringBuilder();
+
+        String line = reader.readLine();
+        while (line != null) {
+            builder.append(line).append("\n");
+            line = reader.readLine();
+        }
+
+        return builder.toString();
     }
 }

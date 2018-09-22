@@ -2,12 +2,9 @@ package it.raceup.yolo.app;
 
 import it.raceup.yolo.control.Hal;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import static it.raceup.yolo.Data.getAppVersion;
 
 public abstract class KvaserApp extends YoloApp {
-    private static final String VERSION_FILE = "/res/strings/version.txt";
     protected Hal hal;
 
     public KvaserApp(String tag) {
@@ -48,17 +45,7 @@ public abstract class KvaserApp extends YoloApp {
     }
 
     private void logVersion() {
-        String version = getVersion();
+        String version = getAppVersion();
         log(version);
-    }
-
-    public String getVersion() {
-        try {
-            InputStream in = getClass().getResourceAsStream(VERSION_FILE);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-            return reader.readLine();
-        } catch (Exception e) {
-            return "unknown";
-        }
     }
 }

@@ -8,14 +8,12 @@ import javax.swing.*;
 import java.util.Observable;
 import java.util.Observer;
 
+import static it.raceup.yolo.Data.IMU_WINDOW_TITLE;
 import static it.raceup.yolo.utils.Os.setNativeLookAndFeelOrFail;
 
-public class CarFrame extends JFrame implements Observer {
-    private static final String TITLE = "YOLO: IMU and driver";
-
-    public CarFrame() {
-        super(TITLE);
-
+public class ImuFrame extends JFrame implements Observer {
+    public ImuFrame() {
+        super(IMU_WINDOW_TITLE);
         setup();
     }
 

@@ -1,17 +1,12 @@
 package it.raceup.yolo.ui.component.table;
 
+import it.raceup.yolo.Data;
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class ColorTable extends MultiObjectTable {
-    private static final String THIS_PACKAGE = "it.raceup.yolo.ui.component" +
-            ".table";
-    private static final String BASE_PATH = "/res/images/circle/small/";
-    private static final String RED_PATH = BASE_PATH + "red.png";
-    private static final String GREEN_PATH = BASE_PATH + "green.png";
     private Icon redIcon;
     private Icon greenIcon;
 
@@ -44,16 +39,14 @@ public class ColorTable extends MultiObjectTable {
     }
 
     private void loadIcons() {
+        Data data = new Data();
+
         try {
-            redIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(
-                    getClass().getResource(RED_PATH)
-            ));
-            greenIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(
-                    getClass().getResource(GREEN_PATH)
-            ));
+            redIcon = data.getRedIcon();
+            greenIcon = data.getGreenIcon();
         } catch (Exception e) {
             new YoloException(
-                    "cannot set app icon",
+                    "cannot set red/green icons",
                     ExceptionType.APP
             ).print();
         }

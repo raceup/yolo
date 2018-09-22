@@ -1,5 +1,6 @@
 package it.raceup.yolo.ui.window;
 
+import it.raceup.yolo.Data;
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.ui.component.MotorsPanel;
@@ -7,37 +8,24 @@ import it.raceup.yolo.ui.utils.AboutDialog;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
+import static it.raceup.yolo.Data.*;
 import static it.raceup.yolo.utils.Os.setNativeLookAndFeelOrFail;
 
 public class MainFrame extends JFrame {
-    private static final String TITLE = "YOLO: AMK and inverters";
-
-    // res
-    private static final String ICON_PATH = "/res/images/logo.png";
-    private static final String ABOUT_PATH = "/res/strings/about/content.html";
-    private static final String HELP_PATH = "/res/strings/help/content.html";
-    private static Image appIcon;
-    private static String aboutContent;
-    private static String helpContent;
-
     // frames
     private final MotorsPanel motorPanels;
     private final CanMessagesFrame canMessagesFrame;
     private final BatteryFrame batteryFrame;
-    private final CarFrame carFrame;
+    private final ImuFrame imuFrame;
 
     public MainFrame() {
-        super(TITLE);
+        super(MOTORS_WINDOW_TITLE);
 
         motorPanels = new MotorsPanel();
         canMessagesFrame = new CanMessagesFrame();
         batteryFrame = new BatteryFrame();
-        carFrame = new CarFrame();
+        imuFrame = new ImuFrame();
 
         setup();
         open();
@@ -55,7 +43,7 @@ public class MainFrame extends JFrame {
             setResizable(false);
             setNativeLookAndFeelOrFail();
             setVisible(true);
-            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // close app
+            setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);  // close app
             openFrames();  // open rest of frames
         } catch (Exception e) {
             new YoloException(
@@ -74,22 +62,12 @@ public class MainFrame extends JFrame {
                     ExceptionType.APP
             ).print();
         }
-
-        try {
-            loadDialogContent();
-        } catch (Exception e) {
-            new YoloException(
-                    "cannot find ",
-                    e,
-                    ExceptionType.APP
-            ).print();
-        }
     }
 
     private void openFrames() {
         canMessagesFrame.open();
         // todo show this frame batteryFrame.open();
-        // todo show this frame carFrame.open();
+        // todo show this frame imuFrame.open();
     }
 
     private void setupLayout() {
@@ -127,24 +105,22 @@ public class MainFrame extends JFrame {
         JMenu menu = new JMenu("Help");  // help menu
 
         JMenuItem item = new JMenuItem("Help");  // help menu -> help
-        item.addActionListener(e -> showHelpDialogOrFail());
+        item.addActionListener(e -> showHelpDialog());
         menu.add(item);
 
         item = new JMenuItem("About");  // help menu -> about
-        item.addActionListener(e -> showAboutDialogOrFail());
+        item.addActionListener(e -> showAboutDialog());
         menu.add(item);
 
         return menu;
     }
 
-    private void showAboutDialogOrFail() {
-        String title = "About this app";
-        new AboutDialog(this, aboutContent, title).setVisible(true);
+    private void showAboutDialog() {
+        new AboutDialog(this, getAboutContent(), ABOUT_TITLE).setVisible(true);
     }
 
-    private void showHelpDialogOrFail() {
-        String title = "Help";
-        new AboutDialog(this, helpContent, title).setVisible(true);
+    private void showHelpDialog() {
+        new AboutDialog(this, getHelpContent(), HELP_TITLE).setVisible(true);
     }
 
     public void close() {
@@ -164,28 +140,7 @@ public class MainFrame extends JFrame {
     }
 
     private void loadIcon() {
-        appIcon = Toolkit.getDefaultToolkit().getImage(
-                getClass().getResource(ICON_PATH)
-        );
-        setIconImage(appIcon);  // set icon
-    }
-
-    private void loadDialogContent() throws IOException {
-        aboutContent = loadDialogContent(ABOUT_PATH);
-        helpContent = loadDialogContent(HELP_PATH);
-    }
-
-    private String loadDialogContent(String filePath) throws IOException {
-        InputStream in = getClass().getResourceAsStream(filePath);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-        StringBuilder builder = new StringBuilder();
-
-        String line = reader.readLine();
-        while (line != null) {
-            builder.append(line).append("\n");
-            line = reader.readLine();
-        }
-
-        return builder.toString();
+        Image icon = new Data().getAppImage();
+        setIconImage(icon);  // set icon
     }
 }
