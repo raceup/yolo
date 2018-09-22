@@ -7,17 +7,29 @@ import it.raceup.yolo.ui.utils.AboutDialog;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import static it.raceup.yolo.utils.Os.setNativeLookAndFeelOrFail;
 
 public class MainFrame extends JFrame {
     private static final String TITLE = "YOLO: AMK and inverters";
+
+    // res
     private static final String ICON_PATH = "/res/images/logo.png";
+    private static final String ABOUT_PATH = "/res/strings/about/content.html";
+    private static final String HELP_PATH = "/res/strings/help/content.html";
+    private static Image appIcon;
+    private static String aboutContent;
+    private static String helpContent;
+
+    // frames
     private final MotorsPanel motorPanels;
     private final CanMessagesFrame canMessagesFrame;
     private final BatteryFrame batteryFrame;
     private final CarFrame carFrame;
-    private Image appIcon;
 
     public MainFrame() {
         super(TITLE);
@@ -55,10 +67,19 @@ public class MainFrame extends JFrame {
 
         try {
             loadIcon();
-            setIconImage(appIcon);  // set icon
         } catch (Exception e) {
             new YoloException(
                     "cannot set image",
+                    e,
+                    ExceptionType.APP
+            ).print();
+        }
+
+        try {
+            loadDialogContent();
+        } catch (Exception e) {
+            new YoloException(
+                    "cannot find ",
                     e,
                     ExceptionType.APP
             ).print();
@@ -117,15 +138,13 @@ public class MainFrame extends JFrame {
     }
 
     private void showAboutDialogOrFail() {
-        String content = "";  // todo
         String title = "About this app";
-        new AboutDialog(this, content, title).setVisible(true);
+        new AboutDialog(this, aboutContent, title).setVisible(true);
     }
 
     private void showHelpDialogOrFail() {
-        String content = "";  // todo
         String title = "Help";
-        new AboutDialog(this, content, title).setVisible(true);
+        new AboutDialog(this, helpContent, title).setVisible(true);
     }
 
     public void close() {
@@ -145,15 +164,28 @@ public class MainFrame extends JFrame {
     }
 
     private void loadIcon() {
-        try {
-            appIcon = Toolkit.getDefaultToolkit().getImage(
-                    getClass().getResource(ICON_PATH)
-            );
-        } catch (Exception e) {
-            new YoloException(
-                    "cannot set app icon",
-                    ExceptionType.APP
-            ).print();
+        appIcon = Toolkit.getDefaultToolkit().getImage(
+                getClass().getResource(ICON_PATH)
+        );
+        setIconImage(appIcon);  // set icon
+    }
+
+    private void loadDialogContent() throws IOException {
+        aboutContent = loadDialogContent(ABOUT_PATH);
+        helpContent = loadDialogContent(HELP_PATH);
+    }
+
+    private String loadDialogContent(String filePath) throws IOException {
+        InputStream in = getClass().getResourceAsStream(filePath);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+        StringBuilder builder = new StringBuilder();
+
+        String line = reader.readLine();
+        while (line != null) {
+            builder.append(line).append("\n");
+            line = reader.readLine();
         }
+
+        return builder.toString();
     }
 }
