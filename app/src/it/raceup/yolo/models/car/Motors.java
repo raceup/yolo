@@ -61,7 +61,7 @@ public class Motors extends Observable implements Observer {
                 triggerObservers();
             }
         } catch (Exception e) {
-            new YoloException("cannot update car", e, ExceptionType.KVASER)
+            new YoloException("cannot updateWith car", e, ExceptionType.KVASER)
                     .print();
         }
     }

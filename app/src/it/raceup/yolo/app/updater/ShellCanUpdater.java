@@ -75,7 +75,7 @@ public class ShellCanUpdater extends ShellCsvUpdater {
                 update(messages);
             }
         } catch (Exception e) {
-            new YoloException("cannot update car", e, ExceptionType.KVASER)
+            new YoloException("cannot updateWith car", e, ExceptionType.KVASER)
                     .print();
         }
     }

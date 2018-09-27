@@ -25,7 +25,7 @@ public class ShellBatteryUpdater extends ShellCsvUpdater {
         try {
             // todo
         } catch (Exception e) {
-            new YoloException("cannot update battery", e, ExceptionType.KVASER)
+            new YoloException("cannot updateWith battery", e, ExceptionType.KVASER)
                     .print();
         }
     }

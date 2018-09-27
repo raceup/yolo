@@ -70,7 +70,7 @@ public class CanMessagesFrame extends JFrame implements Observer {
                 canMessageBrowser.update(messages);
             }
         } catch (Exception e) {
-            new YoloException("cannot update CAN", e, ExceptionType.KVASER)
+            new YoloException("cannot updateWith CAN", e, ExceptionType.KVASER)
                     .print();
         }
     }

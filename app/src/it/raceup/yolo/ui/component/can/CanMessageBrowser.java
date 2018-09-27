@@ -1,5 +1,7 @@
 package it.raceup.yolo.ui.component.can;
 
+import it.raceup.yolo.error.ExceptionType;
+import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.data.CanMessage;
 import it.raceup.yolo.ui.component.label.UpdatePanel;
 import it.raceup.yolo.ui.component.table.CanMessageTable;
@@ -101,14 +103,19 @@ public class CanMessageBrowser extends JPanel {
     }
 
     public void update(ArrayList<CanMessage> messages) {
-        shiftBuffer();
+        try {
+            shiftBuffer();
 
-        // todo reverse list ?? check time
-        int maxRow = Math.min(messages.size(), MESSAGES_TO_SHOW);
-        for (int row = 0; row < maxRow; row++) {
-            update(row, messages.get(row));
+            // todo reverse list ?? check time
+            int maxRow = Math.min(messages.size(), MESSAGES_TO_SHOW);
+            for (int row = 0; row < maxRow; row++) {
+                update(row, messages.get(row));
+            }
+
+            lastUpdate.updateWithTimeNow();
+        } catch (Exception e) {
+            new YoloException("cannot updateWith CAN message browser frame", e, ExceptionType.KVASER)
+                    .print();
         }
-
-        lastUpdate.updateWithTimeNow();
     }
 }

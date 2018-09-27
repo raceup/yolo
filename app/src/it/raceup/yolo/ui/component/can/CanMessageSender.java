@@ -121,7 +121,7 @@ public class CanMessageSender extends JPanel implements Observer {
                 updateStatus(success);
             }
         } catch (Exception e) {
-            new YoloException("cannot update car", e, ExceptionType.KVASER)
+            new YoloException("cannot updateWith car", e, ExceptionType.KVASER)
                     .print();
         }
     }

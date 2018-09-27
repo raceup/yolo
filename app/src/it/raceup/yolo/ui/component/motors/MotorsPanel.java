@@ -77,13 +77,13 @@ public class MotorsPanel extends JPanel implements Observer {
         try {
             motorPanels[motor].update(type, data);
         } catch (Exception e) {
-            System.err.println("update(Raw data): CANNOT UPDATE MOTOR PANEL");
+            System.err.println("updateWith(Raw data): CANNOT UPDATE MOTOR PANEL");
         }
 
         try {
             motorFrameWindows[motor].update(type, data);
         } catch (Exception e) {
-            System.err.println("update(Raw data): CANNOT UPDATE MOTOR WINDOW");
+            System.err.println("updateWith(Raw data): CANNOT UPDATE MOTOR WINDOW");
         }
     }
 
@@ -91,7 +91,7 @@ public class MotorsPanel extends JPanel implements Observer {
         for (int i = 0; i < motors.length; i++) {
             for (Type type : Raw.ALL) {
                 double value = motors[i].get(type);  // fetch from model
-                update(i, type, value);  // update view
+                update(i, type, value);  // updateWith view
             }
         }
     }
@@ -101,7 +101,7 @@ public class MotorsPanel extends JPanel implements Observer {
         try {
             this.update((it.raceup.yolo.models.car.Motor[]) o);
         } catch (Exception e) {
-            new YoloException("cannot update car", e, ExceptionType.VIEW)
+            new YoloException("cannot updateWith car", e, ExceptionType.VIEW)
                     .print();
         }
     }

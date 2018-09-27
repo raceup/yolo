@@ -3,6 +3,7 @@ package it.raceup.yolo.ui.window;
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.kvaser.message.FromKvaserMessage;
+import it.raceup.yolo.ui.component.label.UpdatePanel;
 
 import javax.swing.*;
 import java.util.Observable;
@@ -12,6 +13,8 @@ import static it.raceup.yolo.Data.BATTERY_WINDOW_TITLE;
 import static it.raceup.yolo.utils.Os.setNativeLookAndFeelOrFail;
 
 public class BatteryFrame extends JFrame implements Observer {
+    private UpdatePanel lastUpdate = new UpdatePanel();
+
     public BatteryFrame() {
         super(BATTERY_WINDOW_TITLE);
 
@@ -44,15 +47,17 @@ public class BatteryFrame extends JFrame implements Observer {
 
     private void setupLayout() {
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+
+        add(lastUpdate);
     }
 
     @Override
     public void update(Observable observable, Object o) {
         try {
             FromKvaserMessage message = new FromKvaserMessage(o);
-            // todo update
+            // todo updateWith
         } catch (Exception e) {
-            new YoloException("cannot update BMS", e, ExceptionType.KVASER)
+            new YoloException("cannot updateWith Battery info frame", e, ExceptionType.KVASER)
                     .print();
         }
     }

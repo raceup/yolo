@@ -49,9 +49,9 @@ public class ImuFrame extends JFrame implements Observer {
     public void update(Observable observable, Object o) {
         try {
             FromKvaserMessage message = new FromKvaserMessage(o);
-            // todo update
+            // todo updateWith
         } catch (Exception e) {
-            new YoloException("cannot update CAR", e, ExceptionType.KVASER)
+            new YoloException("cannot updateWith CAR", e, ExceptionType.KVASER)
                     .print();
         }
     }
