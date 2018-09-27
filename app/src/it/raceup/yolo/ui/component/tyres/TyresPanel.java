@@ -14,6 +14,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import static it.raceup.yolo.models.car.Motors.DEFAULT_MOTORS;
+import static it.raceup.yolo.models.data.Raw.isBoolean;
 
 public class TyresPanel extends JPanel implements Observer {
     private final MotorInfo[] motorPanels = new MotorInfo[DEFAULT_MOTORS.length];
@@ -76,7 +77,7 @@ public class TyresPanel extends JPanel implements Observer {
     public void update(int motor, Type type,
                        Double data) {
         try {
-            motorPanels[motor].update(type, data);
+            motorPanels[motor].update(type.toString(), data, isBoolean(type));
         } catch (Exception e) {
             System.err.println("updateWith(Raw data): CANNOT UPDATE MOTOR PANEL");
         }
