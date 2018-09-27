@@ -1,4 +1,4 @@
-package it.raceup.yolo.ui.component;
+package it.raceup.yolo.ui.component.motors;
 
 import it.raceup.yolo.models.data.Raw;
 import it.raceup.yolo.models.data.Type;

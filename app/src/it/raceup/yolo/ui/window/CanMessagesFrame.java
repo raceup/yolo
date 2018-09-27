@@ -4,8 +4,8 @@ import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.data.CanMessage;
 import it.raceup.yolo.models.kvaser.message.FromKvaserMessage;
-import it.raceup.yolo.ui.component.CanMessageBrowser;
-import it.raceup.yolo.ui.component.CanMessageSender;
+import it.raceup.yolo.ui.component.can.CanMessageBrowser;
+import it.raceup.yolo.ui.component.can.CanMessageSender;
 
 import javax.swing.*;
 import java.awt.*;

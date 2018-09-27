@@ -3,7 +3,7 @@ package it.raceup.yolo.ui.window;
 import it.raceup.yolo.Data;
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
-import it.raceup.yolo.ui.component.MotorsPanel;
+import it.raceup.yolo.ui.component.motors.MotorsPanel;
 import it.raceup.yolo.ui.utils.AboutDialog;
 
 import javax.swing.*;

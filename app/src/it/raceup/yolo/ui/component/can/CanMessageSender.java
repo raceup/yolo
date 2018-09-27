@@ -1,4 +1,4 @@
-package it.raceup.yolo.ui.component;
+package it.raceup.yolo.ui.component.can;
 
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;

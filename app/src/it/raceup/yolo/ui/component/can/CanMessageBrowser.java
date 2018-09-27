@@ -1,6 +1,7 @@
-package it.raceup.yolo.ui.component;
+package it.raceup.yolo.ui.component.can;
 
 import it.raceup.yolo.models.data.CanMessage;
+import it.raceup.yolo.ui.component.label.UpdatePanel;
 import it.raceup.yolo.ui.component.table.CanMessageTable;
 
 import javax.swing.*;
@@ -8,7 +9,6 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import static it.raceup.yolo.models.data.Base.*;
-import static it.raceup.yolo.utils.Misc.getTimeNow;
 
 /**
  * Table to show latest CAN messages
@@ -18,11 +18,9 @@ public class CanMessageBrowser extends JPanel {
     private final String[] TABLE_HEADERS = new String[]{"ID", "time", "flags",
             "dlc", "byte 1", "byte 2", "byte 3", "byte 4", "byte 5", "byte " +
             "6", "byte 7", "byte 8"};
-    private String lastUpdate = getTimeNow();
-    private final JLabel lastUpdateLabel = new JLabel("Last update: " +
-            lastUpdate);
     private JTable table;  // newest messages upfront, oldest at the bottom
     private JScrollPane tableContainer;
+    private UpdatePanel lastUpdate = new UpdatePanel();
 
     public CanMessageBrowser() {
         setup();
@@ -65,15 +63,6 @@ public class CanMessageBrowser extends JPanel {
         return panel;
     }
 
-    private JPanel getLastUpdatePanel() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-
-        panel.add(lastUpdateLabel);
-
-        return panel;
-    }
-
     private void setupLayout() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -84,7 +73,7 @@ public class CanMessageBrowser extends JPanel {
         add(tableContainer);
 
         add(Box.createRigidArea(new Dimension(0, 10)));
-        add(getLastUpdatePanel());
+        add(lastUpdate);
     }
 
     private void shiftBuffer() {
@@ -95,12 +84,6 @@ public class CanMessageBrowser extends JPanel {
             }
         }
     }
-
-    private void addNewMessage(CanMessage message) {
-        shiftBuffer();
-        update(0, message);
-    }
-
 
     private void update(int row, CanMessage message) {
         table.setValueAt(getAsString(message.getId()), row, 0);
@@ -118,8 +101,6 @@ public class CanMessageBrowser extends JPanel {
     }
 
     public void update(ArrayList<CanMessage> messages) {
-        lastUpdate = getTimeNow();
-
         shiftBuffer();
 
         // todo reverse list ?? check time
@@ -128,6 +109,6 @@ public class CanMessageBrowser extends JPanel {
             update(row, messages.get(row));
         }
 
-        lastUpdateLabel.setText("Last update: " + lastUpdate);
+        lastUpdate.updateWithTimeNow();
     }
 }
