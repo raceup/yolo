@@ -16,38 +16,26 @@
 
 package it.raceup.yolo.ui.component.driver;
 
-import com.raceup.ed.vsm.gui.components.BrakesPanel;
-import com.raceup.ed.vsm.gui.components.ThrottleBrakeIndicator;
+import it.raceup.yolo.ui.component.ProgressBar;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Panel with info about brakes (total % and rear-front balance)
  */
 public class ThrottleBrakePanel extends JPanel {
-    private final ThrottleBrakeIndicator throttleBrakeIndicator;  // ring indicator
-    private final BrakesPanel brakesPanel = new BrakesPanel();
+    private final ProgressBar throttleBar =
+            new ProgressBar("Throttle", Color.GREEN);
+    private final ProgressBar brakeBar =
+            new ProgressBar("Brake", Color.RED);
 
     public ThrottleBrakePanel() {
-        // super("Throttle and brakes");
-
-        throttleBrakeIndicator = new ThrottleBrakeIndicator();  // % indicator
-
         setup();
     }
 
-    /*
-     * Values
-     */
-
-    /**
-     * Sets value of indicator and label and updates gui
-     *
-     * @param value         new value to set
-     * @param brakePosition position of brake to set value of
-     */
-    public void setBrakeValue(double value, int brakePosition) {
-        brakesPanel.setValue(value, brakePosition);
+    public void setBrake(double value) {
+        brakeBar.setValue(value);
     }
 
     /**
@@ -55,23 +43,18 @@ public class ThrottleBrakePanel extends JPanel {
      *
      * @param value throttle value
      */
-    public void setThrottleValue(double value) {
-        throttleBrakeIndicator.setValue(value);
+    public void setThrottle(double value) {
+        throttleBar.setValue(value);
     }
 
     /**
      * Setups gui and components
      */
     private void setup() {
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));  // add components vertically
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));  // vertical
 
-        JPanel labelsPanel = new JPanel();
-        labelsPanel.add(brakesPanel);
-
-        mainPanel.add(throttleBrakeIndicator);
-        mainPanel.add(labelsPanel);
-
-        add(mainPanel);
+        add(throttleBar);
+        add(Box.createRigidArea(new Dimension(0, 10)));
+        add(brakeBar);
     }
 }

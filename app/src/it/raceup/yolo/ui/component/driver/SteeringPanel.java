@@ -57,18 +57,13 @@ public class SteeringPanel extends JPanel {
         g2d.drawImage(STEERING_WHEEL_IMAGE, at, null);  // draw the image
     }
 
-    /**
-     * Setups gui and components
-     */
     private void setup() {
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));  // add components vertically
-        mainPanel.add(Box.createRigidArea(new Dimension(0, 250)));
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));  // vertical
+        add(Box.createRigidArea(new Dimension(0, 250)));
 
         valueLabel.setAlignmentX(CENTER_ALIGNMENT);
-        mainPanel.add(valueLabel);
+        add(valueLabel);
 
-        add(mainPanel);
         repaint();  // force paint image
     }
 }
