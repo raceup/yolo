@@ -2,6 +2,7 @@ package it.raceup.yolo.ui.component.motors;
 
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
+import it.raceup.yolo.models.car.Motor;
 import it.raceup.yolo.models.data.Raw;
 import it.raceup.yolo.models.data.Type;
 import it.raceup.yolo.ui.window.MotorFrame;
@@ -13,6 +14,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import static it.raceup.yolo.models.car.Motors.DEFAULT_MOTORS;
+import static it.raceup.yolo.models.data.Raw.isBoolean;
 
 public class MotorsPanel extends JPanel implements Observer {
     private final MotorInfo[] motorPanels = new MotorInfo[DEFAULT_MOTORS.length];
@@ -72,19 +74,9 @@ public class MotorsPanel extends JPanel implements Observer {
         update(data.getMotor(), data.getType(), data.getRaw());
     }
 
-    public void update(int motor, it.raceup.yolo.models.data.Type type,
-                       Double data) {
-        try {
-            motorPanels[motor].update(type, data);
-        } catch (Exception e) {
-            System.err.println("updateWith(Raw data): CANNOT UPDATE MOTOR PANEL");
-        }
-
-        try {
-            motorFrameWindows[motor].update(type, data);
-        } catch (Exception e) {
-            System.err.println("updateWith(Raw data): CANNOT UPDATE MOTOR WINDOW");
-        }
+    public void update(int motor, Type type, Double data) {
+        motorPanels[motor].update(type.toString(), data, isBoolean(type));
+        motorFrameWindows[motor].update(type, data);
     }
 
     private void update(it.raceup.yolo.models.car.Motor[] motors) {
@@ -99,9 +91,9 @@ public class MotorsPanel extends JPanel implements Observer {
     @Override
     public void update(Observable observable, Object o) {
         try {
-            this.update((it.raceup.yolo.models.car.Motor[]) o);
+            update((Motor[]) o);
         } catch (Exception e) {
-            new YoloException("cannot updateWith car", e, ExceptionType.VIEW)
+            new YoloException("cannot update motors", e, ExceptionType.VIEW)
                     .print();
         }
     }
