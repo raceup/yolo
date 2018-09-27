@@ -6,6 +6,7 @@ import static it.raceup.yolo.models.data.Base.DEGREES;
 import static it.raceup.yolo.models.data.Base.getAsString;
 
 public class YawPanel extends JPanel {
+    // todo add polar plane
     private final JLabel valueLabel = new JLabel(DEGREES);  // setup label
 
     public YawPanel() {
