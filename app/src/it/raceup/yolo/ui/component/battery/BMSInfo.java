@@ -1,6 +1,7 @@
 package it.raceup.yolo.ui.component.battery;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class BMSInfo extends JPanel {
     private final int BMS_PER_SEGMENT = 3;
@@ -22,9 +23,12 @@ public class BMSInfo extends JPanel {
     private void setupLayout() {
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));  // horizontal
 
+        add(Box.createRigidArea(new Dimension(10, 0)));
+
         for (int i = 0; i < N_SEGMENTS; i++) {
             JPanel segmentPanel = getSegmentPanel(i);
             add(segmentPanel);
+            add(Box.createRigidArea(new Dimension(10, 0)));
         }
     }
 
@@ -35,6 +39,7 @@ public class BMSInfo extends JPanel {
         for (int i = segment * BMS_PER_SEGMENT; i < (segment + 1) * BMS_PER_SEGMENT;
              i++) {
             segmentPanel.add(bms[i]);
+            add(Box.createRigidArea(new Dimension(0, 10)));
         }
 
         return segmentPanel;

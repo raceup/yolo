@@ -19,7 +19,7 @@ public class BatteryInfo extends JPanel {
     }
 
     private void setupLayout() {
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
         add(voltageLabel);
         add(currentLabel);

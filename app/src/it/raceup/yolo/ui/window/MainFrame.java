@@ -14,18 +14,13 @@ import static it.raceup.yolo.utils.Os.setNativeLookAndFeelOrFail;
 
 public class MainFrame extends JFrame {
     // frames
-    private final MotorsPanel motorPanels;
-    private final CanMessagesFrame canMessagesFrame;
-    private final BatteryFrame batteryFrame;
-    private final ImuFrame imuFrame;
+    private final MotorsPanel motorPanels = new MotorsPanel();
+    private final CanMessagesFrame canMessagesFrame = new CanMessagesFrame();
+    private final BatteryFrame batteryFrame = new BatteryFrame();
+    private final ImuFrame imuFrame = new ImuFrame();
 
     public MainFrame() {
         super(MOTORS_WINDOW_TITLE);
-
-        motorPanels = new MotorsPanel();
-        canMessagesFrame = new CanMessagesFrame();
-        batteryFrame = new BatteryFrame();
-        imuFrame = new ImuFrame();
 
         setup();
         open();
@@ -66,7 +61,7 @@ public class MainFrame extends JFrame {
 
     private void openFrames() {
         canMessagesFrame.open();
-        // todo show this frame batteryFrame.open();
+        batteryFrame.open();
         // todo show this frame imuFrame.open();
     }
 
