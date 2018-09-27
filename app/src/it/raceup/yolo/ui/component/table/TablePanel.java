@@ -1,8 +1,7 @@
-package it.raceup.yolo.ui.component.motors;
+package it.raceup.yolo.ui.component.table;
 
 import it.raceup.yolo.models.data.Raw;
 import it.raceup.yolo.models.data.Type;
-import it.raceup.yolo.ui.component.table.InfoTable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,33 +10,30 @@ import java.util.Arrays;
 import static it.raceup.yolo.models.data.Base.DNF;
 import static it.raceup.yolo.models.data.Base.getAsString;
 import static it.raceup.yolo.models.data.Raw.isBoolean;
-import static it.raceup.yolo.models.data.Type.*;
 
-public class MotorInfo extends JPanel {
-    public static final it.raceup.yolo.models.data.Type[] LABELS =
-            new it.raceup.yolo.models.data.Type[]{
-                    SYSTEM_READY,
-                    it.raceup.yolo.models.data.Type.ERROR,
-                    DC_ON,
-                    INVERTER_ON,
-                    ACTUAL_VELOCITY,
-                    TORQUE_CURRENT,
-                    TEMPERATURE_MOTOR,
-                    TEMPERATURE_INVERTER,
-            };
-    public final JButton viewButton;
+public class TablePanel extends JPanel {
+    private final String[] LABELS;
     private final JTable table = getDataTable();
+    public JButton viewButton = null;
 
-    public MotorInfo(String tag) {
-        viewButton = new JButton(tag);
+    public TablePanel(String[] labels, String tag) {
+        LABELS = labels;
+
+        if (tag != null) {  // tag null -> do not add button
+            viewButton = new JButton(tag);
+        }
+
         setup();
     }
 
     private void setup() {
         setupLayout();
 
-        add(Box.createRigidArea(new Dimension(0, 10)));
-        add(viewButton);
+        if (viewButton != null) {
+            add(Box.createRigidArea(new Dimension(0, 10)));
+            add(viewButton);
+        }
+
         add(Box.createRigidArea(new Dimension(0, 10)));
         add(getTable());
     }
@@ -75,11 +71,11 @@ public class MotorInfo extends JPanel {
         return table;
     }
 
-    public void update(Type type, Double data) {
+    public void update(String type, Double data, boolean isBool) {
         if (Arrays.asList(LABELS).contains(type)) {
             int tableRow = Arrays.asList(LABELS).indexOf(type);
             if (tableRow >= 0) {
-                if (isBoolean(type)) {
+                if (isBool) {
                     table.setValueAt(data.intValue() == 1, tableRow, 1);
                 } else {
                     table.setValueAt(getAsString(data), tableRow, 1);
@@ -89,6 +85,7 @@ public class MotorInfo extends JPanel {
     }
 
     public void update(Raw data) {
-        update(data.getType(), data.getRaw());
+        Type type = data.getType();
+        update(type.toString(), data.getRaw(), isBoolean(type));
     }
 }

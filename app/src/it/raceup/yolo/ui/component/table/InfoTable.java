@@ -3,8 +3,8 @@ package it.raceup.yolo.ui.component.table;
 import javax.swing.table.TableCellRenderer;
 
 
-public class MotorInfoTable extends ColorMultiAlignTable {
-    public MotorInfoTable(Object[][] data, String[] headers) {
+public class InfoTable extends ColorMultiAlignTable {
+    public InfoTable(Object[][] data, String[] headers) {
         super(data, headers);
     }
 
