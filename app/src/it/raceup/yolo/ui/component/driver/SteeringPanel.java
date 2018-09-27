@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
+import static it.raceup.yolo.models.data.Base.DEGREES;
 import static it.raceup.yolo.models.data.Base.getAsString;
 
 /**
@@ -14,7 +15,6 @@ import static it.raceup.yolo.models.data.Base.getAsString;
 public class SteeringPanel extends JPanel {
     private final Image STEERING_WHEEL_IMAGE;
     private final JLabel valueLabel;
-    private final String DEGREES = " °";
     private double value = 0.0;
 
     public SteeringPanel() {
