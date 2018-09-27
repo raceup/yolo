@@ -37,6 +37,11 @@ public class PolarPlane2D extends JPanel {
         repaint();
     }
 
+    public void setXYValue(double x, double y) {
+        setValue(x, 0);
+        setValue(y, 1);
+    }
+
     /*
      * Paint 3D plane
      */

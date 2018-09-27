@@ -1,14 +1,16 @@
 package it.raceup.yolo.ui.component.imu;
 
+import it.raceup.yolo.ui.component.PolarPlane2D;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class AccelerationsPanel extends JPanel {
     private final PolarPlane2D accelerationPlane;
 
-    AccelerationPanel() {
+    public AccelerationsPanel() {
         super();
-        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));  // add items vertically
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));  // vertically
 
         accelerationPlane = new PolarPlane2D(new Dimension(250, 245));
         accelerationPlane.setAlignmentX(Component.CENTER_ALIGNMENT);
