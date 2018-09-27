@@ -9,7 +9,6 @@ import it.raceup.yolo.control.Hal;
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.car.Motors;
-import it.raceup.yolo.models.kvaser.BlackBird;
 import it.raceup.yolo.models.kvaser.FakeBlackBird;
 import it.raceup.yolo.ui.window.MainFrame;
 
@@ -82,6 +81,8 @@ public class App extends KvaserApp {
     protected void setupUpdaters() {
         hal.addObserverToMotors(view.getMotorPanels());
         hal.addObserverToKvaser(view.getCanMessagesFrame());
+        // todo hal.addObserverToKvaser(view.getBatteryFrame());
+        // todo hal.addObserverToKvaser(view.getDynamicsFrame());
     }
 
     private void setupLogUpdaters(boolean logMotors, boolean logCan, boolean logBattery, boolean logIMU) {

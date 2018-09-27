@@ -12,12 +12,13 @@ import static it.raceup.yolo.models.data.Base.getAsString;
 import static it.raceup.yolo.models.data.Raw.isBoolean;
 
 public class TablePanel extends JPanel {
-    private final String[] LABELS;
-    private final JTable table = getDataTable();
+    private final String[] labels;
+    private final JTable table;
     public JButton viewButton = null;
 
     public TablePanel(String[] labels, String tag) {
-        LABELS = labels;
+        this.labels = labels;
+        table = getDataTable();
 
         if (tag != null) {  // tag null -> do not add button
             viewButton = new JButton(tag);
@@ -60,9 +61,9 @@ public class TablePanel extends JPanel {
         };  // headers for the table
 
         // actual data
-        Object[][] data = new Object[LABELS.length][columns.length];
+        Object[][] data = new Object[labels.length][columns.length];
         for (int row = 0; row < data.length; row++) {
-            data[row][0] = LABELS[row];
+            data[row][0] = labels[row];
             data[row][1] = DNF;
         }
 
@@ -72,8 +73,8 @@ public class TablePanel extends JPanel {
     }
 
     public void update(String type, Double data, boolean isBool) {
-        if (Arrays.asList(LABELS).contains(type)) {
-            int tableRow = Arrays.asList(LABELS).indexOf(type);
+        if (Arrays.asList(labels).contains(type)) {
+            int tableRow = Arrays.asList(labels).indexOf(type);
             if (tableRow >= 0) {
                 if (isBool) {
                     table.setValueAt(data.intValue() == 1, tableRow, 1);

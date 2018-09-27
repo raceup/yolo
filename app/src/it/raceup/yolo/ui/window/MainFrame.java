@@ -17,7 +17,7 @@ public class MainFrame extends JFrame {
     private final MotorsPanel motorPanels = new MotorsPanel();
     private final CanMessagesFrame canMessagesFrame = new CanMessagesFrame();
     private final BatteryFrame batteryFrame = new BatteryFrame();
-    private final ImuFrame imuFrame = new ImuFrame();
+    private final DynamicsFrame dynamicsFrame = new DynamicsFrame();
 
     public MainFrame() {
         super(MOTORS_WINDOW_TITLE);
@@ -62,7 +62,7 @@ public class MainFrame extends JFrame {
     private void openFrames() {
         canMessagesFrame.open();
         batteryFrame.open();
-        // todo show this frame imuFrame.open();
+        dynamicsFrame.open();
     }
 
     private void setupLayout() {
@@ -73,9 +73,7 @@ public class MainFrame extends JFrame {
         );  // border
 
         setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
-
         add(motorPanels);
-
         setJMenuBar(createMenuBar());
     }
 
@@ -132,6 +130,10 @@ public class MainFrame extends JFrame {
 
     public BatteryFrame getBatteryFrame() {
         return batteryFrame;
+    }
+
+    public DynamicsFrame getDynamicsFrame() {
+        return dynamicsFrame;
     }
 
     private void loadIcon() {

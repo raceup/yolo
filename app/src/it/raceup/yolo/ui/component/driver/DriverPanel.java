@@ -13,7 +13,7 @@ public class DriverPanel extends JPanel {
     }
 
     private void setup() {
-        add(new JLabel("Driver"));
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         add(Box.createRigidArea(new Dimension(0, 10)));
         add(steeringPanel);

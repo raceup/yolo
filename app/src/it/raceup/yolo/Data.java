@@ -35,7 +35,7 @@ public class Data {
     public static final String MOTORS_WINDOW_TITLE = APP_NAME + " | " + "AMK & inverters";
     public static final String CAN_WINDOW_TITLE = APP_NAME + " | " + "CAN bus";
     public static final String BATTERY_WINDOW_TITLE = APP_NAME + " | " + "Battery";
-    public static final String IMU_WINDOW_TITLE = APP_NAME + " | " + "IMU";
+    public static final String IMU_WINDOW_TITLE = APP_NAME + " | " + "Dynamics";
     // options
     public static final String[] BITRATES = {"10k", "50k", "62k", "83k", "100k", "125k", "250k", "500k", "1m"};
     // formats

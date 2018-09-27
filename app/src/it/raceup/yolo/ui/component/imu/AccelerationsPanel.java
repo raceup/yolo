@@ -39,6 +39,7 @@ public class AccelerationsPanel extends JPanel {
     }
 
     private void setupLayout() {
+        add(Box.createRigidArea(new Dimension(0, 10)));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));  // vertically
 
         add(getTopPanel());
@@ -50,7 +51,7 @@ public class AccelerationsPanel extends JPanel {
         JPanel panel = new JPanel();
 
         // horizontally
-        panel.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 
         panel.add(xAccelerationLabel);
         panel.add(Box.createRigidArea(new Dimension(50, 0)));

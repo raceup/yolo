@@ -13,9 +13,11 @@ public class ImuPanel extends JPanel {
     }
 
     private void setup() {
-        add(accelerationsPanel);
+        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
-        add(Box.createRigidArea(new Dimension(0, 10)));
+        add(Box.createRigidArea(new Dimension(10, 0)));
+        add(accelerationsPanel);
+        add(Box.createRigidArea(new Dimension(10, 0)));
         add(yawPanel);
     }
 

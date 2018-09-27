@@ -3,16 +3,24 @@ package it.raceup.yolo.ui.window;
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.kvaser.message.FromKvaserMessage;
+import it.raceup.yolo.ui.component.driver.DriverPanel;
+import it.raceup.yolo.ui.component.imu.ImuPanel;
+import it.raceup.yolo.ui.component.tyres.TyresPanel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 
 import static it.raceup.yolo.Data.IMU_WINDOW_TITLE;
 import static it.raceup.yolo.utils.Os.setNativeLookAndFeelOrFail;
 
-public class ImuFrame extends JFrame implements Observer {
-    public ImuFrame() {
+public class DynamicsFrame extends JFrame implements Observer {
+    private final ImuPanel imuPanel = new ImuPanel();
+    private final DriverPanel driverPanel = new DriverPanel();
+    private final TyresPanel tyresPanel = new TyresPanel();
+
+    public DynamicsFrame() {
         super(IMU_WINDOW_TITLE);
         setup();
     }
@@ -20,8 +28,8 @@ public class ImuFrame extends JFrame implements Observer {
     public void open() {
         try {
             pack();
-            setSize(600, 500);
-            setLocation(625, 550);  // under battery
+            setSize(600, 700);
+            setLocation(625, 350);  // under battery
             setResizable(false);
             setNativeLookAndFeelOrFail();
 
@@ -43,13 +51,28 @@ public class ImuFrame extends JFrame implements Observer {
 
     private void setupLayout() {
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+
+        add(getTopPanel());
+        add(Box.createRigidArea(new Dimension(10, 0)));
+        add(tyresPanel);
+    }
+
+    private JPanel getTopPanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+
+        panel.add(imuPanel);
+        panel.add(Box.createRigidArea(new Dimension(10, 0)));
+        panel.add(driverPanel);
+
+        return panel;
     }
 
     @Override
     public void update(Observable observable, Object o) {
         try {
             FromKvaserMessage message = new FromKvaserMessage(o);
-            // todo updateWith
+            // todo update panels
         } catch (Exception e) {
             new YoloException("cannot updateWith CAR", e, ExceptionType.KVASER)
                     .print();
