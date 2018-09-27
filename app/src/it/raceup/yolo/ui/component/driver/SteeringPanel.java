@@ -24,12 +24,7 @@ public class SteeringPanel extends JPanel {
         setup();
     }
 
-    /**
-     * Sets value and updates gui
-     *
-     * @param value new value to set
-     */
-    public void setRotation(double value) {
+    public void setValue(double value) {
         this.value = value;
         valueLabel.setText(getAsString(value) + DEGREES);  // update labels
 
