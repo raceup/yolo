@@ -3,12 +3,13 @@ package it.raceup.yolo.ui.component.battery;
 import javax.swing.*;
 import java.awt.*;
 
+import static it.raceup.yolo.models.data.Base.DNF;
 import static it.raceup.yolo.models.data.Base.getAsString;
 
 public class BMSPanel extends JPanel {
     private JButton button;
-    private JLabel voltageLabel = new JLabel("volt");
-    private JLabel temperatureLabel = new JLabel("temp");
+    private JLabel voltageLabel = new JLabel(DNF + " V");
+    private JLabel temperatureLabel = new JLabel(DNF + " C°");
 
     public BMSPanel(int bms) {
         button = new JButton(Integer.toString(bms));
@@ -35,12 +36,12 @@ public class BMSPanel extends JPanel {
     }
 
     public void setVoltage(double value) {
-        String text = getAsString(value) + "V";
+        String text = getAsString(value) + " V";
         voltageLabel.setText(text);
     }
 
     public void setTemperature(double value) {
-        String text = getAsString(value) + "C";
+        String text = getAsString(value) + " C°";
         temperatureLabel.setText(text);
     }
 }

@@ -9,27 +9,27 @@ import java.awt.*;
  * Container of useful stuff used across the app. Implements the Facade design pattern.
  */
 public class Data {
+    public static final String STEERING_WHEEL_IMAGE_PATH =
+            "/res/images/steering_wheel.png";
     // urls
-    public static final String REPOSITORY_URL = "https://github.com/raceup";
-    public static final String ISSUES_URL = REPOSITORY_URL + "/yolo";
-
+    private static final String REPOSITORY_URL = "https://github.com/raceup";
+    private static final String ISSUES_URL = REPOSITORY_URL + "/yolo";
     // files
-    public static final String VERSION_PATH = "/res/strings/version.txt";
-    public static final String ABOUT_PATH = "/res/strings/about/content.html";
-    public static final String HELP_PATH = "/res/strings/help/content.html";
-    public static final String INTRO_PATH = "/res/strings/help/intro.html";
-
+    private static final String VERSION_PATH = "/res/strings/version.txt";
+    private static final String ABOUT_PATH = "/res/strings/about/content.html";
+    private static final String HELP_PATH = "/res/strings/help/content.html";
+    private static final String INTRO_PATH = "/res/strings/help/intro.html";
     // images
-    public static final String APP_IMAGE_PATH = "/res/images/logo.png";
+    private static final String APP_IMAGE_PATH = "/res/images/logo.png";
     // messages
-    public static final String ERROR_FETCHING_ABOUT = "Sorry, we had trouble fetching the about section\n" +
+    private static final String ERROR_FETCHING_ABOUT = "Sorry, we had trouble fetching the about section\n" +
             "\n" +
             "Please, report this and other bugs here " + ISSUES_URL;
-    public static final String ERROR_FETCHING_HELP = "Sorry, we had trouble fetching the troubleshooting guide\n" +
+    private static final String ERROR_FETCHING_HELP = "Sorry, we had trouble fetching the troubleshooting guide\n" +
             "\n" +
             "Please, report this and other bugs here " + ISSUES_URL;
     // titles
-    public static final String APP_NAME = "YOLO Telemetry";
+    private static final String APP_NAME = "YOLO Telemetry";
     public static final String ABOUT_TITLE = "About " + APP_NAME;
     public static final String HELP_TITLE = "Help | " + APP_NAME;
     public static final String MOTORS_WINDOW_TITLE = APP_NAME + " | " + "AMK & inverters";
@@ -78,6 +78,10 @@ public class Data {
 
     public final Image getAppImage() {
         return getImage(APP_IMAGE_PATH);
+    }
+
+    public final Image getSteeringWheelImage() {
+        return getImage(STEERING_WHEEL_IMAGE_PATH);
     }
 
     public final Icon getRedIcon() {

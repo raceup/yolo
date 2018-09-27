@@ -39,7 +39,7 @@ public class BMSInfo extends JPanel {
         for (int i = segment * BMS_PER_SEGMENT; i < (segment + 1) * BMS_PER_SEGMENT;
              i++) {
             segmentPanel.add(bms[i]);
-            add(Box.createRigidArea(new Dimension(0, 10)));
+            segmentPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         }
 
         return segmentPanel;

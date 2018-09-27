@@ -29,7 +29,7 @@ public class BatteryFrame extends JFrame implements Observer {
     public void open() {
         try {
             pack();
-            setSize(470, 300);
+            setSize(480, 300);
             setLocation(625, 0);  // right to motors
             setResizable(false);
             setNativeLookAndFeelOrFail();
