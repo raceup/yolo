@@ -80,7 +80,7 @@ public class App extends KvaserApp {
     @Override
     protected void setupUpdaters() {
         hal.addObserverToMotors(view.getMotorPanels());
-        hal.addObserverToKvaser(view.getCanMessagesFrame());
+        // todo hal.addObserverToKvaser(view.getCanMessagesFrame());
         // todo hal.addObserverToKvaser(view.getBatteryFrame());
         // todo hal.addObserverToKvaser(view.getDynamicsFrame());
     }
