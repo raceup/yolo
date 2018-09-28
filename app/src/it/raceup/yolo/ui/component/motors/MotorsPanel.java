@@ -1,5 +1,6 @@
 package it.raceup.yolo.ui.component.motors;
 
+import it.raceup.yolo.Data;
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.car.Motor;
@@ -17,6 +18,7 @@ import static it.raceup.yolo.models.car.Motors.DEFAULT_MOTORS;
 import static it.raceup.yolo.models.data.Raw.isBoolean;
 
 public class MotorsPanel extends JPanel implements Observer {
+    private final Image CAR_IMAGE;
     private final MotorInfo[] motorPanels = new MotorInfo[DEFAULT_MOTORS.length];
     private final MotorFrame[] motorFrameWindows = new MotorFrame[DEFAULT_MOTORS.length];
 
@@ -25,6 +27,7 @@ public class MotorsPanel extends JPanel implements Observer {
             motorPanels[i] = new MotorInfo(DEFAULT_MOTORS[i]);
             motorFrameWindows[i] = new MotorFrame(DEFAULT_MOTORS[i]);
         }
+        CAR_IMAGE = new Data().getCarImage();
 
         setup();
     }
@@ -40,13 +43,13 @@ public class MotorsPanel extends JPanel implements Observer {
         JPanel up = new JPanel();
         up.setLayout(new BoxLayout(up, BoxLayout.X_AXIS));
         up.add(motorPanels[0]);
-        up.add(Box.createRigidArea(new Dimension(10, 0)));
+        up.add(Box.createRigidArea(new Dimension(126, 0)));
         up.add(motorPanels[1]);
 
         JPanel down = new JPanel();
         down.setLayout(new BoxLayout(down, BoxLayout.X_AXIS));
         down.add(motorPanels[2]);
-        down.add(Box.createRigidArea(new Dimension(10, 0)));
+        down.add(Box.createRigidArea(new Dimension(126, 0)));
         down.add(motorPanels[3]);
 
         add(up);
@@ -96,5 +99,19 @@ public class MotorsPanel extends JPanel implements Observer {
             new YoloException("cannot update motors", e, ExceptionType.VIEW)
                     .print();
         }
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+
+        // paint image
+        int startXImage = motorPanels[0].getX() + motorPanels[0].getWidth() +
+                10;
+        int startYImage = 120;
+        int imageWidth = CAR_IMAGE.getWidth(this);
+        int imageHeight = CAR_IMAGE.getHeight(this);
+
+        g.drawImage(CAR_IMAGE, startXImage, startYImage, imageWidth, imageHeight, this);
     }
 }

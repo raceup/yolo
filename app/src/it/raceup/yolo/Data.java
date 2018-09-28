@@ -9,8 +9,6 @@ import java.awt.*;
  * Container of useful stuff used across the app. Implements the Facade design pattern.
  */
 public class Data {
-    public static final String STEERING_WHEEL_IMAGE_PATH =
-            "/res/images/steering_wheel.png";
     // urls
     private static final String REPOSITORY_URL = "https://github.com/raceup";
     private static final String ISSUES_URL = REPOSITORY_URL + "/yolo";
@@ -21,6 +19,10 @@ public class Data {
     private static final String INTRO_PATH = "/res/strings/help/intro.html";
     // images
     private static final String APP_IMAGE_PATH = "/res/images/logo.png";
+    public static final String STEERING_WHEEL_IMAGE_PATH =
+            "/res/images/steering_wheel.png";
+    public static final String CAR_IMAGE_PATH =
+            "/res/images/car.png";
     // messages
     private static final String ERROR_FETCHING_ABOUT = "Sorry, we had trouble fetching the about section\n" +
             "\n" +
@@ -82,6 +84,10 @@ public class Data {
 
     public final Image getSteeringWheelImage() {
         return getImage(STEERING_WHEEL_IMAGE_PATH);
+    }
+
+    public final Image getCarImage() {
+        return getImage(CAR_IMAGE_PATH);
     }
 
     public final Icon getRedIcon() {

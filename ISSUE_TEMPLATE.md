@@ -12,6 +12,6 @@
 
 ## Specifications
 
-  - IronWorks version (check console in dev tools):
+  - YOLO version (check terminal of `About` section):
   - Platform:
   - Java version (check `java -version`):

@@ -33,7 +33,7 @@ public class MainFrame extends JFrame {
     private void open() {
         try {
             pack();
-            setSize(600, 500);
+            setSize(900, 500);
             setLocation(0, 0);  // top left corner
             setResizable(false);
             setNativeLookAndFeelOrFail();
