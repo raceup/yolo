@@ -28,8 +28,8 @@ public class DynamicsFrame extends JFrame implements Observer {
     public void open() {
         try {
             pack();
-            setSize(600, 700);
-            setLocation(925, 350);  // under battery
+            setSize(700, 700);
+            setLocation(725, 350);  // under battery
             setResizable(false);
             setNativeLookAndFeelOrFail();
 

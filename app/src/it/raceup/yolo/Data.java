@@ -23,6 +23,8 @@ public class Data {
             "/res/images/steering_wheel.png";
     public static final String CAR_IMAGE_PATH =
             "/res/images/car.png";
+    public static final String TYRES_IMAGE_PATH =
+            "/res/images/tyres.png";
     // messages
     private static final String ERROR_FETCHING_ABOUT = "Sorry, we had trouble fetching the about section\n" +
             "\n" +
@@ -88,6 +90,10 @@ public class Data {
 
     public final Image getCarImage() {
         return getImage(CAR_IMAGE_PATH);
+    }
+
+    public final Image getTyresImage() {
+        return getImage(TYRES_IMAGE_PATH);
     }
 
     public final Icon getRedIcon() {
