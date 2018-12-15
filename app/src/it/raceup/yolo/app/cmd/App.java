@@ -58,19 +58,25 @@ public class App extends KvaserApp {
     protected void setupUpdaters() {
         boolean log = Boolean.parseBoolean(options.get(3));
 
-        if (options.get(2).equals("can")) {
-            hal.addObserverToKvaser(new ShellCanUpdater(true, log));
-        } else if (options.get(2).equals("car")) {
-            hal.addObserverToMotors(new ShellMotorsUpdater(true, log));
-        } else if (options.get(2).equals("bms")) {
-            hal.addObserverToMotors(new ShellBatteryUpdater(true, log));
-        } else if (options.get(2).equals("imu")) {
-            hal.addObserverToMotors(new ShellImuUpdater(true, log));
-        } else if (options.get(2).equals("all")) {
-            hal.addObserverToKvaser(new ShellCanUpdater(true, log));
-            hal.addObserverToMotors(new ShellMotorsUpdater(true, log));
-            hal.addObserverToMotors(new ShellBatteryUpdater(true, log));
-            hal.addObserverToMotors(new ShellImuUpdater(true, log));
+        switch (options.get(2)) {
+            case "can":
+                hal.addObserverToKvaser(new ShellCanUpdater(true, log));
+                break;
+            case "car":
+                hal.addObserverToMotors(new ShellMotorsUpdater(true, log));
+                break;
+            case "bms":
+                hal.addObserverToMotors(new ShellBatteryUpdater(true, log));
+                break;
+            case "imu":
+                hal.addObserverToMotors(new ShellImuUpdater(true, log));
+                break;
+            case "all":
+                hal.addObserverToKvaser(new ShellCanUpdater(true, log));
+                hal.addObserverToMotors(new ShellMotorsUpdater(true, log));
+                hal.addObserverToMotors(new ShellBatteryUpdater(true, log));
+                hal.addObserverToMotors(new ShellImuUpdater(true, log));
+                break;
         }
     }
 
