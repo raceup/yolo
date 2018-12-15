@@ -63,28 +63,16 @@ public class Parser {
             values.add((int)clock_status);
             return values;
         }
-        else if(DLC == ACCELERATION){
+        else if(DLC == ACCELERATION | DLC == GYRO | DLC == ROLL_PITCH_YAW) {
             short acceleration_z = hToNShort(datasBigEndian, FIRST_BYTE);
-            acceleration_z = (short)((~acceleration_z+one));
+            acceleration_z = (short) ((~acceleration_z + one));
             short acceleration_y = hToNShort(datasBigEndian, THIRD_BYTE);
-            acceleration_y = (short)((~acceleration_y+one));
+            acceleration_y = (short) ((~acceleration_y + one));
             short acceleration_x = hToNShort(datasBigEndian, FIFTH_BYTE);
-            acceleration_x = (short)((~acceleration_x+one));
-            values.add((int)acceleration_x);
-            values.add((int)acceleration_y);
-            values.add((int)acceleration_z);
-            return values;
-        }
-        else if(DLC == GYRO){
-            short gyro_z = hToNShort(datasBigEndian, FIRST_BYTE);
-            gyro_z = (short)((~gyro_z+one));
-            short gyro_y = hToNShort(datasBigEndian, THIRD_BYTE);
-            gyro_y = (short)((~gyro_y+one));
-            short gyro_x = hToNShort(datasBigEndian, FIFTH_BYTE);
-            gyro_x = (short)((~gyro_x+one));
-            values.add((int)gyro_x);
-            values.add((int)gyro_y);
-            values.add((int)gyro_z);
+            acceleration_x = (short) ((~acceleration_x + one));
+            values.add((int) acceleration_x);
+            values.add((int) acceleration_y);
+            values.add((int) acceleration_z);
             return values;
         }
         else if(DLC == QUATERNION){
@@ -100,18 +88,6 @@ public class Parser {
             values.add((int)q1);
             values.add((int)q2);
             values.add((int)q3);
-            return values;
-        }
-        else if(DLC == ROLL_PITCH_YAW){
-            short yaw = hToNShort(datasBigEndian, FIRST_BYTE);
-            yaw = (short)((~yaw+one));
-            short pitch = hToNShort(datasBigEndian, THIRD_BYTE);
-            pitch = (short)((~pitch+one));
-            short roll = hToNShort(datasBigEndian, FIFTH_BYTE);
-            roll = (short)((~roll+one));
-            values.add((int)roll);
-            values.add((int)pitch);
-            values.add((int)yaw);
             return values;
         }
         else if(DLC == VELOCITY){
