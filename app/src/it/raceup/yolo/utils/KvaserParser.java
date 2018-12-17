@@ -1,5 +1,7 @@
 package it.raceup.yolo.utils;
 
+import it.raceup.yolo.error.ExceptionType;
+import it.raceup.yolo.error.YoloException;
 import java.util.ArrayList;
 
 public class KvaserParser {
@@ -30,7 +32,7 @@ public class KvaserParser {
      * datas byte[] data to convert
      */
     public static ArrayList<Integer> DataInterpreter(int DLC, byte[] datas) {
-        //some costants of the value of DLC
+        //some constants of the value of DLC
         int LOG_STATUS = 256;
         int ACCELERATION = 289;
         int GYRO = 290;
@@ -38,7 +40,7 @@ public class KvaserParser {
         int ROLL_PITCH_YAW = 306;
         int VELOCITY = 353;
         int GPS_LATITUDE_LONGITUDE = 373;
-        //constants to select correct byte usefull just to prevent hardcoding
+        //constants to select correct byte useful just to prevent hardcoding
         short FIRST_BYTE = 0;
         short THIRD_BYTE = 2;
         short FIFTH_BYTE = 4;
@@ -51,60 +53,64 @@ public class KvaserParser {
         for (int i = 0; i < len; i++) {
             datasBigEndian[i] = datas[len - i - 1];
         }
-
-        if (DLC == LOG_STATUS) {
-            short clock_status = hToNShort(datasBigEndian, FIRST_BYTE);
-            clock_status = (short) ((~clock_status + one));
-            short general_status = hToNShort(datasBigEndian, THIRD_BYTE);
-            general_status = (short) ((~general_status + one));
-            int time_stamp = hToNInt(datasBigEndian, FIFTH_BYTE);
-            time_stamp = (~time_stamp + one);
-            values.add(time_stamp);
-            values.add((int) general_status);
-            values.add((int) clock_status);
-            return values;
-        }
-        //used names are for values of 289 packet but it's the same for 290 and 306
-        else if (DLC == ACCELERATION | DLC == GYRO | DLC == ROLL_PITCH_YAW) {
-            short acceleration_z = hToNShort(datasBigEndian, FIRST_BYTE);
-            acceleration_z = (short) ((~acceleration_z + one));
-            short acceleration_y = hToNShort(datasBigEndian, THIRD_BYTE);
-            acceleration_y = (short) ((~acceleration_y + one));
-            short acceleration_x = hToNShort(datasBigEndian, FIFTH_BYTE);
-            acceleration_x = (short) ((~acceleration_x + one));
-            values.add((int) acceleration_x);
-            values.add((int) acceleration_y);
-            values.add((int) acceleration_z);
-            return values;
-        } else if (DLC == QUATERNION) {
-            short q3 = hToNShort(datasBigEndian, FIRST_BYTE);
-            q3 = (short) ((~q3 + one));
-            short q2 = hToNShort(datasBigEndian, THIRD_BYTE);
-            q2 = (short) ((~q2 + one));
-            short q1 = hToNShort(datasBigEndian, FIFTH_BYTE);
-            q1 = (short) ((~q1 + one));
-            short q0 = hToNShort(datasBigEndian, SEVENTH_BYTE);
-            q0 = (short) ((~q0 + one));
-            values.add((int) q0);
-            values.add((int) q1);
-            values.add((int) q2);
-            values.add((int) q3);
-            return values;
-        } else if (DLC == VELOCITY) {
-            int roll = hToNInt(datasBigEndian, FIRST_BYTE);
-            roll = ((~roll + one));
-            values.add(roll);
-            return values;
-        } else if (DLC == GPS_LATITUDE_LONGITUDE) {
-            int longitude = hToNInt(datasBigEndian, FIRST_BYTE);
-            longitude = ((~longitude + one));
-            int latitude = hToNInt(datasBigEndian, FIFTH_BYTE);
-            latitude = ((~latitude + one));
-            values.add(latitude);
-            values.add(longitude);
-            return values;
-        } else {
-            System.err.println("404: DLC not found ->" + DLC);
+        try {
+            if (DLC == LOG_STATUS) {
+                short clock_status = hToNShort(datasBigEndian, FIRST_BYTE);
+                clock_status = (short) ((~clock_status + one));
+                short general_status = hToNShort(datasBigEndian, THIRD_BYTE);
+                general_status = (short) ((~general_status + one));
+                int time_stamp = hToNInt(datasBigEndian, FIFTH_BYTE);
+                time_stamp = (~time_stamp + one);
+                values.add(time_stamp);
+                values.add((int) general_status);
+                values.add((int) clock_status);
+                return values;
+            }
+            //used names are for values of 289 packet but it's the same for 290 and 306
+            else if (DLC == ACCELERATION | DLC == GYRO | DLC == ROLL_PITCH_YAW) {
+                short acceleration_z = hToNShort(datasBigEndian, FIRST_BYTE);
+                acceleration_z = (short) ((~acceleration_z + one));
+                short acceleration_y = hToNShort(datasBigEndian, THIRD_BYTE);
+                acceleration_y = (short) ((~acceleration_y + one));
+                short acceleration_x = hToNShort(datasBigEndian, FIFTH_BYTE);
+                acceleration_x = (short) ((~acceleration_x + one));
+                values.add((int) acceleration_x);
+                values.add((int) acceleration_y);
+                values.add((int) acceleration_z);
+                return values;
+            } else if (DLC == QUATERNION) {
+                short q3 = hToNShort(datasBigEndian, FIRST_BYTE);
+                q3 = (short) ((~q3 + one));
+                short q2 = hToNShort(datasBigEndian, THIRD_BYTE);
+                q2 = (short) ((~q2 + one));
+                short q1 = hToNShort(datasBigEndian, FIFTH_BYTE);
+                q1 = (short) ((~q1 + one));
+                short q0 = hToNShort(datasBigEndian, SEVENTH_BYTE);
+                q0 = (short) ((~q0 + one));
+                values.add((int) q0);
+                values.add((int) q1);
+                values.add((int) q2);
+                values.add((int) q3);
+                return values;
+            } else if (DLC == VELOCITY) {
+                int roll = hToNInt(datasBigEndian, FIRST_BYTE);
+                roll = ((~roll + one));
+                values.add(roll);
+                return values;
+            } else if (DLC == GPS_LATITUDE_LONGITUDE) {
+                int longitude = hToNInt(datasBigEndian, FIRST_BYTE);
+                longitude = ((~longitude + one));
+                int latitude = hToNInt(datasBigEndian, FIFTH_BYTE);
+                latitude = ((~latitude + one));
+                values.add(latitude);
+                values.add(longitude);
+                return values;
+            } else {
+                System.err.println("404: DLC not found ->" + DLC);
+            }
+        } catch (Exception e) {
+            new YoloException("wrong input for parser", e, ExceptionType
+                    .KVASER).print();
         }
         return values;
     }
