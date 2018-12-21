@@ -28,11 +28,11 @@ public class KvaserParser {
 
     /**
      * return       ArrayList that contain value of the packet ordered as the paper on Ellipse writes
-     * DLC int      identifier of the packet
+     * ID int      identifier of the packet
      * datas byte[] data to convert
      */
-    public static ArrayList<Integer> DataInterpreter(int DLC, byte[] datas) {
-        //some constants of the value of DLC
+    public static ArrayList<Integer> DataInterpreter(int ID, byte[] datas) {
+        //some constants of the value of ID
         int LOG_STATUS = 256;
         int ACCELERATION = 289;
         int GYRO = 290;
@@ -54,7 +54,7 @@ public class KvaserParser {
             datasBigEndian[i] = datas[len - i - 1];
         }
         try {
-            if (DLC == LOG_STATUS) {
+            if (ID == LOG_STATUS) {
                 short clock_status = hToNShort(datasBigEndian, FIRST_BYTE);
                 clock_status = (short) ((~clock_status + one));
                 short general_status = hToNShort(datasBigEndian, THIRD_BYTE);
@@ -67,7 +67,7 @@ public class KvaserParser {
                 return values;
             }
             //used names are for values of 289 packet but it's the same for 290 and 306
-            else if (DLC == ACCELERATION | DLC == GYRO | DLC == ROLL_PITCH_YAW) {
+            else if (ID == ACCELERATION | ID == GYRO | ID == ROLL_PITCH_YAW) {
                 short acceleration_z = hToNShort(datasBigEndian, FIRST_BYTE);
                 acceleration_z = (short) ((~acceleration_z + one));
                 short acceleration_y = hToNShort(datasBigEndian, THIRD_BYTE);
@@ -78,7 +78,7 @@ public class KvaserParser {
                 values.add((int) acceleration_y);
                 values.add((int) acceleration_z);
                 return values;
-            } else if (DLC == QUATERNION) {
+            } else if (ID == QUATERNION) {
                 short q3 = hToNShort(datasBigEndian, FIRST_BYTE);
                 q3 = (short) ((~q3 + one));
                 short q2 = hToNShort(datasBigEndian, THIRD_BYTE);
@@ -92,12 +92,12 @@ public class KvaserParser {
                 values.add((int) q2);
                 values.add((int) q3);
                 return values;
-            } else if (DLC == VELOCITY) {
+            } else if (ID == VELOCITY) {
                 int roll = hToNInt(datasBigEndian, FIRST_BYTE);
                 roll = ((~roll + one));
                 values.add(roll);
                 return values;
-            } else if (DLC == GPS_LATITUDE_LONGITUDE) {
+            } else if (ID == GPS_LATITUDE_LONGITUDE) {
                 int longitude = hToNInt(datasBigEndian, FIRST_BYTE);
                 longitude = ((~longitude + one));
                 int latitude = hToNInt(datasBigEndian, FIFTH_BYTE);
@@ -106,7 +106,7 @@ public class KvaserParser {
                 values.add(longitude);
                 return values;
             } else {
-                System.err.println("404: DLC not found ->" + DLC);
+                System.err.println("404: ID not found ->" + ID);
             }
         } catch (Exception e) {
             new YoloException("wrong input for parser", e, ExceptionType
