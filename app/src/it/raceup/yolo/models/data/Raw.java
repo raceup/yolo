@@ -32,6 +32,16 @@ public class Raw {
             Type.TORQUE_CURRENT,
             Type.MAGNETIZING_CURRENT
     };
+    public static final Type[] IMU = new Type[]{
+            Type.LOG_STATUS,
+            Type.ACCELERATION,
+            Type.GYRO,
+            Type.QUATERNION,
+            Type.ROLL_PITCH_YAW,
+            Type.VELOCITY,
+            Type.GPS_LATITUDE_LONGITUDE
+    };
+
     public static final Type[] ALL;
 
     static {
@@ -51,6 +61,12 @@ public class Raw {
         this.raw = raw;
         this.motor = motor;
     }
+
+    public Raw(double raw, Type type){
+        this.type = type;
+        this.raw = raw;
+    }
+
 
     public static boolean isTemperature(Type type) {
         return Arrays.asList(TEMPERATURES).contains(type);

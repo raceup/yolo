@@ -22,7 +22,14 @@ public enum Type {
     SP_ERROR_RESET,
     TARGET_VELOCITY,
     POS_TORQUE_LIMIT,
-    NEG_TORQUE_LIMIT;
+    NEG_TORQUE_LIMIT,
+    LOG_STATUS,
+    ACCELERATION,
+    GYRO,
+    QUATERNION,
+    ROLL_PITCH_YAW,
+    VELOCITY,
+    GPS_LATITUDE_LONGITUDE;
 
     @Override
     public String toString() {
@@ -70,6 +77,20 @@ public enum Type {
             return "Pos Torque Limit";
         } else if (this == NEG_TORQUE_LIMIT) {
             return "Neg Torque Limit";
+        } else if (this == LOG_STATUS) {
+            return "Log Status";
+        } else if (this == ACCELERATION) {
+            return "Acceleration";
+        } else if (this == GYRO) {
+            return "Gyroscope";
+        } else if (this == QUATERNION) {
+            return "Quaternion";
+        } else if (this == ROLL_PITCH_YAW) {
+            return "Roll Pitch Yaw";
+        } else if (this == VELOCITY) {
+            return "Velocity";
+        } else if (this == GPS_LATITUDE_LONGITUDE) {
+            return "GPS coordinates";
         }
 
         return "DNF";

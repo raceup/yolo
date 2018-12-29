@@ -43,7 +43,7 @@ public class App extends KvaserApp {
 
         hal = new Hal(
                 new Motors(),
-                new BlackBird(ip)
+                new FakeBlackBird(ip)
         );
 
         try {
