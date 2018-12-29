@@ -33,13 +33,13 @@ public class KvaserParser {
      */
     public static ArrayList<Integer> DataInterpreter(int ID, byte[] datas) {
         //some constants of the value of ID
-        int LOG_STATUS = 256;
-        int ACCELERATION = 289;
-        int GYRO = 290;
-        int QUATERNION = 305;
-        int ROLL_PITCH_YAW = 306;
-        int VELOCITY = 353;
-        int GPS_LATITUDE_LONGITUDE = 373;
+        int LOG_STATUS = 768;
+        int ACCELERATION = 801;
+        int GYRO = 802;
+        int QUATERNION = 817;
+        int ROLL_PITCH_YAW = 818;
+        int VELOCITY = 865;
+        int GPS_LATITUDE_LONGITUDE = 885;
         //constants to select correct byte useful just to prevent hardcoding
         short FIRST_BYTE = 0;
         short THIRD_BYTE = 2;
