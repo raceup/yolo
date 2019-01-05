@@ -48,6 +48,9 @@ public class YawPanel extends JPanel implements Observer {
 
 
     private void update (double roll, double pitch, double yaw){
+        System.out.println("roll:" + roll);
+        System.out.println("pitch:" + pitch);
+        System.out.println("yaw:" + yaw);
         this.roll = roll;
         chartPanel.updateSeriesOrFail(ROLL_CODE, roll);
         this.yaw = yaw;
@@ -56,10 +59,9 @@ public class YawPanel extends JPanel implements Observer {
         chartPanel.updateSeriesOrFail(PITCH_CODE, pitch);
     }
 
-    private void update(Imu imu){
+    public void update(Imu imu){
         //get raw data from Imu and pass to updater
-        double imuData[] = imu.getImuData();
-        update(imuData[0], imuData[1], imuData[2]);
+        update(imu.getImuData()[0], imu.getImuData()[1], imu.getImuData()[2]);
     }
 
     @Override

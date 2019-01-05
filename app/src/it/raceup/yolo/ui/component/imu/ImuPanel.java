@@ -1,5 +1,7 @@
 package it.raceup.yolo.ui.component.imu;
 
+import it.raceup.yolo.models.car.Imu;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -19,6 +21,12 @@ public class ImuPanel extends JPanel {
         add(accelerationsPanel);
         add(Box.createRigidArea(new Dimension(10, 0)));
         add(yawPanel);
+    }
+    public void updateAccelerationPanel(Imu imu){
+        accelerationsPanel.update(imu);
+    }
+    public void updateYawPanel(Imu imu){
+        yawPanel.update(imu);
     }
 
 }

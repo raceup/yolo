@@ -2,6 +2,8 @@ package it.raceup.yolo.ui.window;
 
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
+import it.raceup.yolo.models.car.Imu;
+import it.raceup.yolo.models.data.Type;
 import it.raceup.yolo.models.kvaser.message.FromKvaserMessage;
 import it.raceup.yolo.ui.component.driver.DriverPanel;
 import it.raceup.yolo.ui.component.imu.ImuPanel;
@@ -68,12 +70,22 @@ public class DynamicsFrame extends JFrame implements Observer {
         return panel;
     }
 
+    private void update(it.raceup.yolo.models.car.Imu imu) {
+
+            if(imu.getImuType() == it.raceup.yolo.models.data.Type.ACCELERATION){
+                imuPanel.updateAccelerationPanel(imu);
+            }
+            else if(imu.getImuType() == it.raceup.yolo.models.data.Type.ROLL_PITCH_YAW){
+                imuPanel.updateYawPanel(imu);
+            }
+    }
+
     @Override
     public void update(Observable observable, Object o) {
         try {
-            FromKvaserMessage message = new FromKvaserMessage(o);
-            // todo update panels
+            update((Imu) o);
         } catch (Exception e) {
+            e.printStackTrace();
             new YoloException("cannot updateWith CAR", e, ExceptionType.KVASER)
                     .print();
         }

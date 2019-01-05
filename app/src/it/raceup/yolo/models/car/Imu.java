@@ -13,8 +13,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class Imu extends Observable implements Observer {
-    private final Type type;
-    private final double[] data;
+    private Type type;
+    private double[] data;
 
     public Imu(Type type, double[] data) {
         checkImuType(type);
@@ -25,10 +25,10 @@ public class Imu extends Observable implements Observer {
     //default constructor
     public Imu() {
         type = null;
-        data = null;
+        data = new double[4];
     }
 
-    public void checkImuType(Type type) {
+    public boolean checkImuType(Type type) {
         try {
             if (type == Type.LOG_STATUS || type ==
                     Type.ACCELERATION || type ==
@@ -37,15 +37,16 @@ public class Imu extends Observable implements Observer {
                     Type.ROLL_PITCH_YAW || type ==
                     Type.VELOCITY || type ==
                     Type.GPS_LATITUDE_LONGITUDE)
-                return;
+                return true;
             else {
-                throw new Exception();
+                return false;
 
             }
         } catch (Exception e) {
             new YoloException("Wrong Imu type", e, ExceptionType.IMU)
                     .print();
         }
+        return false;
     }
 
     private void checkImuType(Raw[] data) {
@@ -70,9 +71,19 @@ public class Imu extends Observable implements Observer {
         return data;
     }
 
+    private void allToZero() {
+        for (int i = 0; i < data.length; i++) {
+            data[i] = 0;
+        }
+    }
+
     private void setImuData(Raw[] raw) {
-        for (int i = 0; i < raw.length; i++) {
-            data[i] = raw[i].getRaw();
+        allToZero();
+        if (checkImuType(raw[0].getType())) {
+            type = raw[0].getType();
+            for (int i = 0; i < raw.length; i++) {
+                data[i] = raw[i].getRaw();
+            }
         }
     }
 
@@ -84,7 +95,9 @@ public class Imu extends Observable implements Observer {
     private void update(ArrayList<CanMessage> data) {
         for (CanMessage message : data) {
             Raw[] packets = new Parser(message).getParsedData();
-            update(packets);
+            if (packets.length > 0) {
+                update(packets);
+            }
         }
     }
 
@@ -94,20 +107,21 @@ public class Imu extends Observable implements Observer {
             FromKvaserMessage message = new FromKvaserMessage(o);
             ArrayList<CanMessage> messages = message.getAsCanMessages();
             if (messages != null) {
-                System.out.println("dentro al update");
                 update(messages);
-                System.out.println("dentro al update 2");
                 triggerObservers();
             }
         } catch (Exception e) {
-            new YoloException("cannot update Imu car", e, ExceptionType.IMU)
-                    .print();
+            e.printStackTrace();
+            new YoloException("cannot update Imu car", e, ExceptionType.IMU).print();
         }
 
     }
 
     private void triggerObservers() {
         setChanged();
-        notifyObservers(data);
+        if((type == Type.ACCELERATION) || (type == Type.ROLL_PITCH_YAW) || (type == Type.VELOCITY)) {
+            notifyObservers(new Imu(type, data));
+        }
     }
+
 }

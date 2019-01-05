@@ -76,11 +76,10 @@ public class App extends KvaserApp {
         //boolean logIMU = Boolean.parseBoolean(settings[5]);
         //test code
         boolean logIMU = true;
-        double[] x = {0,0,0};
         hal = new Hal(
                 new Motors(),
                 new FakeBlackBird(ip),
-                new Imu(Type.ACCELERATION, x)
+                new Imu()
         );
 
         try {

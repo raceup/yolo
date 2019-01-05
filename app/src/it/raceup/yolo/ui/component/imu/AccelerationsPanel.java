@@ -91,10 +91,8 @@ public class AccelerationsPanel extends JPanel implements Observer {
         plane.setValue(y, 1);
     }
 
-    private void update(Imu imu){
-
-        double imuData[] = imu.getImuData();
-        setXYValue(imuData[0], imuData[1]);
+    public void update(Imu imu){
+        setXYValue(imu.getImuData()[0], imu.getImuData()[1]);
     }
 
     private void update(Imu[] imu){
