@@ -258,7 +258,6 @@ public class Parser {
                 parsedData.add(new Raw(((-1) * ((~hToNShort(datasBigEndian, FIFTH_BYTE) + one))), Type.GPS_LATITUDE_LONGITUDE));
                 parsedData.add(new Raw(((-1) * ((~hToNShort(datasBigEndian, FIRST_BYTE) + one))), Type.GPS_LATITUDE_LONGITUDE));
             } else {
-                System.err.println("404: ID not found ->" + id);
             }
         } catch (Exception e) {
             new YoloException("wrong input for parser", e, ExceptionType

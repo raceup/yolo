@@ -2,9 +2,13 @@ package it.raceup.yolo.models.car;
 
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
+import it.raceup.yolo.models.data.CanMessage;
+import it.raceup.yolo.models.data.Parser;
 import it.raceup.yolo.models.data.Raw;
 import it.raceup.yolo.models.data.Type;
+import it.raceup.yolo.models.kvaser.message.FromKvaserMessage;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -42,6 +46,15 @@ public class Imu extends Observable implements Observer {
         }
     }
 
+    private void checkImuType(Raw[] data){
+        for(int i=0; i< data.length;i++) {
+            if (type != data[i].getType()) {
+                throw new RuntimeException();
+                //TODO change exception
+            }
+        }
+    }
+
     public Type getImuType() {
         return type;
     }
@@ -56,24 +69,25 @@ public class Imu extends Observable implements Observer {
         }
     }
 
-    public void update(Raw[] raw) {
-        try {
-            for (int i = 0; i < raw.length; i++) {
-                if (raw[i].getType() != type) {
-                    throw new Exception();
-                }
-            }
-        }catch(Exception e){new YoloException("Trying to update Imu values of " + raw[0].getType() + " but Imu type: " + type + " was found", e, ExceptionType.IMU)
-                .print();
-        }
+    private void update(Raw[] raw) {
+        checkImuType(raw);
         setImuData(raw);
     }
 
+    private void update(ArrayList<CanMessage> data){
+        for (CanMessage message : data) {
+            Raw[] packets = new Parser(message).getParsedData();
+            update(packets);
+        }
+    }
+
     @Override
-    public void update(Observable o, Object arg) {
+    public void update(Observable observable, Object o) {
         try {
-            if (arg != null) {
-                update((Raw[]) arg);
+            FromKvaserMessage message = new FromKvaserMessage(o);
+            ArrayList<CanMessage> messages = message.getAsCanMessages();
+            if (messages != null) {
+                update(messages);
                 triggerObservers();
             }
         } catch (Exception e) {
