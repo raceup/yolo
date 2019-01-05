@@ -17,7 +17,8 @@ public class FakeBlackBird extends Kvaser {
     private static final int PORT = 8080;
     private static final String[] IDS = new String[]{"17", "18", "19", "20",
             "21", "22", "23", "24", "25", "33", "388", "389", "392", "393",
-            "643", "644", "645", "646", "647", "648", "649", "656"};
+            "643", "644", "645", "646", "647", "648", "649", "656", "768",
+            "801", "802", "817", "818", "865", "885"};
 
     public FakeBlackBird(String ip) {
         this(HTTP_SCHEME, ip, PORT);
