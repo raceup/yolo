@@ -1,14 +1,28 @@
 package it.raceup.yolo.ui.component.imu;
 
+import it.raceup.yolo.error.ExceptionType;
+import it.raceup.yolo.error.YoloException;
+import it.raceup.yolo.models.car.Imu;
+import it.raceup.yolo.ui.utils.ChartPanel;
 import javax.swing.*;
+import java.awt.*;
+import java.util.Observable;
+import java.util.Observer;
 
 import static it.raceup.yolo.models.data.Base.DEGREES;
 import static it.raceup.yolo.models.data.Base.getAsString;
 
-public class YawPanel extends JPanel {
+public class YawPanel extends JPanel implements Observer {
     // todo add polar plane
     private final JLabel valueLabel = new JLabel(DEGREES);  // setup label
-
+    private final int ROLL_CODE = 0;
+    private final int PITCH_CODE = 1;
+    private final int YAW_CODE = 2;
+    private double roll;
+    private double pitch;
+    private double yaw;
+    final String[] listOfSeries = {"Roll", "Pitch", "Yaw"};
+    private ChartPanel chartPanel;
     public YawPanel() {
         super();
 
@@ -25,24 +39,38 @@ public class YawPanel extends JPanel {
     }
 
     private void setupLayout() {
-        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));  // vertically
-
-        JLabel label = new JLabel("Yaw rate");
-        label.setAlignmentX(CENTER_ALIGNMENT);
-
-        add(label);
-        add(valueLabel);
+        chartPanel = new ChartPanel(listOfSeries);
+        add(chartPanel);
+        //setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));  // vertically
 
         // todo setPreferredSize(new Dimension(200, 80));
     }
 
-    /**
-     * Sets new value of yaw rate
-     *
-     * @param value yaw rate
-     */
-    public void setValue(double value) {
-        valueLabel.setText(getAsString(value));
+
+    private void update (double roll, double pitch, double yaw){
+        this.roll = roll;
+        chartPanel.updateSeriesOrFail(ROLL_CODE, roll);
+        this.yaw = yaw;
+        chartPanel.updateSeriesOrFail(YAW_CODE, yaw);
+        this.pitch = pitch;
+        chartPanel.updateSeriesOrFail(PITCH_CODE, pitch);
     }
 
+    private void update(Imu imu){
+        //get raw data from Imu and pass to updater
+        double imuData[] = imu.getImuData();
+        update(imuData[0], imuData[1], imuData[2]);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        try {
+            update((Imu) arg);
+        }
+        catch (Exception e) {
+            new YoloException("cannot update imu acceleration", e, ExceptionType.VIEW)
+                    .print();
+        }
+
+    }
 }

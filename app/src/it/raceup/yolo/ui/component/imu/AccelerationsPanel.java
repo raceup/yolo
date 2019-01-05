@@ -1,13 +1,18 @@
 package it.raceup.yolo.ui.component.imu;
 
+import it.raceup.yolo.error.ExceptionType;
+import it.raceup.yolo.error.YoloException;
+import it.raceup.yolo.models.car.Imu;
 import it.raceup.yolo.ui.component.PolarPlane2D;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Observable;
+import java.util.Observer;
 
 import static it.raceup.yolo.models.data.Base.getAsString;
 
-public class AccelerationsPanel extends JPanel {
+public class AccelerationsPanel extends JPanel implements Observer {
     private static final String X_LABEL = "X: ";
     private static final String Y_LABEL = "Y: ";
     private static final String TOT_LABEL = "Magnitude: ";
@@ -36,6 +41,7 @@ public class AccelerationsPanel extends JPanel {
         plane.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         setupLayout();
+
     }
 
     private void setupLayout() {
@@ -83,5 +89,22 @@ public class AccelerationsPanel extends JPanel {
     public void setXYValue(double x, double y) {
         plane.setValue(x, 0);
         plane.setValue(y, 1);
+    }
+
+    private void update(Imu imu){
+
+        double imuData[] = imu.getImuData();
+        setXYValue(imuData[0], imuData[1]);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        try {
+            update((Imu) arg);
+        }
+        catch (Exception e) {
+            new YoloException("cannot update imu acceleration", e, ExceptionType.VIEW)
+                    .print();
+        }
     }
 }

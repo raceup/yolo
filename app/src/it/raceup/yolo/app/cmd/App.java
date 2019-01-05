@@ -6,6 +6,7 @@ import it.raceup.yolo.app.updater.ShellCanUpdater;
 import it.raceup.yolo.app.updater.ShellImuUpdater;
 import it.raceup.yolo.app.updater.ShellMotorsUpdater;
 import it.raceup.yolo.control.Hal;
+import it.raceup.yolo.models.car.Imu;
 import it.raceup.yolo.models.car.Motors;
 import it.raceup.yolo.models.kvaser.BlackBird;
 import it.raceup.yolo.models.kvaser.FakeBlackBird;
@@ -43,7 +44,8 @@ public class App extends KvaserApp {
 
         hal = new Hal(
                 new Motors(),
-                new FakeBlackBird(ip)
+                new FakeBlackBird(ip),
+                new Imu()
         );
 
         try {
@@ -69,7 +71,7 @@ public class App extends KvaserApp {
                 hal.addObserverToMotors(new ShellBatteryUpdater(true, log));
                 break;
             case "imu":
-                hal.addObserverToMotors(new ShellImuUpdater(true, log));
+                hal.addObserverToImu(new ShellImuUpdater(true, log));
                 break;
             case "all":
                 hal.addObserverToKvaser(new ShellCanUpdater(true, log));

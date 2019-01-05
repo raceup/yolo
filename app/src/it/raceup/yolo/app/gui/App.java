@@ -8,10 +8,14 @@ import it.raceup.yolo.app.updater.ShellMotorsUpdater;
 import it.raceup.yolo.control.Hal;
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
+import it.raceup.yolo.models.car.Imu;
 import it.raceup.yolo.models.car.Motors;
+import it.raceup.yolo.models.data.Type;
 import it.raceup.yolo.models.kvaser.BlackBird;
 import it.raceup.yolo.models.kvaser.FakeBlackBird;
 import it.raceup.yolo.ui.window.MainFrame;
+
+import javax.swing.*;
 
 import static it.raceup.yolo.ui.dialog.ExceptionPanel.showMessage;
 import static it.raceup.yolo.ui.dialog.SettingsPanel.getSettings;
@@ -34,6 +38,14 @@ public class App extends KvaserApp {
 
     public static void main(String[] args) {
         try {
+
+            //start test code
+            try {
+                UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            //end test code
             App app = new App();
             app.open();
         } catch (Exception e) {
@@ -62,10 +74,11 @@ public class App extends KvaserApp {
         boolean logCan = Boolean.parseBoolean(settings[3]);
         boolean logBattery = Boolean.parseBoolean(settings[4]);
         boolean logIMU = Boolean.parseBoolean(settings[5]);
-
+        double[] x = {0,0,0};
         hal = new Hal(
                 new Motors(),
-                new FakeBlackBird(ip)
+                new FakeBlackBird(ip),
+                new Imu(Type.ACCELERATION, x)
         );
 
         try {

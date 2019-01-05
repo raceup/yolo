@@ -4,6 +4,7 @@ import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.logging.loggers.ShellLogger;
 import it.raceup.yolo.models.car.Motors;
+import it.raceup.yolo.models.car.Imu;
 import it.raceup.yolo.models.data.CanMessage;
 import it.raceup.yolo.models.data.Type;
 import it.raceup.yolo.models.kvaser.Kvaser;
@@ -19,12 +20,14 @@ import java.util.Observer;
 public class Hal extends ShellLogger {
     private final Motors motors;
     private final Kvaser kvaser;
+    private final Imu imu;
 
-    public Hal(Motors motors, Kvaser kvaser) {
+    public Hal(Motors motors, Kvaser kvaser, Imu imu) {
         super("HAL");
 
         this.motors = motors;
         this.kvaser = kvaser;
+        this.imu = imu;
         addObserverToKvaser(motors);
     }
 
@@ -35,6 +38,8 @@ public class Hal extends ShellLogger {
     public void addObserverToMotors(Observer observer) {
         motors.addObserver(observer);
     }
+
+    public void addObserverToImu(Observer observer) {imu.addObserver(observer);}
 
     public void setup(String canBitrate) throws YoloException {
         if (!kvaser.setup(canBitrate)) {

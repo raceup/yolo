@@ -8,7 +8,8 @@ public enum ExceptionType {
     MODEL("Model"),
     VIEW("View"),
     CONTROLLER("Controller"),
-    LOGGING("Logging");
+    LOGGING("Logging"),
+    IMU("IMu");
 
     private final String name;
 
