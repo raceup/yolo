@@ -73,7 +73,9 @@ public class App extends KvaserApp {
         boolean logMotors = Boolean.parseBoolean(settings[2]);
         boolean logCan = Boolean.parseBoolean(settings[3]);
         boolean logBattery = Boolean.parseBoolean(settings[4]);
-        boolean logIMU = Boolean.parseBoolean(settings[5]);
+        //boolean logIMU = Boolean.parseBoolean(settings[5]);
+        //test code
+        boolean logIMU = true;
         double[] x = {0,0,0};
         hal = new Hal(
                 new Motors(),
@@ -94,6 +96,10 @@ public class App extends KvaserApp {
     @Override
     protected void setupUpdaters() {
         hal.addObserverToMotors(view.getMotorPanels());
+
+        //testcode
+        hal.addObserverToImu(view.getDynamicsFrame());
+
         // todo hal.addObserverToKvaser(view.getCanMessagesFrame());
         // todo hal.addObserverToKvaser(view.getBatteryFrame());
         // todo hal.addObserverToKvaser(view.getDynamicsFrame());

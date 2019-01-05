@@ -78,6 +78,8 @@ public class App extends KvaserApp {
                 hal.addObserverToMotors(new ShellMotorsUpdater(true, log));
                 hal.addObserverToMotors(new ShellBatteryUpdater(true, log));
                 hal.addObserverToMotors(new ShellImuUpdater(true, log));
+                //test code
+                hal.addObserverToImu(new ShellImuUpdater(true, log));
                 break;
         }
     }

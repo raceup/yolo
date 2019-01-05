@@ -29,6 +29,9 @@ public class Hal extends ShellLogger {
         this.kvaser = kvaser;
         this.imu = imu;
         addObserverToKvaser(motors);
+
+        //test code
+        addObserverToKvaser(imu);
     }
 
     public void addObserverToKvaser(Observer observer) {

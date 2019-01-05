@@ -49,6 +49,7 @@ public class Raw {
         headers.addAll(Arrays.asList(TEMPERATURES));
         headers.addAll(Arrays.asList(FLAGS));
         headers.addAll(Arrays.asList(SET_POINTS));
+        headers.addAll(Arrays.asList(IMU));
         ALL = headers.toArray(new Type[headers.size()]);
     }
 
@@ -78,6 +79,10 @@ public class Raw {
 
     public static boolean isFlag(Type type) {
         return Arrays.asList(FLAGS).contains(type);
+    }
+
+    public static boolean isImu(Type type) {
+        return Arrays.asList(IMU).contains(type);
     }
 
     public static boolean isBoolean(Type type) {
@@ -118,6 +123,8 @@ public class Raw {
     public boolean isBoolean() {
         return isBoolean(getType());
     }
+
+    //public static boolean isImu() { return  isImu(getType());}
 
     @Override
     public String toString() {

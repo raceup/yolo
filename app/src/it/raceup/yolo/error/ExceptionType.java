@@ -9,7 +9,7 @@ public enum ExceptionType {
     VIEW("View"),
     CONTROLLER("Controller"),
     LOGGING("Logging"),
-    IMU("IMu");
+    IMU("Imu");
 
     private final String name;
 

@@ -97,10 +97,17 @@ public class AccelerationsPanel extends JPanel implements Observer {
         setXYValue(imuData[0], imuData[1]);
     }
 
+    private void update(Imu[] imu){
+        for (Imu value:imu) {
+            update(value);
+        }
+    }
+
     @Override
-    public void update(Observable o, Object arg) {
+    public void update(Observable observable, Object o) {
         try {
-            update((Imu) arg);
+            System.out.println("sono qui");
+            update((Imu[]) o);
         }
         catch (Exception e) {
             new YoloException("cannot update imu acceleration", e, ExceptionType.VIEW)
