@@ -5,12 +5,10 @@ import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.car.Imu;
 import it.raceup.yolo.ui.utils.ChartPanel;
 import javax.swing.*;
-import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 
 import static it.raceup.yolo.models.data.Base.DEGREES;
-import static it.raceup.yolo.models.data.Base.getAsString;
 
 public class YawPanel extends JPanel implements Observer {
     // todo add polar plane
@@ -48,9 +46,6 @@ public class YawPanel extends JPanel implements Observer {
 
 
     private void update (double roll, double pitch, double yaw){
-        System.out.println("roll:" + roll);
-        System.out.println("pitch:" + pitch);
-        System.out.println("yaw:" + yaw);
         this.roll = roll;
         chartPanel.updateSeriesOrFail(ROLL_CODE, roll);
         this.yaw = yaw;
@@ -70,7 +65,7 @@ public class YawPanel extends JPanel implements Observer {
             update((Imu) arg);
         }
         catch (Exception e) {
-            new YoloException("cannot update imu acceleration", e, ExceptionType.VIEW)
+            new YoloException("cannot update yaw panel", e, ExceptionType.VIEW)
                     .print();
         }
 

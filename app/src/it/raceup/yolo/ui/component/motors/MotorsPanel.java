@@ -1,5 +1,6 @@
 package it.raceup.yolo.ui.component.motors;
 
+import cucumber.deps.difflib.Delta;
 import it.raceup.yolo.Data;
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
@@ -78,8 +79,10 @@ public class MotorsPanel extends JPanel implements Observer {
     }
 
     public void update(int motor, Type type, Double data) {
-        motorPanels[motor].update(type.toString(), data, isBoolean(type));
-        motorFrameWindows[motor].update(type, data);
+
+
+    motorPanels[motor].update(type.toString(), data, isBoolean(type));
+    motorFrameWindows[motor].update(type, data);
     }
 
     private void update(it.raceup.yolo.models.car.Motor[] motors) {

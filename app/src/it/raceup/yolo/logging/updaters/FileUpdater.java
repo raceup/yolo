@@ -17,6 +17,7 @@ public abstract class FileUpdater extends Updater {
         this("FILE UPDATER");
     }
 
+
     public FileUpdater(String tag) {
         this(DEFAULT_FOLDER, tag);
     }

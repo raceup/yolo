@@ -104,7 +104,6 @@ public class AccelerationsPanel extends JPanel implements Observer {
     @Override
     public void update(Observable observable, Object o) {
         try {
-            System.out.println("sono qui");
             update((Imu[]) o);
         }
         catch (Exception e) {

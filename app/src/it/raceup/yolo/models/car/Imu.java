@@ -28,6 +28,17 @@ public class Imu extends Observable implements Observer {
         data = new double[4];
     }
 
+
+    public Imu(Raw[] raw){
+        this();
+        if (checkImuType(raw[0].getType())) {
+            type = raw[0].getType();
+            for (int i = 0; i < raw.length; i++) {
+                data[i] = raw[i].getRaw();
+            }
+        }
+    }
+
     public boolean checkImuType(Type type) {
         try {
             if (type == Type.LOG_STATUS || type ==
@@ -52,7 +63,6 @@ public class Imu extends Observable implements Observer {
     private void checkImuType(Raw[] data) {
         try {
             for (int i = 0; i < data.length; i++) {
-                System.out.println(data[i].getType().toString());
                 if (type != data[i].getType()) {
                     throw new YoloException("Wrong Imu type", ExceptionType.IMU);
                 }
@@ -76,6 +86,7 @@ public class Imu extends Observable implements Observer {
             data[i] = 0;
         }
     }
+
 
     private void setImuData(Raw[] raw) {
         allToZero();
@@ -107,6 +118,7 @@ public class Imu extends Observable implements Observer {
             FromKvaserMessage message = new FromKvaserMessage(o);
             ArrayList<CanMessage> messages = message.getAsCanMessages();
             if (messages != null) {
+
                 update(messages);
                 triggerObservers();
             }

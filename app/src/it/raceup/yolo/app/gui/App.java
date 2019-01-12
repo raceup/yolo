@@ -95,8 +95,6 @@ public class App extends KvaserApp {
     @Override
     protected void setupUpdaters() {
         hal.addObserverToMotors(view.getMotorPanels());
-
-        //testcode
         hal.addObserverToImu(view.getDynamicsFrame());
 
         // todo hal.addObserverToKvaser(view.getCanMessagesFrame());
