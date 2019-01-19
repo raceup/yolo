@@ -77,7 +77,7 @@ public class TablePanel extends JPanel {
             int tableRow = Arrays.asList(labels).indexOf(type);
             if (tableRow >= 0) {
                 if (isBool) {
-                    table.setValueAt(data.intValue() == 1, tableRow, 1);
+                    table.setValueAt(data, tableRow, 1); //removed data.intValue
                 } else {
                     table.setValueAt(getAsString(data), tableRow, 1);
                 }

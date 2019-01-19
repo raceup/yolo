@@ -80,7 +80,6 @@ public class MotorsPanel extends JPanel implements Observer {
 
     public void update(int motor, Type type, Double data) {
 
-
     motorPanels[motor].update(type.toString(), data, isBoolean(type));
     motorFrameWindows[motor].update(type, data);
     }
