@@ -103,6 +103,17 @@ public class Motor {
         return toString(Raw.SET_POINTS);
     }
 
+    public double[] getTemeperatureValue() {return temperature.getValues();}
+
+    public boolean[] getBooleanFlagsValue() { return flags.getBooleanValue(); }
+
+    public double[] getDoubleFlagsValue() { return flags.getFlagsValue(); }
+
+    public boolean[] getBooleanSetPointValue() { return setPoint.getBooleanSetPointValue(); }
+
+    public double[] getDoubleSetPointValue() { return setPoint.getDoubleSetPointValue(); }
+
+
     @Override
     public String toString() {
         String out = "MotorFrame " + tag + ":\n";

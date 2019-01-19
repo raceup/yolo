@@ -41,6 +41,11 @@ public class Temperature {
         this.errorInfo = errorInfo;
     }
 
+    public double[] getValues() {
+        double[] toRet = {motor, inverter, igbt, errorInfo};
+        return  toRet;
+    }
+
     public void update(Raw data) {
         if (data.getType() == Type.TEMPERATURE_MOTOR) {
             setMotor(data.getRaw());

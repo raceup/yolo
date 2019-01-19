@@ -27,7 +27,6 @@ public class ShellImuUpdater extends ShellCsvUpdater {
             "Velocity", // 15
             "Latitude", "Longitude" //16 17
     };
-    private final String SEPARATOR = ",";
     private static final String[] log = new String[COLUMNS.length];
 
 

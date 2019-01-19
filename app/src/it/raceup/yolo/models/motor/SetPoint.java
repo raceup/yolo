@@ -9,6 +9,16 @@ public class SetPoint {
     private boolean inverterOn, dcOn, enable, errorReset;
     private double targetVelocity, posTorqueLimit, negTorqueLimit;
 
+    public boolean[] getBooleanSetPointValue() {
+        boolean[] toRet = {inverterOn, dcOn, enable, errorReset};
+        return toRet;
+    }
+
+    public double[] getDoubleSetPointValue() {
+        double[] toRet = {targetVelocity, posTorqueLimit, negTorqueLimit};
+        return toRet;
+    }
+
     public boolean isInverterOn() {
         return inverterOn;
     }

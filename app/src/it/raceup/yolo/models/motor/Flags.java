@@ -12,6 +12,15 @@ public class Flags {
     private double torqueCurrent;
     private double magnetizingCurrent;
 
+    public boolean[] getBooleanValue() {
+        boolean[] toRet = {systemReady, error, warning, quitDcOn, dcOn, quitInverterOn, inverterOn, derating};
+        return toRet;
+    }
+
+    public double[] getFlagsValue() {
+        double[] toRet = {actualVelocity,torqueCurrent,magnetizingCurrent};
+        return toRet;
+    }
     public boolean isSystemReady() {
         return systemReady;
     }
