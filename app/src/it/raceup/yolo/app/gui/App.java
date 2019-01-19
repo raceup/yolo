@@ -73,9 +73,8 @@ public class App extends KvaserApp {
         boolean logMotors = Boolean.parseBoolean(settings[2]);
         boolean logCan = Boolean.parseBoolean(settings[3]);
         boolean logBattery = Boolean.parseBoolean(settings[4]);
-        //boolean logIMU = Boolean.parseBoolean(settings[5]);
+        boolean logIMU = Boolean.parseBoolean(settings[5]);
         //test code
-        boolean logIMU = true;
         hal = new Hal(
                 new Motors(),
                 new FakeBlackBird(ip),
