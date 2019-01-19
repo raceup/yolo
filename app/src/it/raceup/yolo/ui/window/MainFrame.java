@@ -83,12 +83,11 @@ public class MainFrame extends JFrame {
     }
 
     private JMenu createFileMenu() {
-        JMenu menu = new JMenu("File");  // file menu
 
+        JMenu menu = new JMenu("File");  // file menu
         JMenuItem item = new JMenuItem("Exit");
         item.addActionListener(e -> System.exit(0));
         menu.add(item);
-
         return menu;
     }
 

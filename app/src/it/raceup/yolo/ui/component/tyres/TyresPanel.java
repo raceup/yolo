@@ -23,7 +23,6 @@ public class TyresPanel extends JPanel implements Observer {
             tyrePanels[i] = new TyreInfo(DEFAULT_MOTORS[i]);
         }
         CAR_IMAGE = new Data().getTyresImage();
-
         setup();
     }
 
@@ -33,7 +32,6 @@ public class TyresPanel extends JPanel implements Observer {
 
     private void setupLayout() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
         JPanel up = new JPanel();
         up.setLayout(new BoxLayout(up, BoxLayout.X_AXIS));
         up.add(Box.createRigidArea(new Dimension(10, 0)));

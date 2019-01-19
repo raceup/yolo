@@ -5,6 +5,7 @@ import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 public class ColorTable extends MultiObjectTable {
     private Icon redIcon;
@@ -12,17 +13,19 @@ public class ColorTable extends MultiObjectTable {
 
     public ColorTable(Object[][] data, String[] headers) {
         super(data, headers);
-
         loadIcons();
     }
 
+
     @Override
     public void setValueAt(Object o, int row, int column) {
+        createDefaultRenderers();
         if (o instanceof Boolean) {
             boolean value = (Boolean) o;
             if (value) {
                 if (greenIcon != null) {
                     setValueAt(greenIcon, row, column);
+
                 } else {
                     setValueAt(1, row, column);
                 }

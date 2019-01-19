@@ -127,7 +127,7 @@ public class MotorFrame extends JFrame {
 
         if (tableRow >= 0) {
             if (isBoolean(type)) {
-                table.setValueAt(data, tableRow, 1); //removed intValue
+                table.setValueAt(data.intValue() ==1, tableRow, 1); //removed intValue
             } else {
                 table.setValueAt(getAsString(data), tableRow, 1);
             }
