@@ -3,8 +3,6 @@ package it.raceup.yolo.ui.window;
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.car.Imu;
-import it.raceup.yolo.models.data.Type;
-import it.raceup.yolo.models.kvaser.message.FromKvaserMessage;
 import it.raceup.yolo.ui.component.driver.DriverPanel;
 import it.raceup.yolo.ui.component.imu.ImuPanel;
 import it.raceup.yolo.ui.component.tyres.TyresPanel;
@@ -30,9 +28,9 @@ public class DynamicsFrame extends JFrame implements Observer {
     public void open() {
         try {
             pack();
-            setSize(700, 700);
+            setSize(700, 750);
             setLocation(725, 350);  // under battery
-            setResizable(false);
+            setResizable(false); //true
             setNativeLookAndFeelOrFail();
 
             // disable exit button
@@ -86,7 +84,7 @@ public class DynamicsFrame extends JFrame implements Observer {
             update((Imu) o);
         } catch (Exception e) {
             e.printStackTrace();
-            new YoloException("cannot updateWith CAR", e, ExceptionType.KVASER)
+            new YoloException("cannot updateWith CAR", e, ExceptionType.IMU)
                     .print();
         }
     }
