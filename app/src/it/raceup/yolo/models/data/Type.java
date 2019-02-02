@@ -32,7 +32,9 @@ public enum Type {
     GPS_LATITUDE_LONGITUDE,
     THROTTLE,
     BRAKE,
-    STEERINGWHEEL;
+    STEERINGWHEEL,
+    FRONT_SUSPENSION,
+    REAR_SUSPENSION;
 
     @Override
     public String toString() {

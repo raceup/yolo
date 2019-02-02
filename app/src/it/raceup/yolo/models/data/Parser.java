@@ -21,6 +21,8 @@ public class Parser {
     private final byte[] data;
     private final ArrayList<Raw> parsedData = new ArrayList<>();
     private int motorId;
+    private final int FRONT_SUSPENSION = 96;
+    private final int LEFT_SUSPENSION = 97;
     private int THROTTLE_BRAKE = 19;
     private int STEERING_WHEEL = 93;
     private int LOG_STATUS = 768;
@@ -77,13 +79,16 @@ public class Parser {
     public void parseValues() {
         if (getValueType() == 1) {
             readMotor1();
-        } else if(getValueType() ==2) {
+        } else if(getValueType() == 2) {
             readMotor2();
         } else if(getValueType() == 3){
             readThrottleBrake();
         } else if(getValueType() == 4){
             readSteeringWheel();
-        } else {
+        } else if(getValueType() == 5){
+            readSuspension();
+        }
+        else {
             readIMU();
         }
     }
@@ -230,6 +235,9 @@ public class Parser {
             if(id == STEERING_WHEEL){
                 return 4;
             }
+            if(id == FRONT_SUSPENSION){
+                return 5;
+            }
         }
 
         return 0;
@@ -306,5 +314,16 @@ public class Parser {
 
     public void readSteeringWheel(){
         parsedData.add(new Raw(hToNShort(data, FIRST_BYTE), Type.STEERINGWHEEL, KvaserTime));
+    }
+
+    private void readSuspension() {
+        if(id == FRONT_SUSPENSION) {
+            parsedData.add(new Raw(hToNFloat(data, FIRST_BYTE), Type.FRONT_SUSPENSION, KvaserTime));
+            parsedData.add(new Raw(hToNFloat(data, FIFTH_BYTE), Type.FRONT_SUSPENSION, KvaserTime));
+        }
+        else{
+            parsedData.add(new Raw(hToNFloat(data, FIRST_BYTE), Type.REAR_SUSPENSION, KvaserTime));
+            parsedData.add(new Raw(hToNFloat(data, FIFTH_BYTE), Type.REAR_SUSPENSION, KvaserTime));
+        }
     }
 }

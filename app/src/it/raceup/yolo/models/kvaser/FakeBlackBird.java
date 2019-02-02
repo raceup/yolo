@@ -15,8 +15,9 @@ import java.util.concurrent.ThreadLocalRandom;
 public class FakeBlackBird extends Kvaser {
     private static final String HTTP_SCHEME = "http";
     private static final int PORT = 8080;
+    //96 97 sospensioni davanti dietro
     private static final String[] IDS = new String[]{"17", "18", "19", "20",
-            "21", "22", "23", "24", "25", "33", "388", "389", "392", "393",
+            "21", "22", "23", "24", "25", "33","93", "96", "97", "388", "389", "392", "393",
             "643", "644", "645", "646", "647", "648", "649", "656", "768",
             "801", "802", "817", "818", "865", "885"};
 

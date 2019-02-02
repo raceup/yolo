@@ -10,7 +10,7 @@ public enum ExceptionType {
     CONTROLLER("Controller"),
     LOGGING("Logging"),
     IMU("Imu"),
-    THROTTLE_BRAKE("Throttle Brake");
+    DRIVER("Driver");
 
     private final String name;
 
