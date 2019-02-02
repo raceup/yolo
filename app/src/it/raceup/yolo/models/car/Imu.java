@@ -15,24 +15,33 @@ import java.util.Observer;
 public class Imu extends Observable implements Observer {
     private Type type;
     private double[] data;
+    private double time;
 
-    public Imu(Type type, double[] data) {
+    public Imu(Type type, double[] data, double time) {
         checkImuType(type);
         this.type = type;
         this.data = data;
+        this.time = time;
     }
 
     //default constructor
     public Imu() {
         type = null;
         data = new double[4];
+        time = 0;
     }
 
 
     public Imu(Raw[] raw){
         this();
+        setImuData(raw);
+    }
+
+    private void setImuData(Raw[] raw) {
+        allToZero();
         if (checkImuType(raw[0].getType())) {
             type = raw[0].getType();
+            time = raw[0].getTime();
             for (int i = 0; i < raw.length; i++) {
                 data[i] = raw[i].getRaw();
             }
@@ -41,7 +50,7 @@ public class Imu extends Observable implements Observer {
 
     public boolean checkImuType(Type type) {
         try {
-            if (type == Type.LOG_STATUS || type ==
+            if (    type == Type.LOG_STATUS || type ==
                     Type.ACCELERATION || type ==
                     Type.GYRO || type ==
                     Type.QUATERNION || type ==
@@ -81,25 +90,19 @@ public class Imu extends Observable implements Observer {
         return data;
     }
 
+    public double getImuTime() { return time; }
+
     private void allToZero() {
         for (int i = 0; i < data.length; i++) {
             data[i] = 0;
         }
     }
 
-
-    private void setImuData(Raw[] raw) {
-        allToZero();
-        if (checkImuType(raw[0].getType())) {
-            type = raw[0].getType();
-            for (int i = 0; i < raw.length; i++) {
-                data[i] = raw[i].getRaw();
-            }
-        }
+    public void setImuTime(Raw raw){
+        time = raw.getTime();
     }
 
     private void update(Raw[] raw) {
-        //checkImuType(raw);
         setImuData(raw);
     }
 
@@ -132,7 +135,7 @@ public class Imu extends Observable implements Observer {
     private void triggerObservers() {
         setChanged();
         if((type == Type.ACCELERATION) || (type == Type.ROLL_PITCH_YAW) || (type == Type.VELOCITY)) {
-            notifyObservers(new Imu(type, data));
+            notifyObservers(new Imu(type, data, time));
         }
     }
 

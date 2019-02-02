@@ -36,7 +36,8 @@ public class ShellMotorsUpdater extends ShellCsvUpdater {
             "sp_error_reset",//19
             "target_velocity", //20
             "pos_torque_limit",
-            "neg_torque_limit"
+            "neg_torque_limit",
+            "time"//23
     };
 
     private final String SEPARATOR = ",";
@@ -82,6 +83,7 @@ public class ShellMotorsUpdater extends ShellCsvUpdater {
             log[20] = Double.toString(doubleSetPointValue[0]);
             log[21] = Double.toString(doubleSetPointValue[1]);
             log[22] = Double.toString(doubleSetPointValue[2]);
+            log[23] = Double.toString(motor.getTime());
 
 
             writeLog(log);

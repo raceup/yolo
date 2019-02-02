@@ -29,7 +29,10 @@ public enum Type {
     QUATERNION,
     ROLL_PITCH_YAW,
     VELOCITY,
-    GPS_LATITUDE_LONGITUDE;
+    GPS_LATITUDE_LONGITUDE,
+    THROTTLE,
+    BRAKE,
+    STEERINGWHEEL;
 
     @Override
     public String toString() {
@@ -91,8 +94,13 @@ public enum Type {
             return "Velocity";
         } else if (this == GPS_LATITUDE_LONGITUDE) {
             return "GPS coordinates";
+        } else if (this == THROTTLE) {
+            return "Throttle";
+        } else if (this == BRAKE) {
+            return "Brake";
+        } else if (this == STEERINGWHEEL) {
+            return "Steering wheel";
         }
-
         return "DNF";
     }
 }

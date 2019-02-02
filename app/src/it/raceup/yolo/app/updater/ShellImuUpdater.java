@@ -25,7 +25,7 @@ public class ShellImuUpdater extends ShellCsvUpdater {
             "Quaternion W", "Quaternion X", "Quaternion Y", "Quaternion Z", //8 9 10 11
             "Roll", "Pitch", "Yaw", //12 13 14
             "Velocity", // 15
-            "Latitude", "Longitude" //16 17
+            "Latitude", "Longitude", //16 17
     };
     private static final String[] log = new String[COLUMNS.length];
 
@@ -56,7 +56,8 @@ public class ShellImuUpdater extends ShellCsvUpdater {
         for (CanMessage message : data) {
             Raw[] packets = new Parser(message).getParsedData();
             if (packets.length > 0) {
-                log[0] = Long.toString(message.getTime());
+                //log[0] = Long.toString(message.getTime());
+
                 update(packets);
             }
         }
@@ -65,6 +66,7 @@ public class ShellImuUpdater extends ShellCsvUpdater {
     private void update(Raw[] raw) {
         Imu imu = new Imu(raw);
         double[] data = imu.getImuData();
+        log[0] = Double.toString(imu.getImuTime());
         if (imu.getImuType() == Type.ACCELERATION) {
             log[2] = Double.toString(data[0]);
             log[3] = Double.toString(data[1]);

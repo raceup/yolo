@@ -9,7 +9,8 @@ public enum ExceptionType {
     VIEW("View"),
     CONTROLLER("Controller"),
     LOGGING("Logging"),
-    IMU("Imu");
+    IMU("Imu"),
+    THROTTLE_BRAKE("Throttle Brake");
 
     private final String name;
 

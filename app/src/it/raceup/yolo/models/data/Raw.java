@@ -32,15 +32,11 @@ public class Raw {
             Type.TORQUE_CURRENT,
             Type.MAGNETIZING_CURRENT
     };
-    public static final Type[] IMU = new Type[]{
-            Type.LOG_STATUS,
-            Type.ACCELERATION,
-            Type.GYRO,
-            Type.QUATERNION,
-            Type.ROLL_PITCH_YAW,
-            Type.VELOCITY,
-            Type.GPS_LATITUDE_LONGITUDE
+    public static final Type[] TI = new Type[]{
+            Type.THROTTLE,
+            Type.BRAKE,
     };
+
 
     public static final Type[] ALL;
 
@@ -49,13 +45,14 @@ public class Raw {
         headers.addAll(Arrays.asList(TEMPERATURES));
         headers.addAll(Arrays.asList(FLAGS));
         headers.addAll(Arrays.asList(SET_POINTS));
-        headers.addAll(Arrays.asList(IMU));
         ALL = headers.toArray(new Type[headers.size()]);
     }
 
-    public Type type;
-    public double raw;
+    private Type type;
+    private double raw;
     private int motor;
+    private double time;
+
 
     public Raw(double raw, int motor, Type type) {
         this.type = type;
@@ -63,11 +60,28 @@ public class Raw {
         this.motor = motor;
     }
 
+    public Raw(double raw, int motor, Type type, double time) {
+        this.type = type;
+        this.raw = raw;
+        this.motor = motor;
+        this.time = time;
+    }
+
     public Raw(double raw, Type type){
         this.type = type;
         this.raw = raw;
     }
 
+    public Raw(float raw, Type type){
+        this.type = type;
+        this.raw = raw;
+    }
+
+    public Raw(double raw, Type type, double time){
+        this.type = type;
+        this.raw = raw;
+        this.time = time;
+    }
 
     public static boolean isTemperature(Type type) {
         return Arrays.asList(TEMPERATURES).contains(type);
@@ -79,10 +93,6 @@ public class Raw {
 
     public static boolean isFlag(Type type) {
         return Arrays.asList(FLAGS).contains(type);
-    }
-
-    public static boolean isImu(Type type) {
-        return Arrays.asList(IMU).contains(type);
     }
 
     public static boolean isBoolean(Type type) {
@@ -107,6 +117,8 @@ public class Raw {
     public int getMotor() {
         return motor;
     }
+
+    public double getTime() { return time; }
 
     public boolean isTemperature() {
         return isTemperature(getType());

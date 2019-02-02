@@ -17,9 +17,15 @@ public class Motor {
     private final SetPoint setPoint = new SetPoint();
     private final Temperature temperature = new Temperature();
     private final String tag;
+    private double time;
 
     public Motor(String tag) {
         this.tag = tag;
+    }
+
+    public Motor(String tag, double time){
+        this.tag = tag;
+        this.time = time;
     }
 
     public static String getLineHeader(String separator) {
@@ -44,10 +50,13 @@ public class Motor {
     public void update(Raw data) {
         if (data.isTemperature()) {
             temperature.update(data);
+            setTime(data.getTime());
         } else if (data.isFlag()) {
             flags.update(data);
+            setTime(data.getTime());
         } else if (data.isSetPoint()) {
             setPoint.update(data);
+            setTime(data.getTime());
         }
     }
 
@@ -62,6 +71,10 @@ public class Motor {
         }
 
         return 0;  // todo better exception or DNF
+    }
+
+    public void setTime(double time){
+        this.time = time;
     }
 
     public String getTag() {
@@ -113,6 +126,7 @@ public class Motor {
 
     public double[] getDoubleSetPointValue() { return setPoint.getDoubleSetPointValue(); }
 
+    public double getTime() { return time;}
 
     @Override
     public String toString() {
