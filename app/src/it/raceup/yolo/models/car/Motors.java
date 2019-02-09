@@ -47,6 +47,10 @@ public class Motors extends Observable implements Observer {
         return motors[motor].get(type);
     }
 
+    public Motor get(int id) {
+        return motors[id];
+    }
+
     public int numberOfMotors() {
         return motors.length;
     }

@@ -61,12 +61,22 @@ public class ShellImuUpdater extends ShellCsvUpdater {
         }
     }
 
-    private void update(Raw[] raw) {
+    public void update(Raw[] raw) {
         Imu imu = new Imu(raw);
         String[] temp = imu.toStringArray();
         for(int i = 0; i < log.length; i++){
             log[i]  = temp[i];
         }
+        writeLog(log);
+
+    }
+
+    public void update(Imu imu) {
+        String[] temp = imu.toStringArray();
+        for(int i = 0; i < log.length; i++){
+            log[i]  = temp[i];
+        }
+
         writeLog(log);
     }
 }

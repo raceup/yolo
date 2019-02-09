@@ -99,7 +99,8 @@ public abstract class Kvaser extends RawKvaser implements Logger, Runnable,
             boolean success = write((ToKvaserMessage) o);
             triggerObservers(success);
         } catch (Exception e) {
-            new YoloException("cannot updateWith kvaser", e, ExceptionType.KVASER)
+            e.printStackTrace();
+            new YoloException("cannot update with kvaser", e, ExceptionType.KVASER)
                     .print();
         }
     }

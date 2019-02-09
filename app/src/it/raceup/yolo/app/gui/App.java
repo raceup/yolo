@@ -1,17 +1,13 @@
 package it.raceup.yolo.app.gui;
 
 import it.raceup.yolo.app.KvaserApp;
-import it.raceup.yolo.app.updater.ShellBatteryUpdater;
-import it.raceup.yolo.app.updater.ShellCanUpdater;
-import it.raceup.yolo.app.updater.ShellImuUpdater;
-import it.raceup.yolo.app.updater.ShellMotorsUpdater;
+import it.raceup.yolo.app.updater.*;
 import it.raceup.yolo.control.Hal;
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
+import it.raceup.yolo.models.car.Driver;
 import it.raceup.yolo.models.car.Imu;
 import it.raceup.yolo.models.car.Motors;
-import it.raceup.yolo.models.data.Type;
-import it.raceup.yolo.models.kvaser.BlackBird;
 import it.raceup.yolo.models.kvaser.FakeBlackBird;
 import it.raceup.yolo.ui.window.MainFrame;
 
@@ -38,17 +34,15 @@ public class App extends KvaserApp {
 
     public static void main(String[] args) {
         try {
-
-            //start test code
             try {
                 UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            //end test code
             App app = new App();
             app.open();
         } catch (Exception e) {
+            e.printStackTrace();
             showMessage(e);
         }
     }
@@ -60,9 +54,9 @@ public class App extends KvaserApp {
                     .VIEW).print();
             System.exit(1);
         }
-
-        return settings;
+    return settings;
     }
+
 
     @Override
     protected void setupKvaser() {
@@ -71,14 +65,15 @@ public class App extends KvaserApp {
         String bitrate = settings[1];
 
         boolean logMotors = Boolean.parseBoolean(settings[2]);
-        boolean logCan = Boolean.parseBoolean(settings[3]);
-        boolean logBattery = Boolean.parseBoolean(settings[4]);
-        boolean logIMU = Boolean.parseBoolean(settings[5]);
-        //test code
+        boolean logIMU = Boolean.parseBoolean(settings[3]);
+        boolean logDriver = Boolean.parseBoolean(settings[4]);
+
         hal = new Hal(
                 new Motors(),
                 new FakeBlackBird(ip),
-                new Imu()
+                new Imu(),
+                new Driver(),
+                new boolean[] {logMotors, logIMU, logDriver}
         );
 
         try {
@@ -87,21 +82,22 @@ public class App extends KvaserApp {
             log(e);
             showMessage(e);
         }
+        }
 
-        setupLogUpdaters(logMotors, logCan, logBattery, logIMU);  // add file loggers
-    }
 
     @Override
     protected void setupUpdaters() {
         hal.addObserverToMotors(view.getMotorPanels());
         hal.addObserverToImu(view.getDynamicsFrame());
+        hal.addObserverToDriver(view.getDriverFrame());
+        hal.addObserverToKvaser(new ShellCanUpdater(false, true));
 
         // todo hal.addObserverToKvaser(view.getCanMessagesFrame());
         // todo hal.addObserverToKvaser(view.getBatteryFrame());
         // todo hal.addObserverToKvaser(view.getDynamicsFrame());
     }
 
-    private void setupLogUpdaters(boolean logMotors, boolean logCan, boolean logBattery, boolean logIMU) {
+    private void setupLogUpdaters(boolean logMotors, boolean logCan, boolean logBattery, boolean logIMU, boolean logDriver) {
         if (logMotors) {
             hal.addObserverToMotors(new ShellMotorsUpdater(false, true));
         }
@@ -110,12 +106,17 @@ public class App extends KvaserApp {
             hal.addObserverToKvaser(new ShellCanUpdater(false, true));
         }
 
+        /*
         if (logBattery) {
             hal.addObserverToKvaser(new ShellBatteryUpdater(false, true));
         }
+        */
 
         if (logIMU) {
             hal.addObserverToKvaser(new ShellImuUpdater(false, true));
+        }
+        if (logDriver) {
+            hal.addObserverToKvaser(new ShellDriverUpdater(false, true));
         }
     }
 

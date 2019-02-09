@@ -10,10 +10,11 @@ import static it.raceup.yolo.Data.*;
 public class SettingsPanel extends JPanel {
     private final JTextField ipEditor;
     private final JComboBox<String> bitrateChooser;
-    private final JCheckBox checkboxMotorsLog = new JCheckBox("Motors");
-    private final JCheckBox checkboxCanLog = new JCheckBox("CAN bus");
-    private final JCheckBox checkboxBatteryLog = new JCheckBox("Battery and BMS");
-    private final JCheckBox checkboxIMULog = new JCheckBox("IMU");
+    private final JCheckBox checkboxMotorsLog = new JCheckBox("Motors", true);
+    //private final JCheckBox checkboxCanLog = new JCheckBox("CAN bus");
+    //private final JCheckBox checkboxBatteryLog = new JCheckBox("Battery and BMS");
+    private final JCheckBox checkboxIMULog = new JCheckBox("IMU", true);
+    private final JCheckBox checkboxDriverLog = new JCheckBox("Telemetry", true);
 
     public SettingsPanel() {
         ipEditor = new JTextField("192.168.1.10");
@@ -82,9 +83,10 @@ public class SettingsPanel extends JPanel {
         checksPanel.setLayout(new BoxLayout(checksPanel, BoxLayout.X_AXIS));
 
         checksPanel.add(checkboxMotorsLog);
-        checksPanel.add(checkboxCanLog);
-        checksPanel.add(checkboxBatteryLog);
+        //checksPanel.add(checkboxCanLog);
+        //checksPanel.add(checkboxBatteryLog);
         checksPanel.add(checkboxIMULog);
+        checksPanel.add(checkboxDriverLog);
 
         panel.add(Box.createHorizontalGlue());
         panel.add(new JLabel("Select which logs to generate"));
@@ -99,11 +101,14 @@ public class SettingsPanel extends JPanel {
                 ipEditor.getText(),
                 (String) bitrateChooser.getSelectedItem(),
                 Boolean.toString(checkboxMotorsLog.isSelected()),
-                Boolean.toString(checkboxCanLog.isSelected()),
-                Boolean.toString(checkboxBatteryLog.isSelected()),
-                Boolean.toString(checkboxIMULog.isSelected())
+               //Boolean.toString(checkboxCanLog.isSelected()),
+                //Boolean.toString(checkboxBatteryLog.isSelected()),
+                Boolean.toString(checkboxIMULog.isSelected()),
+                Boolean.toString(checkboxDriverLog.isSelected())
         };
     }
+
+
 
     private void showHelpDialog() {
         new AboutDialog(

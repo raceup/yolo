@@ -116,7 +116,7 @@ public class FakeBlackBird extends Kvaser {
                 messages[i] = CanMessage.parseJson(message);
             }
 
-            Thread.sleep(50);
+            Thread.sleep(10);
 
             return messages;
         } catch (Exception e) {

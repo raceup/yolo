@@ -34,7 +34,8 @@ public enum Type {
     BRAKE,
     STEERINGWHEEL,
     FRONT_SUSPENSION,
-    REAR_SUSPENSION;
+    REAR_SUSPENSION,
+    BRAKE_PRESSURE;
 
     @Override
     public String toString() {
@@ -102,6 +103,8 @@ public enum Type {
             return "Brake";
         } else if (this == STEERINGWHEEL) {
             return "Steering wheel";
+        } else if(this == BRAKE_PRESSURE){
+            return  "Brake pressure";
         }
         return "DNF";
     }

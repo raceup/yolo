@@ -49,8 +49,8 @@ public class AccelerationsPanel extends JPanel implements Observer {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));  // vertically
 
         add(getTopPanel());
-        add(Box.createRigidArea(new Dimension(0, 10)));
         add(plane);
+
     }
 
     private JPanel getTopPanel() {
@@ -92,7 +92,7 @@ public class AccelerationsPanel extends JPanel implements Observer {
     }
 
     public void update(Imu imu){
-        setXYValue(imu.getImuData()[0], imu.getImuData()[1]);
+        //setXYValue(imu.getImuData()[0], imu.getImuData()[1]);
     }
 
     private void update(Imu[] imu){

@@ -4,6 +4,8 @@ import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.logging.updaters.FileUpdater;
 import it.raceup.yolo.models.data.CanMessage;
+import it.raceup.yolo.models.kvaser.Kvaser;
+import java.lang.instrument.Instrumentation;
 import it.raceup.yolo.models.kvaser.message.FromKvaserMessage;
 
 import java.util.ArrayList;
@@ -21,12 +23,16 @@ public class ShellCanUpdater extends ShellCsvUpdater {
             "Time", "ID", "Flags", "Dlc", "byte 1", "byte 2", "byte 3", "byte 4", "byte 5", "byte 6", "byte 7", "byte 8"
     };
     private final String SEPARATOR = "|";
+    private final int MAX_BUFFER_DIMENSION = 3000 * 42; // every 30 sec open write close file
+    private Runnable runner;
+    private ArrayList<CanMessage> buffer = new ArrayList<>();
+    private ArrayList<CanMessage> copyOfBuffer;
 
     public ShellCanUpdater(boolean logToShell, boolean logToFile) {
         super("CAN", COLUMNS, DEFAULT_FOLDER, logToShell, logToFile);
     }
 
-    private void update(ArrayList<CanMessage> messages) {
+    private void oldupdate(ArrayList<CanMessage> messages) {
         if (this.isLogToShell()) {
             String header = getLineHeader(SEPARATOR);
             log(getLineSeparator(header));  // log to shell
@@ -42,6 +48,34 @@ public class ShellCanUpdater extends ShellCsvUpdater {
             if (this.isLogToFile()) {
                 writeLog(columns);  // to file
             }
+        }
+    }
+
+    private void update(ArrayList<CanMessage> messages){
+        buffer.addAll(messages);
+        if(buffer.size() >= MAX_BUFFER_DIMENSION) {
+            copyOfBuffer =  new ArrayList<>(buffer);
+            buffer.clear();
+            Thread writer = new Thread(runner);
+            writer.start();
+        }
+
+        runner = new Runnable() {
+            @Override
+            public void run(){
+                for (CanMessage insideBuffer : copyOfBuffer) {
+                    String[] columns = getColumns(insideBuffer);
+                    writeLog(columns);
+                }
+            }
+        };
+    }
+
+    public void update(CanMessage message){
+        String[] columns = getColumns(message);
+
+        if (this.isLogToFile()) {
+            writeLog(columns);  // to file
         }
     }
 
@@ -68,6 +102,7 @@ public class ShellCanUpdater extends ShellCsvUpdater {
 
     @Override
     public void update(Observable observable, Object o) {
+
         try {
             FromKvaserMessage message = new FromKvaserMessage(o);
             ArrayList<CanMessage> messages = message.getAsCanMessages();
@@ -75,6 +110,7 @@ public class ShellCanUpdater extends ShellCsvUpdater {
                 update(messages);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             new YoloException("cannot updateWith car", e, ExceptionType.KVASER)
                     .print();
         }

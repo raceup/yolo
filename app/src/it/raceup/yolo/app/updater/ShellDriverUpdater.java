@@ -66,4 +66,12 @@ public class ShellDriverUpdater extends ShellCsvUpdater{
         writeLog(log);
     }
 
+    public void update(Driver driver){
+        String[] temp = driver.toStringArray();
+        for(int i = 0; i < log.length; i++){
+            log[i]  = temp[i];
+        }
+        writeLog(log);
+    }
+
 }

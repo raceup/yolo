@@ -125,7 +125,7 @@ public class Imu extends Observable implements Observer {
     public String[] toStringArray(){
         int index = 0;
         String[] toRet = new String[18]; //sums
-        toRet[index] = Double.toString(time);
+        toRet[index++] = Double.toString(time);
         toRet[index++] = Double.toString(log_status[0]);
         for (int i = 0; i < acceleration.length; i++){
             toRet[index++] = Double.toString(acceleration[i]);

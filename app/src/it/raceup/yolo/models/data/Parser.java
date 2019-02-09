@@ -22,7 +22,7 @@ public class Parser {
     private final ArrayList<Raw> parsedData = new ArrayList<>();
     private int motorId;
     private final int FRONT_SUSPENSION = 96;
-    private final int LEFT_SUSPENSION = 97;
+    private final int BRAKE_PRESSURE = 21;
     private int THROTTLE_BRAKE = 19;
     private int STEERING_WHEEL = 93;
     private int LOG_STATUS = 768;
@@ -87,6 +87,8 @@ public class Parser {
             readSteeringWheel();
         } else if(getValueType() == 5){
             readSuspension();
+        } else if(getValueType() == 6){
+            readBrakePressure();
         }
         else {
             readIMU();
@@ -238,6 +240,8 @@ public class Parser {
             if(id == FRONT_SUSPENSION){
                 return 5;
             }
+            if(id == BRAKE_PRESSURE)
+                return 6;
         }
 
         return 0;
@@ -325,5 +329,10 @@ public class Parser {
             parsedData.add(new Raw(hToNFloat(data, FIRST_BYTE), Type.REAR_SUSPENSION, KvaserTime));
             parsedData.add(new Raw(hToNFloat(data, FIFTH_BYTE), Type.REAR_SUSPENSION, KvaserTime));
         }
+    }
+
+    private void readBrakePressure() {
+        parsedData.add(new Raw(hToNFloat(data, FIRST_BYTE), Type.BRAKE_PRESSURE, KvaserTime));
+        parsedData.add(new Raw(hToNFloat(data, FIFTH_BYTE), Type.BRAKE_PRESSURE, KvaserTime));
     }
 }

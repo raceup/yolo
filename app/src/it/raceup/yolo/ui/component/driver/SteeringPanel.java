@@ -1,10 +1,10 @@
 package it.raceup.yolo.ui.component.driver;
 
 import it.raceup.yolo.Data;
+import it.raceup.yolo.ui.utils.ChartPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 
 import static it.raceup.yolo.models.data.Base.DEGREES;
 import static it.raceup.yolo.models.data.Base.getAsString;
@@ -12,25 +12,34 @@ import static it.raceup.yolo.models.data.Base.getAsString;
 /**
  * Panel with info about steering wheel rotation angle
  */
-public class SteeringPanel extends JPanel {
-    private final Image STEERING_WHEEL_IMAGE;
+public class SteeringPanel extends JFrame {
+
     private final JLabel valueLabel;
-    private double value = 0.0;
+    final String[] listOfSeries = {"Steering wheel"};
+    private ChartPanel chartPanel;
 
     public SteeringPanel() {
-        STEERING_WHEEL_IMAGE = new Data().getSteeringWheelImage();
         valueLabel = new JLabel("");
-
         setup();
     }
 
     public void setValue(double value) {
-        this.value = value;
         valueLabel.setText(getAsString(value) + DEGREES);  // update labels
-
         repaint();  // update steering wheel image
     }
 
+    private void setup() {
+        valueLabel.setAlignmentX(CENTER_ALIGNMENT);
+        setupLayout();
+    }
+
+    private void setupLayout() {
+        chartPanel = new ChartPanel(listOfSeries);
+        add(chartPanel);
+    }
+
+}
+    /*
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -52,6 +61,7 @@ public class SteeringPanel extends JPanel {
         g2d.drawImage(STEERING_WHEEL_IMAGE, at, null);  // draw the image
     }
 
+
     private void setup() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));  // vertical
         add(Box.createRigidArea(new Dimension(0, 250)));
@@ -61,4 +71,5 @@ public class SteeringPanel extends JPanel {
 
         repaint();  // force paint image
     }
-}
+    */
+

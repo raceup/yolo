@@ -39,9 +39,6 @@ public class YawPanel extends JPanel implements Observer {
     private void setupLayout() {
         chartPanel = new ChartPanel(listOfSeries);
         add(chartPanel);
-        //setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));  // vertically
-
-        // todo setPreferredSize(new Dimension(200, 80));
     }
 
 
@@ -56,7 +53,7 @@ public class YawPanel extends JPanel implements Observer {
 
     public void update(Imu imu){
         //get raw data from Imu and pass to updater
-        update(imu.getImuData()[0], imu.getImuData()[1], imu.getImuData()[2]);
+        //update(imu.getImuData()[0], imu.getImuData()[1], imu.getImuData()[2]);
     }
 
     @Override

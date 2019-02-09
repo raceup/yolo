@@ -16,23 +16,20 @@
 
 package it.raceup.yolo.ui.component.driver;
 
-import it.raceup.yolo.error.ExceptionType;
-import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.ui.component.ProgressBar;
-import org.omg.PortableServer.THREAD_POLICY_ID;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Observable;
-import java.util.Observer;
 
 
 /**
  * Panel with info about brakes (total % and rear-front balance)
  */
-public class ThrottleBrakePanel extends JPanel implements Observer {
+public class ThrottleBrakePanel extends JPanel{
+    
     private final ProgressBar throttleBar =
             new ProgressBar("Throttle", Color.GREEN);
+
     private final ProgressBar brakeBar =
             new ProgressBar("Brake", Color.RED);
 
@@ -61,22 +58,5 @@ public class ThrottleBrakePanel extends JPanel implements Observer {
         add(throttleBar);
         add(Box.createRigidArea(new Dimension(0, 10)));
         add(brakeBar);
-    }
-
-    private void update(ThrottleBrake throttleBrake){
-        setThrottle(throttleBrake.getThrottleValue());
-        setBrake(throttleBrake.getBrakeValue());
-
-    }
-
-    @Override
-    public void update(Observable observable, Object o) {
-        try {
-            update((ThrottleBrake) o);
-        }
-        catch (Exception e) {
-            new YoloException("cannot update imu acceleration", e, ExceptionType.VIEW)
-                    .print();
-        }
     }
 }

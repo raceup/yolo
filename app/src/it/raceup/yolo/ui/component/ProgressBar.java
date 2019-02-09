@@ -36,7 +36,6 @@ public class ProgressBar extends JPanel {
         progress.setStringPainted(true);
         progress.setFont(progress.getFont().deriveFont(24f));
         progress.setForeground(color);
-
         setupLayout(title);
     }
 
@@ -49,9 +48,14 @@ public class ProgressBar extends JPanel {
         // adds progress bar
         add(progress);
     }
-
+    //todo fix this
     public void setValue(double value) {
         value = limitValue(value, 0, 100);  // limit 0 - 100%
+        value = 40;
         progress.setValue((int) value);
+        progress.setString("prova");
+        progress.updateUI();
+        //System.out.println((int) value);
+
     }
 }

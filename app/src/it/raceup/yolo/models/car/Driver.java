@@ -20,12 +20,14 @@ public class Driver extends Observable implements Observer {
     private double steeringWheel;
     private double[] frontSuspension; //FR FL
     private double[] rearSuspension; //RR RL
+    private double[] brake_pressure; // FRONT REAR
 
     public Driver() {
         this.time = 0;
         throttleBrake = new double[2];
         frontSuspension = new double[2];
         rearSuspension = new double[2];
+        brake_pressure = new double[2];
     }
 
     public Driver(Raw[] raw) {
@@ -33,12 +35,13 @@ public class Driver extends Observable implements Observer {
         setDriverData(raw);
     }
 
-    private Driver(double time, double[] throttleBrake, double steeringWheel, double[] frontSuspension, double[] rearSuspension) {
+    private Driver(double time, double[] throttleBrake, double steeringWheel, double[] frontSuspension, double[] rearSuspension, double[] brake_pressure) {
         this.time = time;
         this.throttleBrake = throttleBrake;
         this.steeringWheel = steeringWheel;
         this.frontSuspension = frontSuspension;
         this.rearSuspension = rearSuspension;
+        this.brake_pressure = brake_pressure;
     }
 
     public void setDriverData(Raw[] raw) {
@@ -63,6 +66,10 @@ public class Driver extends Observable implements Observer {
                     rearSuspension[0] = raw[i++].getRaw();
                     rearSuspension[1] = raw[i++].getRaw();
                     break;
+                }
+                case BRAKE_PRESSURE: {
+                    brake_pressure[0] = raw[i++].getRaw();  //front
+                    brake_pressure[1] = raw[i++].getRaw();  //rear
                 }
             }
         }
@@ -91,15 +98,17 @@ public class Driver extends Observable implements Observer {
     }
 
     public String[] toStringArray() {
-        String[] toRet = new String[8];
+        String[] toRet = new String[10];
         toRet[0] = Double.toString(time);
-        toRet[1] = Double.toString(throttleBrake[0]);;
-        toRet[2] = Double.toString(throttleBrake[1]);;
+        toRet[1] = Double.toString(throttleBrake[0]);
+        toRet[2] = Double.toString(throttleBrake[1]);
         toRet[3] = Double.toString(steeringWheel);
-        toRet[4] = Double.toString(frontSuspension[0]);;
-        toRet[5] = Double.toString(frontSuspension[1]);;
-        toRet[6] = Double.toString(rearSuspension[0]);;
-        toRet[7] = Double.toString(rearSuspension[1]);;
+        toRet[4] = Double.toString(frontSuspension[0]);
+        toRet[5] = Double.toString(frontSuspension[1]);
+        toRet[6] = Double.toString(rearSuspension[0]);
+        toRet[7] = Double.toString(rearSuspension[1]);
+        toRet[8] = Double.toString(brake_pressure[0]);
+        toRet[9] = Double.toString(brake_pressure[1]);
         return toRet;
     }
 
@@ -154,7 +163,7 @@ public class Driver extends Observable implements Observer {
 
     private void triggerObservers() {
         setChanged();
-        notifyObservers(new Driver(time, throttleBrake, steeringWheel, frontSuspension, rearSuspension));
+        notifyObservers(new Driver(time, throttleBrake, steeringWheel, frontSuspension, rearSuspension, brake_pressure));
     }
 
 }

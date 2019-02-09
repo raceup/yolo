@@ -4,6 +4,7 @@ import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.logging.updaters.FileUpdater;
 import it.raceup.yolo.models.car.Motor;
+import it.raceup.yolo.models.car.Motors;
 import it.raceup.yolo.models.data.Raw;
 
 import java.util.Observable;
@@ -48,7 +49,13 @@ public class ShellMotorsUpdater extends ShellCsvUpdater {
             log[i] = "0";
         }
     }
-
+    
+    public void update(Motors motors){
+        for(int i = 0; i < motors.numberOfMotors(); i++){
+            update(motors.get(i));
+        }
+    }
+    
     private void update(Motor motor) {
         String message = motor.toString();
 
@@ -84,8 +91,6 @@ public class ShellMotorsUpdater extends ShellCsvUpdater {
             log[21] = Double.toString(doubleSetPointValue[1]);
             log[22] = Double.toString(doubleSetPointValue[2]);
             log[23] = Double.toString(motor.getTime());
-
-
             writeLog(log);
            }
     }
@@ -101,12 +106,6 @@ public class ShellMotorsUpdater extends ShellCsvUpdater {
 
     private void update(Motor[] motors) {
         for (Motor motor : motors) {
-            update(motor);
-        }
-    }
-
-    private void update(Raw[] motors) {
-        for (Raw motor : motors) {
             update(motor);
         }
     }
