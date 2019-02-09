@@ -29,6 +29,7 @@ public class Hal extends ShellLogger {
     private final Driver driver;
     private boolean[] loggerPreferences;
     private Runnable runner;
+    private final long LOG_RATIO = 1000; //Milliseconds
 
 
     public Hal(Motors motors, Kvaser kvaser, Imu imu, Driver driver, boolean[] loggerPreferences) {
@@ -66,7 +67,7 @@ public class Hal extends ShellLogger {
                             motorLogger.update(motors);
                             driverLogger.update(driver);
                             imuLogger.update(imu);
-                            Thread.sleep(1000);
+                            Thread.sleep(LOG_RATIO);
                     } catch (NullPointerException e){
                         //nothing to worry about
                     }
