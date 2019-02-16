@@ -10,11 +10,11 @@ import static it.raceup.yolo.Data.*;
 public class SettingsPanel extends JPanel {
     private final JTextField ipEditor;
     private final JComboBox<String> bitrateChooser;
-    private final JCheckBox checkboxMotorsLog = new JCheckBox("Motors", true);
+    private final JCheckBox checkboxMotorsLog = new JCheckBox("Motors", false);
     //private final JCheckBox checkboxCanLog = new JCheckBox("CAN bus");
     //private final JCheckBox checkboxBatteryLog = new JCheckBox("Battery and BMS");
-    private final JCheckBox checkboxIMULog = new JCheckBox("IMU", true);
-    private final JCheckBox checkboxDriverLog = new JCheckBox("Telemetry", true);
+    private final JCheckBox checkboxIMULog = new JCheckBox("IMU", false);
+    private final JCheckBox checkboxDriverLog = new JCheckBox("Telemetry", false);
 
     public SettingsPanel() {
         ipEditor = new JTextField("192.168.1.10");
@@ -101,13 +101,12 @@ public class SettingsPanel extends JPanel {
                 ipEditor.getText(),
                 (String) bitrateChooser.getSelectedItem(),
                 Boolean.toString(checkboxMotorsLog.isSelected()),
-               //Boolean.toString(checkboxCanLog.isSelected()),
+                //Boolean.toString(checkboxCanLog.isSelected()),
                 //Boolean.toString(checkboxBatteryLog.isSelected()),
                 Boolean.toString(checkboxIMULog.isSelected()),
                 Boolean.toString(checkboxDriverLog.isSelected())
         };
     }
-
 
 
     private void showHelpDialog() {

@@ -23,7 +23,7 @@ public class Motor {
         this.tag = tag;
     }
 
-    public Motor(String tag, double time){
+    public Motor(String tag, double time) {
         this.tag = tag;
         this.time = time;
     }
@@ -73,7 +73,7 @@ public class Motor {
         return 0;  // todo better exception or DNF
     }
 
-    public void setTime(double time){
+    public void setTime(double time) {
         this.time = time;
     }
 
@@ -116,17 +116,29 @@ public class Motor {
         return toString(Raw.SET_POINTS);
     }
 
-    public double[] getTemeperatureValue() {return temperature.getValues();}
+    public double[] getTemeperatureValue() {
+        return temperature.getValues();
+    }
 
-    public boolean[] getBooleanFlagsValue() { return flags.getBooleanValue(); }
+    public boolean[] getBooleanFlagsValue() {
+        return flags.getBooleanValue();
+    }
 
-    public double[] getDoubleFlagsValue() { return flags.getFlagsValue(); }
+    public double[] getDoubleFlagsValue() {
+        return flags.getFlagsValue();
+    }
 
-    public boolean[] getBooleanSetPointValue() { return setPoint.getBooleanSetPointValue(); }
+    public boolean[] getBooleanSetPointValue() {
+        return setPoint.getBooleanSetPointValue();
+    }
 
-    public double[] getDoubleSetPointValue() { return setPoint.getDoubleSetPointValue(); }
+    public double[] getDoubleSetPointValue() {
+        return setPoint.getDoubleSetPointValue();
+    }
 
-    public double getTime() { return time;}
+    public double getTime() {
+        return time;
+    }
 
     @Override
     public String toString() {

@@ -4,7 +4,6 @@ import it.raceup.yolo.models.data.Raw;
 import it.raceup.yolo.models.data.Type;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.Arrays;
 
@@ -78,7 +77,7 @@ public class TablePanel extends JPanel {
             int tableRow = Arrays.asList(labels).indexOf(type);
             if (tableRow >= 0) {
                 if (isBool) {
-                    table.setValueAt(data.intValue() == 1, tableRow, 1); //removed data.intValue
+                    table.setValueAt(data.intValue() == 1, tableRow, 1);
                 } else {
                     table.setValueAt(getAsString(data), tableRow, 1);
                 }

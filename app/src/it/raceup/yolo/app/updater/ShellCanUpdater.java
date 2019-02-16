@@ -4,8 +4,6 @@ import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.logging.updaters.FileUpdater;
 import it.raceup.yolo.models.data.CanMessage;
-import it.raceup.yolo.models.kvaser.Kvaser;
-import java.lang.instrument.Instrumentation;
 import it.raceup.yolo.models.kvaser.message.FromKvaserMessage;
 
 import java.util.ArrayList;
@@ -51,10 +49,10 @@ public class ShellCanUpdater extends ShellCsvUpdater {
         }
     }
 
-    private void update(ArrayList<CanMessage> messages){
+    private void update(ArrayList<CanMessage> messages) {
         buffer.addAll(messages);
-        if(buffer.size() >= MAX_BUFFER_DIMENSION) {
-            copyOfBuffer =  new ArrayList<>(buffer);
+        if (buffer.size() >= MAX_BUFFER_DIMENSION) {
+            copyOfBuffer = new ArrayList<>(buffer);
             buffer.clear();
             Thread writer = new Thread(runner);
             writer.start();
@@ -62,7 +60,7 @@ public class ShellCanUpdater extends ShellCsvUpdater {
 
         runner = new Runnable() {
             @Override
-            public void run(){
+            public void run() {
                 for (CanMessage insideBuffer : copyOfBuffer) {
                     String[] columns = getColumns(insideBuffer);
                     writeLog(columns);
@@ -71,7 +69,7 @@ public class ShellCanUpdater extends ShellCsvUpdater {
         };
     }
 
-    public void update(CanMessage message){
+    public void update(CanMessage message) {
         String[] columns = getColumns(message);
 
         if (this.isLogToFile()) {

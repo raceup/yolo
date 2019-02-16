@@ -43,7 +43,7 @@ public class Temperature {
 
     public double[] getValues() {
         double[] toRet = {motor, inverter, igbt, errorInfo};
-        return  toRet;
+        return toRet;
     }
 
     public void update(Raw data) {

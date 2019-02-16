@@ -67,17 +67,17 @@ public class Raw {
         this.time = time;
     }
 
-    public Raw(double raw, Type type){
+    public Raw(double raw, Type type) {
         this.type = type;
         this.raw = raw;
     }
 
-    public Raw(float raw, Type type){
+    public Raw(float raw, Type type) {
         this.type = type;
         this.raw = raw;
     }
 
-    public Raw(double raw, Type type, double time){
+    public Raw(double raw, Type type, double time) {
         this.type = type;
         this.raw = raw;
         this.time = time;
@@ -118,7 +118,9 @@ public class Raw {
         return motor;
     }
 
-    public double getTime() { return time; }
+    public double getTime() {
+        return time;
+    }
 
     public boolean isTemperature() {
         return isTemperature(getType());

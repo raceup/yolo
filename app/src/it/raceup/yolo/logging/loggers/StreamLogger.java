@@ -52,6 +52,7 @@ public class StreamLogger implements Logger {
         try {
             out.write(message.getBytes(StandardCharsets.UTF_8));
         } catch (Exception e) {
+            e.printStackTrace();
             System.err.println(getErrorMessage(e));
         }
     }

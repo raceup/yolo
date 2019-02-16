@@ -33,8 +33,9 @@ public enum Type {
     THROTTLE,
     BRAKE,
     STEERINGWHEEL,
-    FRONT_SUSPENSION,
-    REAR_SUSPENSION,
+    FRONT_SUSPENSION_POTENTIOMETER,
+    REAR_SUSPENSION_POTENTIOMETER,
+    WHEEL_TEMPERATURE,
     BRAKE_PRESSURE;
 
     @Override
@@ -103,8 +104,12 @@ public enum Type {
             return "Brake";
         } else if (this == STEERINGWHEEL) {
             return "Steering wheel";
-        } else if(this == BRAKE_PRESSURE){
-            return  "Brake pressure";
+        } else if (this == BRAKE_PRESSURE) {
+            return "Brake pressure";
+        } else if (this == FRONT_SUSPENSION_POTENTIOMETER) {
+            return "Front Suspension";
+        } else if (this == REAR_SUSPENSION_POTENTIOMETER) {
+            return "Rear Suspension";
         }
         return "DNF";
     }

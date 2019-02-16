@@ -1,10 +1,8 @@
 package it.raceup.yolo.ui.component.driver;
 
-import it.raceup.yolo.Data;
 import it.raceup.yolo.ui.utils.ChartPanel;
 
 import javax.swing.*;
-import java.awt.*;
 
 import static it.raceup.yolo.models.data.Base.DEGREES;
 import static it.raceup.yolo.models.data.Base.getAsString;

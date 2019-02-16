@@ -18,15 +18,15 @@ public class Driver extends Observable implements Observer {
     private double time;
     private double[] throttleBrake;
     private double steeringWheel;
-    private double[] frontSuspension; //FR FL
-    private double[] rearSuspension; //RR RL
+    private double frontSuspensionPotentiometer;
+    private double rearSuspensionPotentiometer;
     private double[] brake_pressure; // FRONT REAR
 
     public Driver() {
         this.time = 0;
         throttleBrake = new double[2];
-        frontSuspension = new double[2];
-        rearSuspension = new double[2];
+        frontSuspensionPotentiometer = 0;
+        rearSuspensionPotentiometer = 0;
         brake_pressure = new double[2];
     }
 
@@ -35,12 +35,12 @@ public class Driver extends Observable implements Observer {
         setDriverData(raw);
     }
 
-    private Driver(double time, double[] throttleBrake, double steeringWheel, double[] frontSuspension, double[] rearSuspension, double[] brake_pressure) {
+    private Driver(double time, double[] throttleBrake, double steeringWheel, double frontSuspensionPotentiometer, double rearSuspensionPotentiometer, double[] brake_pressure) {
         this.time = time;
         this.throttleBrake = throttleBrake;
         this.steeringWheel = steeringWheel;
-        this.frontSuspension = frontSuspension;
-        this.rearSuspension = rearSuspension;
+        this.frontSuspensionPotentiometer = frontSuspensionPotentiometer;
+        this.rearSuspensionPotentiometer = rearSuspensionPotentiometer;
         this.brake_pressure = brake_pressure;
     }
 
@@ -57,19 +57,17 @@ public class Driver extends Observable implements Observer {
                     steeringWheel = raw[i++].getRaw();
                     break;
                 }
-                case FRONT_SUSPENSION: {
-                    frontSuspension[0] = raw[i++].getRaw();
-                    frontSuspension[1] = raw[i++].getRaw();
+                case FRONT_SUSPENSION_POTENTIOMETER: {
+                    frontSuspensionPotentiometer = raw[i++].getRaw();
                     break;
                 }
-                case REAR_SUSPENSION: {
-                    rearSuspension[0] = raw[i++].getRaw();
-                    rearSuspension[1] = raw[i++].getRaw();
+                case REAR_SUSPENSION_POTENTIOMETER: {
+                    rearSuspensionPotentiometer = raw[i++].getRaw();
                     break;
                 }
                 case BRAKE_PRESSURE: {
-                    brake_pressure[0] = raw[i++].getRaw();  //front
-                    brake_pressure[1] = raw[i++].getRaw();  //rear
+                    brake_pressure[0] = raw[i++].getRaw();
+                    brake_pressure[1] = raw[i++].getRaw();
                 }
             }
         }
@@ -85,10 +83,12 @@ public class Driver extends Observable implements Observer {
                 return throttleBrake;
             case STEERINGWHEEL:
                 return new double[]{steeringWheel};
-            case FRONT_SUSPENSION:
-                return frontSuspension;
-            case REAR_SUSPENSION:
-                return rearSuspension;
+            case FRONT_SUSPENSION_POTENTIOMETER:
+                return new double[]{frontSuspensionPotentiometer};
+            case REAR_SUSPENSION_POTENTIOMETER:
+                return new double[]{rearSuspensionPotentiometer};
+            case BRAKE_PRESSURE:
+                return brake_pressure;
         }
         return new double[]{0};
     }
@@ -98,17 +98,15 @@ public class Driver extends Observable implements Observer {
     }
 
     public String[] toStringArray() {
-        String[] toRet = new String[10];
+        String[] toRet = new String[8];
         toRet[0] = Double.toString(time);
         toRet[1] = Double.toString(throttleBrake[0]);
         toRet[2] = Double.toString(throttleBrake[1]);
         toRet[3] = Double.toString(steeringWheel);
-        toRet[4] = Double.toString(frontSuspension[0]);
-        toRet[5] = Double.toString(frontSuspension[1]);
-        toRet[6] = Double.toString(rearSuspension[0]);
-        toRet[7] = Double.toString(rearSuspension[1]);
-        toRet[8] = Double.toString(brake_pressure[0]);
-        toRet[9] = Double.toString(brake_pressure[1]);
+        toRet[4] = Double.toString(frontSuspensionPotentiometer);
+        toRet[5] = Double.toString(rearSuspensionPotentiometer);
+        toRet[6] = Double.toString(brake_pressure[0]);
+        toRet[7] = Double.toString(brake_pressure[1]);
         return toRet;
     }
 
@@ -117,8 +115,8 @@ public class Driver extends Observable implements Observer {
             if (type == Type.STEERINGWHEEL ||
                     type == Type.THROTTLE ||
                     type == Type.BRAKE ||
-                    type == Type.FRONT_SUSPENSION ||
-                    type == Type.REAR_SUSPENSION
+                    type == Type.FRONT_SUSPENSION_POTENTIOMETER ||
+                    type == Type.REAR_SUSPENSION_POTENTIOMETER
             )
                 return true;
             else {
@@ -163,7 +161,7 @@ public class Driver extends Observable implements Observer {
 
     private void triggerObservers() {
         setChanged();
-        notifyObservers(new Driver(time, throttleBrake, steeringWheel, frontSuspension, rearSuspension, brake_pressure));
+        notifyObservers(new Driver(time, throttleBrake, steeringWheel, frontSuspensionPotentiometer, rearSuspensionPotentiometer, brake_pressure));
     }
 
 }

@@ -14,12 +14,28 @@ public class ChartPanel extends org.jfree.chart.ChartPanel {
      *
      * @param titleOfSeries list of title of series to add to chart
      */
+
     public ChartPanel(final String[] titleOfSeries) {
         super(
                 ChartFactory.createTimeSeriesChart(
                         "",  // no title
                         "Time (seconds)",
                         "Values",
+                        createChartDataSet(titleOfSeries),
+                        true,  // legend
+                        false,  // tooltips
+                        false  // urls
+                )
+        );
+        configureChart();
+    }
+
+    public ChartPanel(final String[] titleOfSeries, String value) {
+        super(
+                ChartFactory.createTimeSeriesChart(
+                        "",  // title
+                        "",
+                        value,
                         createChartDataSet(titleOfSeries),
                         true,  // legend
                         false,  // tooltips

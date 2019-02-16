@@ -18,9 +18,10 @@ public class Flags {
     }
 
     public double[] getFlagsValue() {
-        double[] toRet = {actualVelocity,torqueCurrent,magnetizingCurrent};
+        double[] toRet = {actualVelocity, torqueCurrent, magnetizingCurrent};
         return toRet;
     }
+
     public boolean isSystemReady() {
         return systemReady;
     }

@@ -1,6 +1,5 @@
 package it.raceup.yolo.control;
 
-import it.raceup.yolo.app.updater.ShellCanUpdater;
 import it.raceup.yolo.app.updater.ShellDriverUpdater;
 import it.raceup.yolo.app.updater.ShellImuUpdater;
 import it.raceup.yolo.app.updater.ShellMotorsUpdater;
@@ -29,7 +28,7 @@ public class Hal extends ShellLogger {
     private final Driver driver;
     private boolean[] loggerPreferences;
     private Runnable runner;
-    private final long LOG_RATIO = 1000; //Milliseconds
+    private final long LOG_RATIO = 20; //Milliseconds
 
 
     public Hal(Motors motors, Kvaser kvaser, Imu imu, Driver driver, boolean[] loggerPreferences) {
@@ -64,14 +63,13 @@ public class Hal extends ShellLogger {
 
                 while (true) {
                     try {
-                            motorLogger.update(motors);
-                            driverLogger.update(driver);
-                            imuLogger.update(imu);
-                            Thread.sleep(LOG_RATIO);
-                    } catch (NullPointerException e){
+                        motorLogger.update(motors);
+                        driverLogger.update(driver);
+                        imuLogger.update(imu);
+                        Thread.sleep(LOG_RATIO);
+                    } catch (NullPointerException e) {
                         //nothing to worry about
-                    }
-                    catch (InterruptedException e) {
+                    } catch (InterruptedException e) {
                         e.printStackTrace();
                         new YoloException("interrupt exception", e, ExceptionType.MODEL).print();
                     }

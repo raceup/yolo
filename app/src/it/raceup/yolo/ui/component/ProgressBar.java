@@ -48,6 +48,7 @@ public class ProgressBar extends JPanel {
         // adds progress bar
         add(progress);
     }
+
     //todo fix this
     public void setValue(double value) {
         value = limitValue(value, 0, 100);  // limit 0 - 100%

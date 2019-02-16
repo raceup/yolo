@@ -122,25 +122,25 @@ public class Imu extends Observable implements Observer {
         return new double[]{0};
     }
 
-    public String[] toStringArray(){
+    public String[] toStringArray() {
         int index = 0;
         String[] toRet = new String[18]; //sums
         toRet[index++] = Double.toString(time);
         toRet[index++] = Double.toString(log_status[0]);
-        for (int i = 0; i < acceleration.length; i++){
+        for (int i = 0; i < acceleration.length; i++) {
             toRet[index++] = Double.toString(acceleration[i]);
         }
-        for(int i = 0; i < gyro.length; i++){
+        for (int i = 0; i < gyro.length; i++) {
             toRet[index++] = Double.toString(gyro[i]);
         }
-        for(int i = 0; i < roll_pitch_yaw.length; i++){
+        for (int i = 0; i < roll_pitch_yaw.length; i++) {
             toRet[index++] = Double.toString(roll_pitch_yaw[i]);
         }
-        for(int i = 0; i < quaternion.length; i++){
+        for (int i = 0; i < quaternion.length; i++) {
             toRet[index++] = Double.toString(quaternion[i]);
         }
         toRet[index++] = Double.toString(velocity);
-        for(int i = 0; i < gps.length; i++){
+        for (int i = 0; i < gps.length; i++) {
             toRet[index++] = Double.toString(gps[i]);
         }
         return toRet;

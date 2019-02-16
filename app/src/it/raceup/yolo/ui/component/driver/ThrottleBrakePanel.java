@@ -25,8 +25,8 @@ import java.awt.*;
 /**
  * Panel with info about brakes (total % and rear-front balance)
  */
-public class ThrottleBrakePanel extends JPanel{
-    
+public class ThrottleBrakePanel extends JPanel {
+
     private final ProgressBar throttleBar =
             new ProgressBar("Throttle", Color.GREEN);
 

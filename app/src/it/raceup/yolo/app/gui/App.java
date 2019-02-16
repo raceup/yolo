@@ -1,7 +1,10 @@
 package it.raceup.yolo.app.gui;
 
 import it.raceup.yolo.app.KvaserApp;
-import it.raceup.yolo.app.updater.*;
+import it.raceup.yolo.app.updater.ShellCanUpdater;
+import it.raceup.yolo.app.updater.ShellDriverUpdater;
+import it.raceup.yolo.app.updater.ShellImuUpdater;
+import it.raceup.yolo.app.updater.ShellMotorsUpdater;
 import it.raceup.yolo.control.Hal;
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
@@ -54,7 +57,7 @@ public class App extends KvaserApp {
                     .VIEW).print();
             System.exit(1);
         }
-    return settings;
+        return settings;
     }
 
 
@@ -73,7 +76,7 @@ public class App extends KvaserApp {
                 new FakeBlackBird(ip),
                 new Imu(),
                 new Driver(),
-                new boolean[] {logMotors, logIMU, logDriver}
+                new boolean[]{logMotors, logIMU, logDriver}
         );
 
         try {
@@ -82,7 +85,7 @@ public class App extends KvaserApp {
             log(e);
             showMessage(e);
         }
-        }
+    }
 
 
     @Override

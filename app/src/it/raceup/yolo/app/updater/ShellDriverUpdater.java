@@ -7,21 +7,20 @@ import it.raceup.yolo.models.car.Driver;
 import it.raceup.yolo.models.data.CanMessage;
 import it.raceup.yolo.models.data.Parser;
 import it.raceup.yolo.models.data.Raw;
-import it.raceup.yolo.models.data.Type;
 import it.raceup.yolo.models.kvaser.message.FromKvaserMessage;
 
 import java.util.ArrayList;
 import java.util.Observable;
 
-public class ShellDriverUpdater extends ShellCsvUpdater{
+public class ShellDriverUpdater extends ShellCsvUpdater {
 
     public static final String DEFAULT_FOLDER = FileUpdater.DEFAULT_FOLDER + "/driver/";
     private static final String[] COLUMNS = new String[]{
             "Time",
             "Steering Wheel",
             "Throttle", "Brake",
-            "FR susp", "FL sups",
-            "RR susp", "RL susp",
+            "Front susp",
+            "Rear susp",
     };
 
     private static final String[] log = new String[COLUMNS.length];
@@ -60,16 +59,16 @@ public class ShellDriverUpdater extends ShellCsvUpdater{
     private void update(Raw[] raw) {
         Driver imu = new Driver(raw);
         String[] temp = imu.toStringArray();
-        for(int i = 0; i < log.length; i++){
-            log[i]  = temp[i];
+        for (int i = 0; i < log.length; i++) {
+            log[i] = temp[i];
         }
         writeLog(log);
     }
 
-    public void update(Driver driver){
+    public void update(Driver driver) {
         String[] temp = driver.toStringArray();
-        for(int i = 0; i < log.length; i++){
-            log[i]  = temp[i];
+        for (int i = 0; i < log.length; i++) {
+            log[i] = temp[i];
         }
         writeLog(log);
     }

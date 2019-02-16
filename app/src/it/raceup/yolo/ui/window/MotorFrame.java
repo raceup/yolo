@@ -15,7 +15,7 @@ import static it.raceup.yolo.models.data.Raw.*;
 
 public class MotorFrame extends JFrame {
     private JTable flags, sp, temperature;
-    private int TRIMMER_TABLE_HEIGHT = 28;
+    private int TRIMMER_TABLE_HEIGHT = 40;
 
     public MotorFrame(final String title) {
         super(title);
@@ -127,7 +127,7 @@ public class MotorFrame extends JFrame {
 
         if (tableRow >= 0) {
             if (isBoolean(type)) {
-                table.setValueAt(data.intValue() ==1, tableRow, 1); //removed intValue
+                table.setValueAt(data.intValue() == 1, tableRow, 1); //removed intValue
             } else {
                 table.setValueAt(getAsString(data), tableRow, 1);
             }

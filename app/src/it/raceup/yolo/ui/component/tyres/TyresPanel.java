@@ -3,6 +3,7 @@ package it.raceup.yolo.ui.component.tyres;
 import it.raceup.yolo.Data;
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
+import it.raceup.yolo.models.car.Tyre;
 import it.raceup.yolo.models.data.Raw;
 import it.raceup.yolo.models.data.Type;
 
@@ -72,10 +73,18 @@ public class TyresPanel extends JPanel implements Observer {
         }
     }
 
+
+    public void update(Tyre tyre) {
+        update(0, Type.WHEEL_TEMPERATURE, tyre.getTyreData(Type.WHEEL_TEMPERATURE)[0]);
+        update(0, Type.WHEEL_TEMPERATURE, tyre.getTyreData(Type.WHEEL_TEMPERATURE)[1]);
+        update(0, Type.WHEEL_TEMPERATURE, tyre.getTyreData(Type.WHEEL_TEMPERATURE)[2]);
+        update(0, Type.WHEEL_TEMPERATURE, tyre.getTyreData(Type.WHEEL_TEMPERATURE)[3]);
+    }
+
     @Override
     public void update(Observable observable, Object o) {
         try {
-            update((it.raceup.yolo.models.car.Motor[]) o);
+
         } catch (Exception e) {
             new YoloException("cannot update tyres", e, ExceptionType.VIEW)
                     .print();
@@ -95,4 +104,5 @@ public class TyresPanel extends JPanel implements Observer {
 
         g.drawImage(CAR_IMAGE, startXImage, startYImage, imageWidth, imageHeight, this);
     }
+
 }

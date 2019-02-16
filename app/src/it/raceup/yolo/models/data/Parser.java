@@ -4,10 +4,10 @@ import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.utils.Misc;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Parser {
     private static final int index_diff_1[] = new int[]{
@@ -79,18 +79,17 @@ public class Parser {
     public void parseValues() {
         if (getValueType() == 1) {
             readMotor1();
-        } else if(getValueType() == 2) {
+        } else if (getValueType() == 2) {
             readMotor2();
-        } else if(getValueType() == 3){
+        } else if (getValueType() == 3) {
             readThrottleBrake();
-        } else if(getValueType() == 4){
+        } else if (getValueType() == 4) {
             readSteeringWheel();
-        } else if(getValueType() == 5){
+        } else if (getValueType() == 5) {
             readSuspension();
-        } else if(getValueType() == 6){
+        } else if (getValueType() == 6) {
             readBrakePressure();
-        }
-        else {
+        } else {
             readIMU();
         }
     }
@@ -231,16 +230,16 @@ public class Parser {
                 return 2;
             }
 
-            if(id == THROTTLE_BRAKE){
+            if (id == THROTTLE_BRAKE) {
                 return 3;
             }
-            if(id == STEERING_WHEEL){
+            if (id == STEERING_WHEEL) {
                 return 4;
             }
-            if(id == FRONT_SUSPENSION){
+            if (id == FRONT_SUSPENSION) {
                 return 5;
             }
-            if(id == BRAKE_PRESSURE)
+            if (id == BRAKE_PRESSURE)
                 return 6;
         }
 
@@ -254,10 +253,12 @@ public class Parser {
     private static int hToNInt(byte[] datas, int index) {
         return (int) (((datas[index] & 0xFF) << 24) | ((datas[index + 1] & 0xFF) << 16) | ((datas[index + 2] & 0xFF) << 8) | ((datas[index + 3] & 0xFF)));
     }
+
     private static short hToNShort(byte[] datas, int index) {
         return (short) (((datas[index] & 0xFF) << 8) | ((datas[index + 1]) & 0xFF));
     }
-    private static float hToNFloat(byte[] datas, int index){
+
+    private static float hToNFloat(byte[] datas, int index) {
         float f = ByteBuffer.wrap(datas).order(ByteOrder.LITTLE_ENDIAN).getFloat();
         return f;
     }
@@ -286,15 +287,15 @@ public class Parser {
                 parsedData.add(new Raw(((-1) * ((~hToNShort(datasBigEndian, FIFTH_BYTE) + one))), Type.ACCELERATION, KvaserTime));
                 parsedData.add(new Raw(((-1) * ((~hToNShort(datasBigEndian, THIRD_BYTE) + one))), Type.ACCELERATION, KvaserTime));
                 parsedData.add(new Raw(((-1) * ((~hToNShort(datasBigEndian, FIRST_BYTE) + one))), Type.ACCELERATION, KvaserTime));
-            }else if (id == GYRO) {
+            } else if (id == GYRO) {
                 parsedData.add(new Raw(((-1) * ((~hToNShort(datasBigEndian, FIFTH_BYTE) + one))), Type.GYRO, KvaserTime));
                 parsedData.add(new Raw(((-1) * ((~hToNShort(datasBigEndian, THIRD_BYTE) + one))), Type.GYRO, KvaserTime));
                 parsedData.add(new Raw(((-1) * ((~hToNShort(datasBigEndian, FIRST_BYTE) + one))), Type.GYRO, KvaserTime));
-            }else if (id == ROLL_PITCH_YAW) {
+            } else if (id == ROLL_PITCH_YAW) {
                 parsedData.add(new Raw(((-1) * ((~hToNShort(datasBigEndian, FIFTH_BYTE) + one))), Type.ROLL_PITCH_YAW, KvaserTime));
                 parsedData.add(new Raw(((-1) * ((~hToNShort(datasBigEndian, THIRD_BYTE) + one))), Type.ROLL_PITCH_YAW, KvaserTime));
                 parsedData.add(new Raw(((-1) * ((~hToNShort(datasBigEndian, FIRST_BYTE) + one))), Type.ROLL_PITCH_YAW, KvaserTime));
-            }else if (id == QUATERNION) {
+            } else if (id == QUATERNION) {
                 parsedData.add(new Raw(((-1) * ((~hToNShort(datasBigEndian, SEVENTH_BYTE) + one))), Type.QUATERNION, KvaserTime));
                 parsedData.add(new Raw(((-1) * ((~hToNShort(datasBigEndian, FIFTH_BYTE) + one))), Type.QUATERNION, KvaserTime));
                 parsedData.add(new Raw(((-1) * ((~hToNShort(datasBigEndian, THIRD_BYTE) + one))), Type.QUATERNION, KvaserTime));
@@ -311,23 +312,23 @@ public class Parser {
                     .KVASER).print();
         }
     }
-    public void readThrottleBrake(){
-        parsedData.add(new Raw(hToNFloat(data,FIRST_BYTE), Type.THROTTLE, KvaserTime));
-        parsedData.add(new Raw(hToNFloat(data,FIFTH_BYTE), Type.BRAKE, KvaserTime));
+
+    public void readThrottleBrake() {
+        parsedData.add(new Raw(hToNFloat(data, FIRST_BYTE), Type.THROTTLE, KvaserTime));
+        parsedData.add(new Raw(hToNFloat(data, FIFTH_BYTE), Type.BRAKE, KvaserTime));
     }
 
-    public void readSteeringWheel(){
+    public void readSteeringWheel() {
         parsedData.add(new Raw(hToNShort(data, FIRST_BYTE), Type.STEERINGWHEEL, KvaserTime));
     }
 
     private void readSuspension() {
-        if(id == FRONT_SUSPENSION) {
-            parsedData.add(new Raw(hToNFloat(data, FIRST_BYTE), Type.FRONT_SUSPENSION, KvaserTime));
-            parsedData.add(new Raw(hToNFloat(data, FIFTH_BYTE), Type.FRONT_SUSPENSION, KvaserTime));
-        }
-        else{
-            parsedData.add(new Raw(hToNFloat(data, FIRST_BYTE), Type.REAR_SUSPENSION, KvaserTime));
-            parsedData.add(new Raw(hToNFloat(data, FIFTH_BYTE), Type.REAR_SUSPENSION, KvaserTime));
+        if (id == FRONT_SUSPENSION) {
+            parsedData.add(new Raw(hToNFloat(data, FIRST_BYTE), Type.FRONT_SUSPENSION_POTENTIOMETER, KvaserTime));
+            parsedData.add(new Raw(hToNFloat(data, FIFTH_BYTE), Type.FRONT_SUSPENSION_POTENTIOMETER, KvaserTime));
+        } else {
+            parsedData.add(new Raw(hToNFloat(data, FIRST_BYTE), Type.REAR_SUSPENSION_POTENTIOMETER, KvaserTime));
+            parsedData.add(new Raw(hToNFloat(data, FIFTH_BYTE), Type.REAR_SUSPENSION_POTENTIOMETER, KvaserTime));
         }
     }
 

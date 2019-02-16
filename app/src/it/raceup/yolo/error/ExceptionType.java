@@ -8,7 +8,6 @@ public enum ExceptionType {
     MODEL("Model"),
     VIEW("View"),
     CONTROLLER("Controller"),
-    LOGGING("Logging"),
     IMU("Imu"),
     DRIVER("Driver");
 

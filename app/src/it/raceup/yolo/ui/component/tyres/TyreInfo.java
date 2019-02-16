@@ -5,9 +5,7 @@ import it.raceup.yolo.ui.component.table.TablePanel;
 public class TyreInfo extends TablePanel {
     private static final String[] LABELS =
             new String[]{
-                    "Potentioneter",
-                    "Brake pressure",
-                    "Temperature"
+                    "Potentiometer",
             };
 
     public TyreInfo(String tag) {

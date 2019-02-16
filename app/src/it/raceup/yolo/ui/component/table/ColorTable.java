@@ -5,7 +5,6 @@ import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 
 public class ColorTable extends MultiObjectTable {
     private Icon redIcon;

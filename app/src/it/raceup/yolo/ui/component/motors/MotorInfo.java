@@ -15,6 +15,8 @@ public class MotorInfo extends TablePanel {
                     TORQUE_CURRENT.toString(),
                     TEMPERATURE_MOTOR.toString(),
                     TEMPERATURE_INVERTER.toString(),
+                    FRONT_SUSPENSION_POTENTIOMETER.toString(),
+                    REAR_SUSPENSION_POTENTIOMETER.toString()
             };
 
     public MotorInfo(String tag) {

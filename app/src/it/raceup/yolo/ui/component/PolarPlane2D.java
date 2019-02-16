@@ -5,7 +5,7 @@ import java.awt.*;
 import java.text.DecimalFormat;
 
 /**
- * Polar plane 2D
+ * aPolar plane 2D
  */
 public class PolarPlane2D extends JPanel {
     private static final DecimalFormat SHORT_DEC_FORMAT = new DecimalFormat("0.00");  // decimal places

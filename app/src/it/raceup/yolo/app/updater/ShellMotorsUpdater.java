@@ -43,19 +43,20 @@ public class ShellMotorsUpdater extends ShellCsvUpdater {
 
     private final String SEPARATOR = ",";
     private static final String[] log = new String[COLUMNS.length];
+
     public ShellMotorsUpdater(boolean logToShell, boolean logToFile) {
         super("MOTORS", COLUMNS, DEFAULT_FOLDER, logToShell, logToFile);
         for (int i = 0; i < log.length; i++) {
             log[i] = "0";
         }
     }
-    
-    public void update(Motors motors){
-        for(int i = 0; i < motors.numberOfMotors(); i++){
+
+    public void update(Motors motors) {
+        for (int i = 0; i < motors.numberOfMotors(); i++) {
             update(motors.get(i));
         }
     }
-    
+
     private void update(Motor motor) {
         String message = motor.toString();
 
@@ -70,7 +71,7 @@ public class ShellMotorsUpdater extends ShellCsvUpdater {
             log[0] = motor.getTag();
             boolean[] booleanFlagsValue = motor.getBooleanFlagsValue();
             for (int i = 0; i < 8; i++) {
-                log[i+1] = Boolean.toString(booleanFlagsValue[i]);
+                log[i + 1] = Boolean.toString(booleanFlagsValue[i]);
             }
             double[] flagsValue = motor.getDoubleFlagsValue();
             log[9] = Double.toString(flagsValue[0]);
@@ -92,10 +93,10 @@ public class ShellMotorsUpdater extends ShellCsvUpdater {
             log[22] = Double.toString(doubleSetPointValue[2]);
             log[23] = Double.toString(motor.getTime());
             writeLog(log);
-           }
+        }
     }
 
-    private void update(Raw motor){
+    private void update(Raw motor) {
         System.out.println(motor.getType());
         System.out.println(motor.getMotor());
         System.out.println(motor.getRaw());

@@ -7,7 +7,6 @@ import it.raceup.yolo.models.car.Imu;
 import it.raceup.yolo.models.data.CanMessage;
 import it.raceup.yolo.models.data.Parser;
 import it.raceup.yolo.models.data.Raw;
-import it.raceup.yolo.models.data.Type;
 import it.raceup.yolo.models.kvaser.message.FromKvaserMessage;
 
 import java.util.ArrayList;
@@ -64,8 +63,8 @@ public class ShellImuUpdater extends ShellCsvUpdater {
     public void update(Raw[] raw) {
         Imu imu = new Imu(raw);
         String[] temp = imu.toStringArray();
-        for(int i = 0; i < log.length; i++){
-            log[i]  = temp[i];
+        for (int i = 0; i < log.length; i++) {
+            log[i] = temp[i];
         }
         writeLog(log);
 
@@ -73,8 +72,8 @@ public class ShellImuUpdater extends ShellCsvUpdater {
 
     public void update(Imu imu) {
         String[] temp = imu.toStringArray();
-        for(int i = 0; i < log.length; i++){
-            log[i]  = temp[i];
+        for (int i = 0; i < log.length; i++) {
+            log[i] = temp[i];
         }
 
         writeLog(log);
