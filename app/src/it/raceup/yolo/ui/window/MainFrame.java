@@ -17,7 +17,6 @@ public class MainFrame extends JFrame {
     private final MotorsPanel motorPanels = new MotorsPanel();
     private final BatteryFrame batteryFrame = new BatteryFrame();
     private final DynamicsFrame dynamicsFrame = new DynamicsFrame();
-    //test code
     private final DriverFrame driverFrame = new DriverFrame();
 
     public MainFrame() {

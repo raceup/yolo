@@ -110,26 +110,6 @@ public class Driver extends Observable implements Observer {
         return toRet;
     }
 
-    private boolean checkDriverType(Type type) {
-        try {
-            if (type == Type.STEERINGWHEEL ||
-                    type == Type.THROTTLE ||
-                    type == Type.BRAKE ||
-                    type == Type.FRONT_SUSPENSION_POTENTIOMETER ||
-                    type == Type.REAR_SUSPENSION_POTENTIOMETER
-            )
-                return true;
-            else {
-                return false;
-
-            }
-        } catch (Exception e) {
-            new YoloException("Wrong Imu type", e, ExceptionType.IMU)
-                    .print();
-        }
-        return false;
-    }
-
     private void update(Raw[] raw) {
         setDriverData(raw);
     }
@@ -154,7 +134,7 @@ public class Driver extends Observable implements Observer {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            new YoloException("cannot update Imu car", e, ExceptionType.IMU).print();
+            new YoloException("cannot update Driver car", e, ExceptionType.DRIVER).print();
         }
 
     }

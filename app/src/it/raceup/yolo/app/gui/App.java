@@ -11,6 +11,7 @@ import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.car.Driver;
 import it.raceup.yolo.models.car.Imu;
 import it.raceup.yolo.models.car.Motors;
+import it.raceup.yolo.models.kvaser.BlackBird;
 import it.raceup.yolo.models.kvaser.FakeBlackBird;
 import it.raceup.yolo.ui.window.MainFrame;
 
@@ -73,7 +74,8 @@ public class App extends KvaserApp {
 
         hal = new Hal(
                 new Motors(),
-                new FakeBlackBird(ip),
+                //new FakeBlackBird(ip),
+                new BlackBird(ip),
                 new Imu(),
                 new Driver(),
                 new boolean[]{logMotors, logIMU, logDriver}

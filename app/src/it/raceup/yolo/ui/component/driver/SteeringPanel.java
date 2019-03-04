@@ -10,7 +10,8 @@ import static it.raceup.yolo.models.data.Base.getAsString;
 /**
  * Panel with info about steering wheel rotation angle
  */
-public class SteeringPanel extends JFrame {
+public class
+SteeringPanel extends JFrame {
 
     private final JLabel valueLabel;
     final String[] listOfSeries = {"Steering wheel"};

@@ -17,7 +17,7 @@ public class SettingsPanel extends JPanel {
     private final JCheckBox checkboxDriverLog = new JCheckBox("Telemetry", false);
 
     public SettingsPanel() {
-        ipEditor = new JTextField("192.168.1.10");
+        ipEditor = new JTextField("192.168.43.228");
         bitrateChooser = new JComboBox<>(BITRATES);
         bitrateChooser.setSelectedIndex(BITRATES.length - 1);
 

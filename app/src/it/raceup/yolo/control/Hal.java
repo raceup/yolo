@@ -27,8 +27,10 @@ public class Hal extends ShellLogger {
     private final Imu imu;
     private final Driver driver;
     private boolean[] loggerPreferences;
-    private Runnable runner;
-    private final long LOG_RATIO = 20; //Milliseconds
+    private Runnable sensorLogger;
+    private Runnable motorLogger;
+    private final int SENSORS_LOG_RATIO = 20; //log period for sensors
+    private final int MOTOR_LOG_RATIO = 200; //log period for motors
 
 
     public Hal(Motors motors, Kvaser kvaser, Imu imu, Driver driver, boolean[] loggerPreferences) {
@@ -44,16 +46,18 @@ public class Hal extends ShellLogger {
         addObserverToKvaser(imu);
         addObserverToKvaser(driver);
 
-        runner = new Runnable() {
+        sensorLogger = new Runnable() {
             @Override
             public void run() {
                 ShellImuUpdater imuLogger = null;
-                ShellMotorsUpdater motorLogger = null;
                 ShellDriverUpdater driverLogger = null;
+                /*
+                ShellMotorsUpdater motorLogger = null;
 
                 if (loggerPreferences[0]) {
                     motorLogger = new ShellMotorsUpdater(false, true);
                 }
+                */
                 if (loggerPreferences[1]) {
                     imuLogger = new ShellImuUpdater(false, true);
                 }
@@ -63,10 +67,10 @@ public class Hal extends ShellLogger {
 
                 while (true) {
                     try {
-                        motorLogger.update(motors);
+                        //motorLogger.update(motors);
                         driverLogger.update(driver);
                         imuLogger.update(imu);
-                        Thread.sleep(LOG_RATIO);
+                        Thread.sleep(SENSORS_LOG_RATIO);
                     } catch (NullPointerException e) {
                         //nothing to worry about
                     } catch (InterruptedException e) {
@@ -76,8 +80,31 @@ public class Hal extends ShellLogger {
                 }
             }
         };
-        Thread thread = new Thread(runner);
-        thread.start();
+
+
+        motorLogger = new Runnable() {
+            @Override
+            public void run() {
+                ShellMotorsUpdater motorLogger = null;
+                if (loggerPreferences[0]) {
+                    motorLogger = new ShellMotorsUpdater(false, true);
+                }
+                while (true) {
+                    try {
+                        motorLogger.update(motors);
+                        Thread.sleep(SENSORS_LOG_RATIO);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        new YoloException("interrupt exception", e, ExceptionType.MODEL).print();
+                    }
+                }
+            }
+        };
+
+        Thread sensorsLoggerThread = new Thread(sensorLogger);
+        Thread motorLoggerThread = new Thread(motorLogger);
+        sensorsLoggerThread.start();
+        motorLoggerThread.start();
     }
 
     public Hal(Motors motors, Kvaser kvaser, Imu imu, Driver driver) {
