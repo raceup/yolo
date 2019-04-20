@@ -15,7 +15,7 @@ import static it.raceup.yolo.models.data.Raw.*;
 
 public class MotorFrame extends JFrame {
     private JTable flags, sp, temperature;
-    private int TRIMMER_TABLE_HEIGHT = 40;
+    private final int TRIMMER_TABLE_HEIGHT = 40; // little adjustment to  UI table height
 
     public MotorFrame(final String title) {
         super(title);

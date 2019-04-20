@@ -7,7 +7,6 @@ public enum ExceptionType {
     UNKNOWN("Unknown"),
     MODEL("Model"),
     VIEW("View"),
-    CONTROLLER("Controller"),
     IMU("Imu"),
     DRIVER("Driver");
 

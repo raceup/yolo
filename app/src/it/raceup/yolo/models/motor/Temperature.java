@@ -48,7 +48,6 @@ public class Temperature {
 
     public void update(Raw data) {
         if (data.getType() == Type.TEMPERATURE_MOTOR) {
-            setMotor(data.getRaw());
         } else if (data.getType() == Type.TEMPERATURE_INVERTER) {
             setInverter(data.getRaw());
         } else if (data.getType() == Type.TEMPERATURE_IGBT) {

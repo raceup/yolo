@@ -51,13 +51,6 @@ public class Hal extends ShellLogger {
             public void run() {
                 ShellImuUpdater imuLogger = null;
                 ShellDriverUpdater driverLogger = null;
-                /*
-                ShellMotorsUpdater motorLogger = null;
-
-                if (loggerPreferences[0]) {
-                    motorLogger = new ShellMotorsUpdater(false, true);
-                }
-                */
                 if (loggerPreferences[1]) {
                     imuLogger = new ShellImuUpdater(false, true);
                 }
@@ -67,7 +60,6 @@ public class Hal extends ShellLogger {
 
                 while (true) {
                     try {
-                        //motorLogger.update(motors);
                         driverLogger.update(driver);
                         imuLogger.update(imu);
                         Thread.sleep(SENSORS_LOG_RATIO);
@@ -81,7 +73,6 @@ public class Hal extends ShellLogger {
             }
         };
 
-
         motorLogger = new Runnable() {
             @Override
             public void run() {
@@ -92,11 +83,13 @@ public class Hal extends ShellLogger {
                 while (true) {
                     try {
                         motorLogger.update(motors);
-                        Thread.sleep(SENSORS_LOG_RATIO);
+                        Thread.sleep(MOTOR_LOG_RATIO);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                         new YoloException("interrupt exception", e, ExceptionType.MODEL).print();
-                    }
+                    } catch (NullPointerException e) {
+                    //nothing to worry about
+                }
                 }
             }
         };

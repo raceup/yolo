@@ -55,6 +55,7 @@ public abstract class Kvaser extends RawKvaser implements Logger, Runnable,
                 keepRunning = !Thread.interrupted();
             } catch (Exception e) {
                 keepRunning = false;
+                e.printStackTrace();
                 new YoloException("cannot loop kvaser", e, ExceptionType
                         .KVASER).print();
             }

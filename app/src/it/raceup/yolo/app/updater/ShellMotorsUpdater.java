@@ -96,6 +96,11 @@ public class ShellMotorsUpdater extends ShellCsvUpdater {
         }
     }
 
+    private void printLog(String[] log){
+        for (int i = 0; i < log.length; i++)
+            System.out.println(log[i]);
+    }
+
     private void update(Raw motor) {
         System.out.println(motor.getType());
         System.out.println(motor.getMotor());

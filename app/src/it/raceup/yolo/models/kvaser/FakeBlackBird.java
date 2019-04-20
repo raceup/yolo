@@ -6,7 +6,12 @@ import it.raceup.yolo.models.data.CanMessage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -15,7 +20,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public class FakeBlackBird extends Kvaser {
     private static final String HTTP_SCHEME = "http";
     private static final int PORT = 8080;
-    //96 97 sospensioni davanti dietro
     private static final String[] IDS = new String[]{"17", "18", "19", "20",
             "21", "22", "23", "24", "25", "33", "93", "96", "97", "388", "389", "392", "393",
             "643", "644", "645", "646", "647", "648", "649", "656", "768",
@@ -76,7 +80,9 @@ public class FakeBlackBird extends Kvaser {
 
     @Override
     public CanMessage[] read() {
-        return readCan();
+        //test code
+        //return readCan();
+        return readCanFromFile();
     }
 
     private boolean writeCan(int id, int flag, byte[] msg, int dlc) {
@@ -105,6 +111,68 @@ public class FakeBlackBird extends Kvaser {
         if (!closeConnection()) {
             log("cannot close connection");
         }
+    }
+
+    private CanMessage[] readCanFromFile() {
+        File file = new File("/Users/Francesco/Desktop/da_fermi.log");
+        ArrayList<CanMessage> toRet = new ArrayList<>();
+
+        try {
+            Scanner sc = new Scanner(file);
+            byte data[] = new byte[8];
+
+
+            while (sc.hasNextLine()) {
+
+                String st = sc.nextLine();
+                st = st.replace(" ", "");
+
+
+                int flag = Integer.parseInt(st.substring(0, 1));
+                //System.out.println("flag = " + flag);
+                int id = Integer.parseInt(st.substring(1, 9), 16);
+                //System.out.println("id = " + id);
+                int len = Integer.parseInt(st.substring(9, 10), 16);
+                //System.out.println("length = " + len);
+                double time =0;
+
+                if (len == 8) {
+                    String b = st.substring(10, 26);
+                    for (int i = 0; i < 8; i++) {
+                        String temp = b.substring(i, 1 + i);
+                        int intTemp = Integer.valueOf(temp, 16);
+                        data[i] = (byte) intTemp;
+                    }
+                    time = Double.parseDouble(st.substring(26, st.length() - 1));
+                   // System.out.println("time = " + time);
+                } else if (len == 6) {
+                    String b = st.substring(10, 24);
+                    for (int i = 0; i < 6; i++) {
+                        String temp = b.substring(i, 1 + i);
+                        int intTemp = Integer.valueOf(temp, 16);
+                        data[i] = (byte) intTemp;
+                    }
+                    time = Double.parseDouble(st.substring(24, st.length() - 1));
+                    //System.out.println("time = " + time);
+                }
+
+                CanMessage toAdd = new CanMessage(id, data, len, flag, (long)time, 0);
+                toRet.add(toAdd);
+            }
+
+            sc.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException er) {
+            er.printStackTrace();
+
+        }
+
+        CanMessage[] ret = new CanMessage[toRet.size()];
+        for(int i=0; i<toRet.size(); i++){
+            ret[i] = toRet.remove(0);
+        }
+        return ret;
     }
 
     private CanMessage[] readCan() {

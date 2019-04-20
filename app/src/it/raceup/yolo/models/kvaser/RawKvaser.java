@@ -1,9 +1,15 @@
 package it.raceup.yolo.models.kvaser;
 
 import it.raceup.yolo.models.data.CanMessage;
+import obj.Message;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Observable;
+import java.util.Scanner;
 
 public abstract class RawKvaser extends Observable {
     private int bufferSize = 32;
@@ -12,6 +18,7 @@ public abstract class RawKvaser extends Observable {
     public RawKvaser(int bufferSize) {
         this.bufferSize = bufferSize;
     }
+
 
     private void updateBuffer(CanMessage[] newData) {
         for (CanMessage message : newData) {

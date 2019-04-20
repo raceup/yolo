@@ -21,32 +21,13 @@ public class ShellCanUpdater extends ShellCsvUpdater {
             "Time", "ID", "Flags", "Dlc", "byte 1", "byte 2", "byte 3", "byte 4", "byte 5", "byte 6", "byte 7", "byte 8"
     };
     private final String SEPARATOR = "|";
-    private final int MAX_BUFFER_DIMENSION = 3000 * 42; // every 30 sec open write close file
+    private final int MAX_BUFFER_DIMENSION = 100 * 42; // every 30 sec open write close file 3000 for 30 sec on big can
     private Runnable runner;
     private ArrayList<CanMessage> buffer = new ArrayList<>();
     private ArrayList<CanMessage> copyOfBuffer;
 
     public ShellCanUpdater(boolean logToShell, boolean logToFile) {
         super("CAN", COLUMNS, DEFAULT_FOLDER, logToShell, logToFile);
-    }
-
-    private void oldupdate(ArrayList<CanMessage> messages) {
-        if (this.isLogToShell()) {
-            String header = getLineHeader(SEPARATOR);
-            log(getLineSeparator(header));  // log to shell
-        }
-
-        for (CanMessage message : messages) {
-            if (this.isLogToShell()) {
-                log(message.getLine(SEPARATOR));  // to std output
-            }
-
-            String[] columns = getColumns(message);
-
-            if (this.isLogToFile()) {
-                writeLog(columns);  // to file
-            }
-        }
     }
 
     private void update(ArrayList<CanMessage> messages) {
@@ -56,6 +37,7 @@ public class ShellCanUpdater extends ShellCsvUpdater {
             buffer.clear();
             Thread writer = new Thread(runner);
             writer.start();
+            System.out.println("loggato");
         }
 
         runner = new Runnable() {
@@ -64,6 +46,7 @@ public class ShellCanUpdater extends ShellCsvUpdater {
                 for (CanMessage insideBuffer : copyOfBuffer) {
                     String[] columns = getColumns(insideBuffer);
                     writeLog(columns);
+                    System.out.println("loggato ma davvero");
                 }
             }
         };
@@ -85,15 +68,25 @@ public class ShellCanUpdater extends ShellCsvUpdater {
         columns[2] = Integer.toString(message.getFlags());
         columns[3] = Integer.toString(message.getDlc());
 
-        byte[] data = message.getData();
-        columns[4] = Byte.toString(data[0]);  // data
-        columns[5] = Byte.toString(data[1]);
-        columns[6] = Byte.toString(data[2]);
-        columns[7] = Byte.toString(data[3]);
-        columns[8] = Byte.toString(data[4]);
-        columns[9] = Byte.toString(data[5]);
-        columns[10] = Byte.toString(data[6]);
-        columns[11] = Byte.toString(data[7]);
+
+            byte[] data = message.getData();
+        for(int i = 0; i< columns.length - 4; i++){
+            columns[i+4] = "0";
+        }
+
+            for(int i = 0; i< data.length; i++){
+                columns[i +4] = Byte.toString(data[i]);
+            }
+            /*
+            columns[4] = Byte.toString(data[0]);  // data
+            columns[5] = Byte.toString(data[1]);
+            columns[6] = Byte.toString(data[2]);
+            columns[7] = Byte.toString(data[3]);
+            columns[8] = Byte.toString(data[4]);
+            columns[9] = Byte.toString(data[5]);
+            columns[10] = Byte.toString(data[6]);
+            columns[11] = Byte.toString(data[7]);
+            */
 
         return columns;
     }

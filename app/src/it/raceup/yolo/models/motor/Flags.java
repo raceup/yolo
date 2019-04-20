@@ -99,7 +99,8 @@ public class Flags {
     }
 
     public void setTorqueCurrent(double torqueCurrent) {
-        this.torqueCurrent = torqueCurrent;
+        double torque = ((0.243) * (torqueCurrent)) + (0.0001) * torqueCurrent * magnetizingCurrent;
+        this.torqueCurrent = torque;
     }
 
     public double getMagnetizingCurrent() {

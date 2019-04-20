@@ -1,12 +1,20 @@
 package it.raceup.yolo.models.kvaser;
 
+import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
 import it.raceup.yolo.models.canlib.RestActivity;
 import it.raceup.yolo.models.data.CanMessage;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.FileEntity;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * Kvaser Blackbird device interface

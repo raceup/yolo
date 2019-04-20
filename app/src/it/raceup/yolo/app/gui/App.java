@@ -106,17 +106,9 @@ public class App extends KvaserApp {
         if (logMotors) {
             hal.addObserverToMotors(new ShellMotorsUpdater(false, true));
         }
-
         if (logCan) {
             hal.addObserverToKvaser(new ShellCanUpdater(false, true));
         }
-
-        /*
-        if (logBattery) {
-            hal.addObserverToKvaser(new ShellBatteryUpdater(false, true));
-        }
-        */
-
         if (logIMU) {
             hal.addObserverToKvaser(new ShellImuUpdater(false, true));
         }

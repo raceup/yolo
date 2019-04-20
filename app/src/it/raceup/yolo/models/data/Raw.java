@@ -63,6 +63,11 @@ public class Raw {
     public Raw(double raw, int motor, Type type, double time) {
         this.type = type;
         this.raw = raw;
+        //test code
+        if(Double.isNaN(raw) || Double.isInfinite(raw)){
+            throw new IllegalArgumentException();
+        }
+        //end test code
         this.motor = motor;
         this.time = time;
     }
