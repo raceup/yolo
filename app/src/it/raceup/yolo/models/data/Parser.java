@@ -218,8 +218,6 @@ public class Parser {
                         KvaserTime
                 )
         );
-        System.out.println("temp motor" + (data[0] | data[1] << 8) / 10);
-        System.out.println("temp inverte" + (data[2] | data[3] << 8) / 10);
     }
 
     public int getValueType() {

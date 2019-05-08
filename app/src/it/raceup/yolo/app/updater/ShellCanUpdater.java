@@ -37,7 +37,6 @@ public class ShellCanUpdater extends ShellCsvUpdater {
             buffer.clear();
             Thread writer = new Thread(runner);
             writer.start();
-            System.out.println("loggato");
         }
 
         runner = new Runnable() {
@@ -46,7 +45,6 @@ public class ShellCanUpdater extends ShellCsvUpdater {
                 for (CanMessage insideBuffer : copyOfBuffer) {
                     String[] columns = getColumns(insideBuffer);
                     writeLog(columns);
-                    System.out.println("loggato ma davvero");
                 }
             }
         };
