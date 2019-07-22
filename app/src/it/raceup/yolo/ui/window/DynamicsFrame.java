@@ -22,6 +22,7 @@ public class DynamicsFrame extends JFrame implements Observer {
 
     public DynamicsFrame() {
         super(IMU_WINDOW_TITLE);
+        TyresPanel tp = new TyresPanel();
         setup();
     }
 
@@ -43,6 +44,7 @@ public class DynamicsFrame extends JFrame implements Observer {
                     ExceptionType.VIEW
             ).print();
         }
+        setupLayout();
     }
 
     private void setup() {
@@ -52,14 +54,15 @@ public class DynamicsFrame extends JFrame implements Observer {
     private void setupLayout() {
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         add(getTopPanel());
-        add(Box.createRigidArea(new Dimension(10, 0)));
+        //add(Box.createRigidArea(new Dimension(10, 0)));
     }
 
     private JPanel getTopPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 
-        panel.add(imuPanel);
+       // panel.add(imuPanel);
+        panel.add(tyresPanel);
         panel.add(Box.createRigidArea(new Dimension(10, 0)));
         return panel;
     }
@@ -68,7 +71,7 @@ public class DynamicsFrame extends JFrame implements Observer {
     }
 
     private void update(Tyre tyre) {
-        //tyresPanel.update(tyre);
+        tyresPanel.update(tyre);
     }
 
 

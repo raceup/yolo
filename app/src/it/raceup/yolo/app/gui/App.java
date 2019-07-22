@@ -74,8 +74,8 @@ public class App extends KvaserApp {
 
         hal = new Hal(
                 new Motors(),
-                //new FakeBlackBird(ip),
-                new BlackBird(ip),
+                new FakeBlackBird(ip),
+                //new BlackBird(ip),
                 new Imu(),
                 new Driver(),
                 new boolean[]{logMotors, logIMU, logDriver}

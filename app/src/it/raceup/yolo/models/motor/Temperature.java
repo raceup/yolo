@@ -17,6 +17,14 @@ public class Temperature {
         this.motor = motor;
     }
 
+    //start test code
+    public void setMotorTemp(double temperature){
+        motor = temperature;
+        System.out.println("motor updated");
+    }
+
+
+
     public double getInverter() {
         return inverter;
     }

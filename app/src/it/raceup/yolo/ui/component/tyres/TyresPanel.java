@@ -73,6 +73,24 @@ public class TyresPanel extends JPanel implements Observer {
         }
     }
 
+    public void fakeUpdaterMotor(int ID, double temp){
+        if(ID == 1){
+            update(0, Type.WHEEL_TEMPERATURE, temp);
+        }
+        else if(ID == 2){
+            update(1, Type.WHEEL_TEMPERATURE, temp );
+        }
+        else if(ID == 3){
+            update(2, Type.WHEEL_TEMPERATURE, temp);
+        }
+        else{
+            update(3, Type.WHEEL_TEMPERATURE, temp);
+        }
+    }
+
+    public void fakeUpdaterInverter(int ID, double temp){
+
+    }
 
     public void update(Tyre tyre) {
         update(0, Type.WHEEL_TEMPERATURE, tyre.getTyreData(Type.WHEEL_TEMPERATURE)[0]);

@@ -6,6 +6,7 @@ import it.raceup.yolo.control.Hal;
 import it.raceup.yolo.models.car.Driver;
 import it.raceup.yolo.models.car.Imu;
 import it.raceup.yolo.models.car.Motors;
+import it.raceup.yolo.models.kvaser.BlackBird;
 import it.raceup.yolo.models.kvaser.FakeBlackBird;
 import org.apache.commons.cli.*;
 
@@ -41,7 +42,7 @@ public class App extends KvaserApp {
 
         hal = new Hal(
                 new Motors(),
-                new FakeBlackBird(ip),
+                new BlackBird(ip),
                 new Imu(),
                 new Driver()
         );

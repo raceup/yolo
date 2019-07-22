@@ -2,7 +2,11 @@ package it.raceup.yolo.models.data;
 
 import it.raceup.yolo.error.ExceptionType;
 import it.raceup.yolo.error.YoloException;
+import it.raceup.yolo.ui.component.tyres.TyreInfo;
+import it.raceup.yolo.ui.component.tyres.TyresPanel;
 import it.raceup.yolo.utils.Misc;
+import jdk.internal.org.objectweb.asm.TypeReference;
+import org.w3c.dom.TypeInfo;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -185,6 +189,9 @@ public class Parser {
         );
     }
 
+    //TyresPanel ti = new TyresPanel();
+    double motortemp[] = new double[4];
+    double invertertemp[] = new double[4];
     private void readMotor2() {
         parsedData.add(
                  new Raw(
@@ -194,6 +201,7 @@ public class Parser {
                         KvaserTime
                 )
         );
+        //ti.fakeUpdaterMotor(getMotorId(), (data[0] | data[1] << 8) / 10);
         parsedData.add(
                 new Raw(
                         (data[2] | data[3] << 8) / 10,
@@ -202,6 +210,26 @@ public class Parser {
                         KvaserTime
                 )
         );
+
+        try {
+            motortemp[getMotorId()] = ((data[0] | data[1] << 8) / 10);
+            invertertemp[getMotorId()] = ((data[2] | data[3] << 8) / 10);
+        }catch (IndexOutOfBoundsException e){
+            System.out.println("out of bound motor temp");
+        }
+        System.out.print("motor temp ->  ");
+        for(int i = 0; i<4;i++){
+            System.out.print("   " + motortemp[i]);
+        }
+        System.out.println("");
+        System.out.println("");
+        System.out.print("inverter temp ->  ");
+        for(int i = 0; i<4;i++){
+            System.out.print("   " + invertertemp[i]);
+        }
+
+
+
         parsedData.add(
                 new Raw(
                         (data[4] | data[5] << 8) / 10,

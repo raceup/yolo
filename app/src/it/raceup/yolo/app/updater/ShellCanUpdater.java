@@ -67,24 +67,14 @@ public class ShellCanUpdater extends ShellCsvUpdater {
         columns[3] = Integer.toString(message.getDlc());
 
 
-            byte[] data = message.getData();
+        byte[] data = message.getData();
         for(int i = 0; i< columns.length - 4; i++){
             columns[i+4] = "0";
         }
 
-            for(int i = 0; i< data.length; i++){
-                columns[i +4] = Byte.toString(data[i]);
-            }
-            /*
-            columns[4] = Byte.toString(data[0]);  // data
-            columns[5] = Byte.toString(data[1]);
-            columns[6] = Byte.toString(data[2]);
-            columns[7] = Byte.toString(data[3]);
-            columns[8] = Byte.toString(data[4]);
-            columns[9] = Byte.toString(data[5]);
-            columns[10] = Byte.toString(data[6]);
-            columns[11] = Byte.toString(data[7]);
-            */
+        for(int i = 0; i< data.length; i++){
+            columns[i +4] = Byte.toString(data[i]);
+        }
 
         return columns;
     }

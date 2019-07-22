@@ -20,7 +20,7 @@ public class DriverPanel extends JFrame {
     private final String[] steeringPanelTag = {"Steerign Wheel Rotation"};
     private final String[] wheelTemperaturePanelTag = {"FL", "FR", "RL", "RR"};
     private final String[] brakePressurePanelTag = {"Front", "Rear"};
-    private final int REFRESH_RATE = 1000;
+    private final int REFRESH_RATE = 2000;
     private ChartPanel throttleBrakeChartPanel;
     private ChartPanel steeringChartPanel;
     private ChartPanel wheelTemperatureChartPanel;
@@ -61,8 +61,12 @@ public class DriverPanel extends JFrame {
     private void showBrakePressureChartPanel() {
         if (driver.getDriverData(BRAKE_PRESSURE) != null) {
             Timer updater = new Timer(REFRESH_RATE, e -> {
-                brakePressureChartPanel.updateSeriesOrFail(0, driver.getDriverData(BRAKE_PRESSURE)[0]);
-                brakePressureChartPanel.updateSeriesOrFail(1, driver.getDriverData(BRAKE_PRESSURE)[1]);
+                //real code
+                //brakePressureChartPanel.updateSeriesOrFail(0, driver.getDriverData(BRAKE_PRESSURE)[0]);
+                //brakePressureChartPanel.updateSeriesOrFail(1, driver.getDriverData(BRAKE_PRESSURE)[1]);
+                //test code
+                brakePressureChartPanel.updateSeriesOrFail(0, ThreadLocalRandom.current().nextInt(0, 100));
+                brakePressureChartPanel.updateSeriesOrFail(1, ThreadLocalRandom.current().nextInt(0, 100));
             });
             updater.start();
         }
@@ -92,19 +96,19 @@ public class DriverPanel extends JFrame {
         if (tyre.getTyreData(WHEEL_TEMPERATURE) != null) {
             Timer updater = new Timer(REFRESH_RATE, e -> {
                 //real code
-
+/*
                 wheelTemperatureChartPanel.updateSeriesOrFail(0, tyre.getTyreData(WHEEL_TEMPERATURE)[0]);
                 wheelTemperatureChartPanel.updateSeriesOrFail(1, tyre.getTyreData(WHEEL_TEMPERATURE)[1]);
                 wheelTemperatureChartPanel.updateSeriesOrFail(2, tyre.getTyreData(WHEEL_TEMPERATURE)[2]);
                 wheelTemperatureChartPanel.updateSeriesOrFail(3, tyre.getTyreData(WHEEL_TEMPERATURE)[3]);
-
+*/
                 //test code
-                /*
-                wheelTemperatureChartPanel.updateSeriesOrFail(0, ThreadLocalRandom.current().nextInt(40, 50));
-                wheelTemperatureChartPanel.updateSeriesOrFail(1, ThreadLocalRandom.current().nextInt(40, 50));
-                wheelTemperatureChartPanel.updateSeriesOrFail(2, ThreadLocalRandom.current().nextInt(40, 50));
-                wheelTemperatureChartPanel.updateSeriesOrFail(3, ThreadLocalRandom.current().nextInt(40, 50));
-                */
+
+                wheelTemperatureChartPanel.updateSeriesOrFail(0, ThreadLocalRandom.current().nextInt(45, 50));
+                wheelTemperatureChartPanel.updateSeriesOrFail(1, ThreadLocalRandom.current().nextInt(45, 50));
+                wheelTemperatureChartPanel.updateSeriesOrFail(2, ThreadLocalRandom.current().nextInt(45, 50));
+                wheelTemperatureChartPanel.updateSeriesOrFail(3, ThreadLocalRandom.current().nextInt(45, 50));
+
 
             });
             updater.start();
@@ -115,9 +119,9 @@ public class DriverPanel extends JFrame {
     private void showSteeringWheelChartPanel() {
         if (driver.getDriverData(STEERINGWHEEL) != null) {
             Timer updater = new Timer(REFRESH_RATE, e -> {
-                steeringChartPanel.updateSeriesOrFail(0, driver.getDriverData(STEERINGWHEEL)[0]);
+                //steeringChartPanel.updateSeriesOrFail(0, driver.getDriverData(STEERINGWHEEL)[0]);
                 //test code, real code above
-                //steeringChartPanel.updateSeriesOrFail(0, ThreadLocalRandom.current().nextInt(0, 100));
+                steeringChartPanel.updateSeriesOrFail(0, ThreadLocalRandom.current().nextInt(40, 60));
             });
             updater.start();
         }
@@ -126,10 +130,12 @@ public class DriverPanel extends JFrame {
     private void showThrottleBrake() {
         if (driver.getDriverData(THROTTLE) != null) {
             Timer updater = new Timer(REFRESH_RATE, e -> {
+                //rela code
+                //throttleBrakeChartPanel.updateSeriesOrFail(0, driver.getDriverData(THROTTLE)[0]);
+                //throttleBrakeChartPanel.updateSeriesOrFail(1, driver.getDriverData(THROTTLE)[1]);
 
-                throttleBrakeChartPanel.updateSeriesOrFail(0, driver.getDriverData(THROTTLE)[0]);
-                throttleBrakeChartPanel.updateSeriesOrFail(1, driver.getDriverData(THROTTLE)[1]);
-
+                throttleBrakeChartPanel.updateSeriesOrFail(0, ThreadLocalRandom.current().nextInt(0, 100));
+                throttleBrakeChartPanel.updateSeriesOrFail(0, ThreadLocalRandom.current().nextInt(0, 100));
             });
             updater.start();
         }
